@@ -1,0 +1,31 @@
+package it.italiandudes.enhancedeconomy.util;
+
+import it.italiandudes.enhancedeconomy.EnhancedEconomy;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Objects;
+
+@SuppressWarnings("unused")
+public final class Resource {
+    //Resource Getter
+    public static URL getResource(@NotNull final String resourceConst){
+        return Objects.requireNonNull(EnhancedEconomy.class.getResource(resourceConst));
+    }
+    public static InputStream getResourceAsStream(@NotNull final String resourceConst){
+        return Objects.requireNonNull(EnhancedEconomy.class.getResourceAsStream(resourceConst));
+    }
+
+    // Localization Directory
+    public static final class Path {
+        public static final String RESOURCE_DIR = "/";
+        public static final class Localization {
+            public static final String LOCALIZATION_DIR = RESOURCE_DIR+"localization/";
+        }
+        public static final class Config {
+            public static final String CONFIG_DIR = RESOURCE_DIR+"config/";
+            public static final String GENERAL_CONFIG = CONFIG_DIR+"general.json";
+        }
+    }
+}
