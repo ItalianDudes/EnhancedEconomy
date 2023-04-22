@@ -1,4 +1,4 @@
-package it.italiandudes.enhancedeconomy.util;
+package it.italiandudes.enhancedeconomy.utils;
 
 import it.italiandudes.enhancedeconomy.EnhancedEconomy;
 import org.jetbrains.annotations.NotNull;

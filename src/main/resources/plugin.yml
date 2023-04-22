@@ -1,4 +1,4 @@
 name: EnhancedEconomy
-version: '${version}'
+version: '0.2.1A'
 main: it.italiandudes.enhancedeconomy.EnhancedEconomy
 api-version: 1.19
