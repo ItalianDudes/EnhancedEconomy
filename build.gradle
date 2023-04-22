@@ -26,7 +26,7 @@ dependencies {
     compileOnly 'org.jetbrains:annotations:23.0.0'
     implementation 'commons-codec:commons-codec:1.15'
     implementation 'commons-io:commons-io:2.11.0'
-    implementation 'it.italiandudes:idl:1.0.3'
+    implementation 'it.italiandudes:idl:1.0.4'
 }
 
 def targetJavaVersion = 17
