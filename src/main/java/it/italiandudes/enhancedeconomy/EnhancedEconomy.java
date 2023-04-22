@@ -33,7 +33,7 @@ public final class EnhancedEconomy extends JavaPlugin {
             }
             try {
                 Localization.init(this);
-                Localization.load(this, Config.getConfig(Config.Files.GENERAL_CONFIG, Config.Keys.LANG_KEY));
+                Localization.load(this, Config.getConfig(Config.Files.GENERAL_CONFIG, Config.Keys.General.LANG_KEY));
             } catch (Exception e) {
                 ServerLogger.getLogger().severe("Can't load lang file!");
                 onDisable();

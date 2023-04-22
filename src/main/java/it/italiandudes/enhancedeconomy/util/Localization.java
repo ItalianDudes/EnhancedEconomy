@@ -34,7 +34,7 @@ public final class Localization {
             //noinspection ResultOfMethodCallIgnored
             pluginInstance.getDataFolder().mkdirs();
         }
-        JarHandler.copyDirectoryFromJar(new File(EnhancedEconomy.PLUGIN_JAR_PATH), Resource.Path.Localization.LOCALIZATION_DIR, pluginInstance.getDataFolder(), false);
+        JarHandler.copyDirectoryFromJar(new File(EnhancedEconomy.PLUGIN_JAR_PATH), Resource.Path.Localization.LOCALIZATION_DIR, pluginInstance.getDataFolder(), false, false);
     }
     public static void load(@NotNull final JavaPlugin pluginInstance, final String LOCALIZATION) throws IOException {
         if (LOCALIZATION == null) {

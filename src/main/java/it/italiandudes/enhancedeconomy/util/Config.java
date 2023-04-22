@@ -25,16 +25,19 @@ public final class Config {
 
     // Config Keys
     public static final class Keys {
-        public static final String LANG_KEY = "language_pack";
+        public static final class General {
+            public static final String LANG_KEY = "language_pack";
+        }
     }
 
     // Config Init
-    public static void init(final JavaPlugin pluginInstance) throws IOException {
+    public synchronized static void init(final JavaPlugin pluginInstance) throws IOException {
         if (!pluginInstance.getDataFolder().exists()) {
             //noinspection ResultOfMethodCallIgnored
             pluginInstance.getDataFolder().mkdirs();
         }
-        JarHandler.copyDirectoryFromJar(new File(EnhancedEconomy.PLUGIN_JAR_PATH), Resource.Path.Config.CONFIG_DIR, pluginInstance.getDataFolder(), false);
+
+        JarHandler.copyDirectoryFromJar(new File(EnhancedEconomy.PLUGIN_JAR_PATH), Resource.Path.Config.CONFIG_DIR, pluginInstance.getDataFolder(), false, false);
 
         // General Config File
         FileReader fileReader = new FileReader(pluginInstance.getDataFolder().getAbsolutePath()+Resource.Path.Config.GENERAL_CONFIG);
@@ -48,8 +51,12 @@ public final class Config {
         }
 
     }
+    public synchronized static void reload(final JavaPlugin pluginInstance) throws IOException {
+        generalConfigFile = null;
+        init(pluginInstance);
+    }
     @Nullable
-    public static String getConfig(@NotNull final String CONFIG_TYPE, @NotNull final String KEY) {
+    public synchronized static String getConfig(@NotNull final String CONFIG_TYPE, @NotNull final String KEY) {
         if (generalConfigFile == null) return null;
         switch (CONFIG_TYPE) {
             case Files.GENERAL_CONFIG -> {
@@ -59,9 +66,6 @@ public final class Config {
                 return null;
             }
         }
-    }
-    public static void saveConfig(final JavaPlugin pluginInstance) {
-        pluginInstance.saveConfig();
     }
 
 }
