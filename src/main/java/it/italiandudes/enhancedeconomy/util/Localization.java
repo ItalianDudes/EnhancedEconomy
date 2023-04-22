@@ -1,6 +1,5 @@
 package it.italiandudes.enhancedeconomy.util;
 
-import it.italiandudes.enhancedeconomy.EnhancedEconomy;
 import it.italiandudes.idl.common.JarHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -16,27 +15,21 @@ public final class Localization {
     // Attributes
     private static JSONObject langFile = null;
 
-    // Langs
-    public static final class Langs {
-        public static final String EN_US = "en-US";
-        public static final String IT_IT = "it-IT";
-    }
-
-    // Lang Keys
-    public static final class Keys {
-        public static final String TEST_ENTRY = "test_entry";
+    // Default Constructor
+    public Localization() {
+        throw new RuntimeException("Can't instantiate this class!");
     }
 
     // Localized String Getter
-    public static void init(@NotNull final JavaPlugin pluginInstance) throws IOException {
+    public synchronized static void init(@NotNull final JavaPlugin pluginInstance) throws IOException {
         if (langFile != null) return;
         if (!pluginInstance.getDataFolder().exists()) {
             //noinspection ResultOfMethodCallIgnored
             pluginInstance.getDataFolder().mkdirs();
         }
-        JarHandler.copyDirectoryFromJar(new File(EnhancedEconomy.PLUGIN_JAR_PATH), Resource.Path.Localization.LOCALIZATION_DIR, pluginInstance.getDataFolder(), false, false);
+        JarHandler.copyDirectoryFromJar(new File(Defs.PluginInfo.PLUGIN_JAR_PATH), Resource.Path.Localization.LOCALIZATION_DIR, pluginInstance.getDataFolder(), false, false);
     }
-    public static void load(@NotNull final JavaPlugin pluginInstance, final String LOCALIZATION) throws IOException {
+    public synchronized static void load(@NotNull final JavaPlugin pluginInstance, final String LOCALIZATION) throws IOException {
         if (LOCALIZATION == null) {
             throw new RuntimeException("Passed LOCALIZATION key as null.");
         }
@@ -55,8 +48,18 @@ public final class Localization {
             throw new IOException("Can't read lang file \""+filepath.getAbsolutePath()+"\"!");
         }
     }
+    public synchronized static void reload(@NotNull final JavaPlugin pluginInstance, final String LOCALIZATION) throws IOException {
+        try {
+            load(pluginInstance, LOCALIZATION);
+        } catch (IOException e) {
+            throw new IOException("Langs reload failed! No changes were applied.", e);
+        }
+    }
+    public synchronized static void unload() {
+        langFile = null;
+    }
     @Nullable
-    public static String getLocalizedString(final String KEY) {
+    public synchronized static String getLocalizedString(final String KEY) {
         if (langFile == null) return null;
         return (String) langFile.get(KEY);
     }

@@ -9,6 +9,12 @@ import java.util.Objects;
 
 @SuppressWarnings("unused")
 public final class Resource {
+
+    // Default Constructor
+    public Resource() {
+        throw new RuntimeException("Can't instantiate this class!");
+    }
+
     //Resource Getter
     public static URL getResource(@NotNull final String resourceConst){
         return Objects.requireNonNull(EnhancedEconomy.class.getResource(resourceConst));

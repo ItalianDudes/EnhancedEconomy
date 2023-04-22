@@ -1,6 +1,5 @@
 package it.italiandudes.enhancedeconomy.util;
 
-import it.italiandudes.enhancedeconomy.EnhancedEconomy;
 import it.italiandudes.idl.common.JarHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -18,16 +17,9 @@ public final class Config {
     // Attributes
     private static JSONObject generalConfigFile = null;
 
-    // Config Files
-    public static final class Files {
-        public static final String GENERAL_CONFIG = "general";
-    }
-
-    // Config Keys
-    public static final class Keys {
-        public static final class General {
-            public static final String LANG_KEY = "language_pack";
-        }
+    // Default Constructor
+    public Config() {
+        throw new RuntimeException("Can't instantiate this class!");
     }
 
     // Config Init
@@ -37,7 +29,7 @@ public final class Config {
             pluginInstance.getDataFolder().mkdirs();
         }
 
-        JarHandler.copyDirectoryFromJar(new File(EnhancedEconomy.PLUGIN_JAR_PATH), Resource.Path.Config.CONFIG_DIR, pluginInstance.getDataFolder(), false, false);
+        JarHandler.copyDirectoryFromJar(new File(Defs.PluginInfo.PLUGIN_JAR_PATH), Resource.Path.Config.CONFIG_DIR, pluginInstance.getDataFolder(), false, false);
 
         // General Config File
         FileReader fileReader = new FileReader(pluginInstance.getDataFolder().getAbsolutePath()+Resource.Path.Config.GENERAL_CONFIG);
@@ -45,21 +37,27 @@ public final class Config {
             generalConfigFile = (JSONObject) new JSONParser().parse(new FileReader(pluginInstance.getDataFolder().getAbsolutePath()+Resource.Path.Config.GENERAL_CONFIG));
             fileReader.close();
         } catch (Exception e) {
-            generalConfigFile = null;
             fileReader.close();
             throw new IOException("Can't read config file \""+pluginInstance.getDataFolder().getAbsolutePath()+Resource.Path.Config.GENERAL_CONFIG+"\"!");
         }
 
     }
     public synchronized static void reload(final JavaPlugin pluginInstance) throws IOException {
+        try {
+            init(pluginInstance);
+        } catch (IOException e) {
+            throw new IOException("Config reload failed! No changes were applied.", e);
+        }
+    }
+    public synchronized static void unload() {
         generalConfigFile = null;
-        init(pluginInstance);
     }
     @Nullable
     public synchronized static String getConfig(@NotNull final String CONFIG_TYPE, @NotNull final String KEY) {
         if (generalConfigFile == null) return null;
+        //noinspection SwitchStatementWithTooFewBranches
         switch (CONFIG_TYPE) {
-            case Files.GENERAL_CONFIG -> {
+            case Defs.Config.Identifiers.GENERAL_CONFIG -> {
                 return (String) generalConfigFile.get(KEY);
             }
             default -> {
@@ -67,5 +65,4 @@ public final class Config {
             }
         }
     }
-
 }
