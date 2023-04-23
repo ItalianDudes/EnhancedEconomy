@@ -16,10 +16,10 @@ public final class Resource {
     }
 
     //Resource Getter
-    public static URL getResource(@NotNull final String resourceConst){
+    public static URL getResource(@NotNull final String resourceConst) {
         return Objects.requireNonNull(EnhancedEconomy.class.getResource(resourceConst));
     }
-    public static InputStream getResourceAsStream(@NotNull final String resourceConst){
+    public static InputStream getResourceAsStream(@NotNull final String resourceConst) {
         return Objects.requireNonNull(EnhancedEconomy.class.getResourceAsStream(resourceConst));
     }
 
@@ -32,6 +32,10 @@ public final class Resource {
         public static final class Config {
             public static final String CONFIG_DIR = RESOURCE_DIR+"config/";
             public static final String GENERAL_CONFIG = CONFIG_DIR+"general.json";
+        }
+        public static final class DBConnection {
+            public static final String SQL_DIR = RESOURCE_DIR+"sql/";
+            public static final String DATABASE_QUERY_PATH = SQL_DIR+"database_query.sql";
         }
     }
 }
