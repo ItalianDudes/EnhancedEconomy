@@ -5,9 +5,12 @@ import it.italiandudes.enhancedeconomy.modules.Config;
 import it.italiandudes.enhancedeconomy.modules.DBConnection;
 import it.italiandudes.enhancedeconomy.modules.Localization;
 import it.italiandudes.enhancedeconomy.utils.*;
+import it.italiandudes.idl.common.StringHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public final class EnhancedEconomy extends JavaPlugin {
@@ -23,10 +26,13 @@ public final class EnhancedEconomy extends JavaPlugin {
             // Load Langs from Config's selected Lang
             loadLangs(this);
 
-            ServerLogger.getLogger().info(Localization.translate(Defs.Localization.Keys.TEST_ENTRY));
+            // Connect to DB using configs and
+            loadDB();
 
         }catch (Exception e) {
             ServerLogger.getLogger().severe("An unhandled exception has reached the function, shutting down the plugin...");
+            ServerLogger.getLogger().severe("Exception stacktrace:");
+            ServerLogger.getLogger().severe(StringHandler.getStackTrace(e));
             onDisable();
         }
     }
@@ -35,21 +41,38 @@ public final class EnhancedEconomy extends JavaPlugin {
     @Override
     public void onDisable() {
         try {
-            DBConnection.unload();
+            DBConnection.unload(true);
         } catch (ModuleException ignored) {}
+        ServerLogger.getLogger().info("DB Connection Module Unload: Successful!");
         try {
-            Localization.unload();
+            Localization.unload(true);
         } catch (ModuleException ignored) {}
+        ServerLogger.getLogger().info("Localization Module Unload: Successful!");
         try {
-            Config.unload();
+            Config.unload(true);
         } catch (ModuleException ignored) {}
+        ServerLogger.getLogger().info("Config Module Unload: Successful!");
     }
 
     // Methods
-    private void loadConfigs(@NotNull JavaPlugin pluginInstance) throws Exception {
+    private void loadConfigs(@NotNull JavaPlugin pluginInstance) throws ModuleException {
         Config.load(pluginInstance);
     }
-    private void loadLangs(@NotNull JavaPlugin pluginInstance) throws Exception {
-        Localization.load(pluginInstance, Objects.requireNonNull(Config.getConfig(Defs.Config.Identifiers.GENERAL_CONFIG, Defs.Config.Keys.General.LANG_KEY)));
+    private void loadLangs(@NotNull JavaPlugin pluginInstance) throws ModuleException {
+        Localization.load(pluginInstance, Objects.requireNonNull(Config.getConfig(Defs.Config.Identifiers.GENERAL_CONFIG, Defs.Config.Keys.General.KEY_LANG)));
+    }
+    private void loadDB() throws ModuleException {
+        DBConnection.load(Objects.requireNonNull(Config.getConfig(Defs.Config.Identifiers.GENERAL_CONFIG, Defs.Config.Keys.General.KEY_DATABASE_URL)));
+        String[] query = DBConnection.getQueryFromSQL(Resource.Path.DBConnection.DATABASE_QUERY_PATH);
+        for(String singleQuery: query) {
+            if (!singleQuery.equals("")) {
+                ServerLogger.getLogger().info("\n\n\n" + singleQuery + "\n\n\n");
+                ResultSet resultSet = DBConnection.executeStatementFromQuery(singleQuery.toLowerCase(), true);
+                try {
+                    if (resultSet != null) resultSet.close();
+                } catch (SQLException ignored) {
+                }
+            }
+        }
     }
 }
