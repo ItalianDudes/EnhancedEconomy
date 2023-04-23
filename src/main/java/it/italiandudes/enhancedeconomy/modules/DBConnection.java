@@ -27,14 +27,15 @@ public final class DBConnection {
     }
 
     // Query Retriever
-    public static String getQueryFromSQL(@NotNull final String QUERY_PATH) {
+    public static String getQueryFromResourcesFileSQL(@NotNull final String QUERY_PATH) {
         InputStream inStream = Resource.getResourceAsStream(QUERY_PATH);
 
         StringBuilder queryBuilder = new StringBuilder();
 
         Scanner queryReader = new Scanner(inStream);
         while(queryReader.hasNext()) {
-            queryBuilder.append(queryReader.nextLine());
+            String buffer = queryReader.nextLine();
+            if (!buffer.startsWith("--")) queryBuilder.append(buffer);
         }
         queryReader.close();
 

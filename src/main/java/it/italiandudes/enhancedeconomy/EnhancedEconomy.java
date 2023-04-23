@@ -61,7 +61,7 @@ public final class EnhancedEconomy extends JavaPlugin {
     }
     private void loadDB() throws ModuleException {
         DBConnection.load(Objects.requireNonNull(Config.getConfig(Defs.Config.Identifiers.GENERAL_CONFIG, Defs.Config.Keys.General.KEY_DATABASE_URL)));
-        String query = DBConnection.getQueryFromSQL(Resource.Path.DBConnection.DATABASE_QUERY_PATH);
+        String query = DBConnection.getQueryFromResourcesFileSQL(Resource.Path.DBConnection.DATABASE_QUERY_PATH);
         DBConnection.executePreparedStatementFromQueryIgnoreResult(query);
     }
 }
