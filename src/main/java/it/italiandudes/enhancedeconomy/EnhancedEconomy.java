@@ -63,16 +63,11 @@ public final class EnhancedEconomy extends JavaPlugin {
     }
     private void loadDB() throws ModuleException {
         DBConnection.load(Objects.requireNonNull(Config.getConfig(Defs.Config.Identifiers.GENERAL_CONFIG, Defs.Config.Keys.General.KEY_DATABASE_URL)));
-        String[] query = DBConnection.getQueryFromSQL(Resource.Path.DBConnection.DATABASE_QUERY_PATH);
-        for(String singleQuery: query) {
-            if (!singleQuery.equals("")) {
-                ServerLogger.getLogger().info("\n\n\n" + singleQuery + "\n\n\n");
-                ResultSet resultSet = DBConnection.executeStatementFromQuery(singleQuery.toLowerCase(), true);
-                try {
-                    if (resultSet != null) resultSet.close();
-                } catch (SQLException ignored) {
-                }
-            }
-        }
+        String query = DBConnection.getQueryFromSQL(Resource.Path.DBConnection.DATABASE_QUERY_PATH);
+        ServerLogger.getLogger().info("\n\n\n" + query + "\n\n\n");
+        ResultSet resultSet = DBConnection.executePreparedStatement(DBConnection.getPreparedStatement(query), true, true);
+        try {
+            if (resultSet != null) resultSet.close();
+        } catch (SQLException ignored) {}
     }
 }
