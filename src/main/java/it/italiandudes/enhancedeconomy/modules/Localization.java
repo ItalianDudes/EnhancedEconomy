@@ -46,7 +46,7 @@ public final class Localization {
             throw new ModuleLoadingException("Localization Module Load: Canceled! (Reason: Another thread is executing a langs loading command)");
         }
         if (isModuleLoaded()) {
-            ServerLogger.getLogger().severe("Localization Module Load: Failed! (Reason: the module has already been loaded)");
+            if (!disableLog) ServerLogger.getLogger().severe("Localization Module Load: Failed! (Reason: the module has already been loaded)");
             throw new ModuleAlreadyLoadedException("Localization Module Load: Failed! (Reason: the module has already been loaded)");
         }
 
@@ -82,22 +82,25 @@ public final class Localization {
             throw new ModuleLoadingException("Localization Module Load: Failed! (Reason: an error has occurred on localization file reading/parsing)");
         }
 
-        if (disableLog) ServerLogger.getLogger().info("Localization Module Load: Successful!");
+        if (!disableLog) ServerLogger.getLogger().info("Localization Module Load: Successful!");
         areLangsLoading = false;
     }
     public synchronized static void unload() throws ModuleException {
+        unload(false);
+    }
+    public synchronized static void unload(boolean disableLog) throws ModuleException {
 
         if (areLangsLoading) {
-            ServerLogger.getLogger().warning("Localization Module Unload: Canceled! (Reason: Another thread is executing a langs loading command)");
+            if (!disableLog) ServerLogger.getLogger().warning("Localization Module Unload: Canceled! (Reason: Another thread is executing a langs loading command)");
             throw new ModuleLoadingException("Localization Module Unload: Canceled! (Reason: Another thread is executing a langs loading command)");
         }
         if (!isModuleLoaded()) {
-            ServerLogger.getLogger().severe("Localization Module Unload: Failed! (Reason: the module isn't loaded)");
+            if (!disableLog) ServerLogger.getLogger().severe("Localization Module Unload: Failed! (Reason: the module isn't loaded)");
             throw new ModuleNotLoadedException("Localization Module Unload: Failed! (Reason: the module isn't loaded)");
         }
 
         langFile = null;
-        ServerLogger.getLogger().info("Localization Module Unload: Successful!");
+        if (!disableLog) ServerLogger.getLogger().info("Localization Module Unload: Successful!");
     }
     public synchronized static void reload(@NotNull final JavaPlugin pluginInstance, final String LOCALIZATION) throws ModuleException {
 

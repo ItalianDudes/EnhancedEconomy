@@ -84,19 +84,22 @@ public final class Config {
         areConfigsLoading = false;
     }
     public synchronized static void unload() throws ModuleException {
+        unload(false);
+    }
+    public synchronized static void unload(boolean disableLog) throws ModuleException {
 
         if (areConfigsLoading) {
-            ServerLogger.getLogger().warning("Config Module Unload: Canceled! (Reason: Another thread is executing a config loading command)");
+            if (!disableLog) ServerLogger.getLogger().warning("Config Module Unload: Canceled! (Reason: Another thread is executing a config loading command)");
             throw new ModuleLoadingException("Config Module Unload: Canceled! (Reason: Another thread is executing a config loading command)");
         }
         if (!isModuleLoaded()) {
-            ServerLogger.getLogger().severe("Config Module Unload: Failed! (Reason: the module isn't loaded)");
+            if (!disableLog) ServerLogger.getLogger().severe("Config Module Unload: Failed! (Reason: the module isn't loaded)");
             throw new ModuleNotLoadedException("Config Module Unload: Failed! (Reason: the module isn't loaded)");
         }
 
         generalConfigFile = null;
 
-        ServerLogger.getLogger().info("Config Module Unload: Successful!");
+        if(!disableLog) ServerLogger.getLogger().info("Config Module Unload: Successful!");
     }
     public synchronized static void reload(final JavaPlugin pluginInstance) throws Exception {
 
