@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS constants (
     value TEXT NOT NULL
 );
 
--- Create the table "players", where are stored the player datas
+-- Create the table "players", where are stored the player data
 CREATE TABLE IF NOT EXISTS users (
     user_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     name TEXT NOT NULL UNIQUE,
@@ -25,7 +25,8 @@ INSERT INTO constants (name, value) VALUES
 CREATE TABLE IF NOT EXISTS currencies (
     currency_id INT PRIMARY KEY AUTO_INCREMENT,
     name TEXT NOT NULL UNIQUE,
-    symbol CHAR NOT NULL UNIQUE
+    symbol CHAR NOT NULL UNIQUE,
+    iso TEXT NOT NULL UNIQUE
 );
 
 -- Create the table banks, where are stored the server banks
