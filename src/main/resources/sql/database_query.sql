@@ -21,12 +21,27 @@ INSERT INTO constants (name, value) VALUES
 ("CUSTOM_WALLETS_STATE_AVAILABLE", "AVAILABLE"),
 ("CUSTOM_WALLETS_STATE_NOT_AVAILABLE", "NOT_AVAILABLE");
 
--- Create the table "banks", where are stored the server's banks
-CREATE TABLE IF NOT EXISTS banks (
-    bank_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+-- Create the table currencies, where are stored the server currencies
+CREATE TABLE IF NOT EXISTS currencies (
+    currency_id INT PRIMARY KEY AUTO_INCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    symbol CHAR NOT NULL UNIQUE
+);
+
+-- Create the table banks, where are stored the server banks
+    CREATE TABLE IF NOT EXISTS banks (
+    bank_id INT PRIMARY KEY AUTO_INCREMENT,
     name TEXT NOT NULL,
-    owner_id INTEGER NOT NULL REFERENCES users(user_id),
+    owner_id INT NOT NULL REFERENCES users(user_id),
     balance DECIMAL(60,10) NOT NULL DEFAULT 0
+);
+
+-- Create the table bank_currencies, where are stored the server banks
+CREATE TABLE IF NOT EXISTS bank_currencies (
+    bank_currency_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    bank_id INT NOT NULL REFERENCES banks(bank_id),
+    currency_id INT NOT NULL REFERENCES currencies(currency_id),
+    UNIQUE(bank_id, currency_id)
 );
 
 -- Create the table "central_banks", where are stored the server's central banks
