@@ -33,9 +33,14 @@ public final class Defs {
 
             // General Config File
             public static final class General {
-                public static final String LANG_KEY = "language_pack";
+                public static final String KEY_LANG = "language_pack";
+                public static final String KEY_DATABASE_URL = "database_url";
             }
         }
+    }
+
+    // DBConnection Constants
+    public static final class DBConnection {
     }
 
     // Localization Constants
