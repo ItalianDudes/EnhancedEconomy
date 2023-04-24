@@ -23,25 +23,36 @@ INSERT INTO constants (name, value) VALUES
 
 -- Create the table "currencies", where are stored the server currencies
 CREATE TABLE IF NOT EXISTS currencies (
-    currency_id INT PRIMARY KEY AUTO_INCREMENT,
+    currency_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     name TEXT NOT NULL UNIQUE,
     symbol CHAR NOT NULL UNIQUE,
-    iso TEXT NOT NULL UNIQUE
+    iso TEXT NOT NULL UNIQUE,
+    creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
+);
+
+-- Create the table "countries", where are stored the server countries
+CREATE TABLE IF NOT EXISTS countries (
+    country_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
 -- Create the table "banks", where are stored the server banks
 CREATE TABLE IF NOT EXISTS banks (
-    bank_id INT PRIMARY KEY AUTO_INCREMENT,
+    bank_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     name TEXT NOT NULL,
-    owner_id INT NOT NULL REFERENCES users(user_id),
-    balance DECIMAL(60,10) NOT NULL DEFAULT 0
+    country_id INTEGER NOT NULL REFERENCES countries(country_id),
+    owner_id INTEGER REFERENCES users(user_id),
+    creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
 -- Create the table "bank_currencies", where are stored the server banks
 CREATE TABLE IF NOT EXISTS bank_currencies (
     bank_currency_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    bank_id INT NOT NULL REFERENCES banks(bank_id),
-    currency_id INT NOT NULL REFERENCES currencies(currency_id),
+    bank_id INTEGER NOT NULL REFERENCES banks(bank_id),
+    currency_id INTEGER NOT NULL REFERENCES currencies(currency_id),
+    balance INTEGER NOT NULL DEFAULT 0,
+    CHECK(balance >= 0),
     UNIQUE(bank_id, currency_id)
 );
 
@@ -61,7 +72,16 @@ CREATE TABLE IF NOT EXISTS central_banks (
     owner_id INTEGER REFERENCES users(user_id),
     owned_currency INTEGER NOT NULL REFERENCES currencies(currency_id),
     balance DECIMAL(60,10) NOT NULL DEFAULT 0,
+    creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
     CHECK (balance >= 0)
+);
+
+-- Create the table "central_banks_countries", where are stored the server's central bank countries
+CREATE TABLE IF NOT EXISTS central_banks_countries (
+    central_bank_country_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    central_bank_id INTEGER NOT NULL REFERENCES central_banks(central_bank_id),
+    country_id INTEGER NOT NULL REFERENCES countries(country_id),
+    UNIQUE(central_bank_id, country_id)
 );
 
 -- Create the table "bank_accounts", where are stored the user's bank accounts
@@ -71,9 +91,18 @@ CREATE TABLE IF NOT EXISTS bank_accounts (
     bank_id INTEGER NOT NULL REFERENCES banks(bank_id),
     displayed_name TEXT NOT NULL UNIQUE,
     sha512_pwd TEXT NOT NULL,
-    registration_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP),
-    balance DECIMAL(60,10) NOT NULL DEFAULT 0
+    creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
+
+CREATE TABLE IF NOT EXISTS accounts_currencies (
+    account_currency_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    account_id INTEGER NOT NULL REFERENCES bank_accounts(account_id),
+    currency_id INTEGER NOT NULL REFERENCES currencies(currency_id),
+    balance INTEGER NOT NULL DEFAULT 0,
+    CHECK(balance >= 0),
+    UNIQUE(account_id, currency_id)
+);
+
 
 -- Create the table "bank_items", where are stored all the account's items
 CREATE TABLE IF NOT EXISTS bank_items (
@@ -81,9 +110,8 @@ CREATE TABLE IF NOT EXISTS bank_items (
     account_id INTEGER NOT NULL REFERENCES bank_accounts(account_id),
     item TEXT NOT NULL,
     quantity INTEGER NOT NULL DEFAULT 1,
-    value DECIMAL(60,10) NOT NULL DEFAULT 0,
     CHECK(quantity > 0),
-    CHECK(value >= 0)
+    UNIQUE(account_id, item)
 );
 
 -- Create the table "transactions", where are stored all the account's transactions (NOTE: the field "amount" is intended as the amount of money that were transferred)
@@ -94,9 +122,13 @@ CREATE TABLE IF NOT EXISTS transactions (
     name TEXT NOT NULL,
     description TEXT,
     date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP),
-    amount DECIMAL(60,10) NOT NULL,
+    source_amount DECIMAL(60,10) NOT NULL,
+    source_currency INTEGER NOT NULL REFERENCES currencies(currency_id),
+    destination_amount DECIMAL(60,10) NOT NULL,
+    destination_currency INTEGER NOT NULL REFERENCES currencies(currency_id),
     state TEXT NOT NULL,
-    CHECK(amount > 0)
+    CHECK(source_amount > 0),
+    CHECK(destination_amount > 0)
 );
 
 -- Create the table "offers", where are stored all the account's offers
@@ -106,6 +138,7 @@ CREATE TABLE IF NOT EXISTS offers (
     item_id INTEGER NOT NULL REFERENCES bank_items(item_id),
     quantity INTEGER NOT NULL DEFAULT 1,
     price DECIMAL(60,10) NOT NULL,
+    currency INTEGER NOT NULL REFERENCES currencies(currency_id),
     date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP),
     state TEXT NOT NULL,
     CHECK(quantity >= 0),
