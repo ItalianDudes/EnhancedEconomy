@@ -13,9 +13,16 @@ import java.util.Objects;
 
 public final class EnhancedEconomy extends JavaPlugin {
 
+    // Attributes
+    private boolean instanceErrored;
+
     // Plugin Startup
     @Override
     public void onEnable() {
+
+        // Instance
+        instanceErrored = false;
+
         try {
 
             // Load Configs from Files
@@ -38,6 +45,8 @@ public final class EnhancedEconomy extends JavaPlugin {
     // Plugin Shutdown
     @Override
     public void onDisable() {
+        if (instanceErrored) return;
+        instanceErrored = true;
         try {
             DBConnection.unload(true);
         } catch (ModuleException ignored) {}
