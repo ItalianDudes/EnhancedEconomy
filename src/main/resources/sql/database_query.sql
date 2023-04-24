@@ -110,8 +110,7 @@ CREATE TABLE IF NOT EXISTS bank_items (
     account_id INTEGER NOT NULL REFERENCES bank_accounts(account_id),
     item TEXT NOT NULL,
     quantity INTEGER NOT NULL DEFAULT 1,
-    CHECK(quantity > 0),
-    UNIQUE(account_id, item)
+    CHECK(quantity > 0)
 );
 
 -- Create the table "transactions", where are stored all the account's transactions (NOTE: the field "amount" is intended as the amount of money that were transferred)
