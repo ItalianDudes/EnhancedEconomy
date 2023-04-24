@@ -107,10 +107,12 @@ CREATE TABLE IF NOT EXISTS accounts_currencies (
 -- Create the table "bank_items", where are stored all the account's items
 CREATE TABLE IF NOT EXISTS bank_items (
     item_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    account_id INTEGER NOT NULL REFERENCES bank_accounts(account_id),
+    account_id INTEGER NOT NULL,
     item TEXT NOT NULL,
     quantity INTEGER NOT NULL DEFAULT 1,
-    CHECK(quantity > 0)
+    CHECK(quantity > 0),
+    UNIQUE(item_id, account_id),
+    FOREIGN KEY(account_id) REFERENCES bank_accounts(account_id)
 );
 
 -- Create the table "transactions", where are stored all the account's transactions (NOTE: the field "amount" is intended as the amount of money that were transferred)
