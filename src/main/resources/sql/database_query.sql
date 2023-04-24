@@ -19,13 +19,14 @@ INSERT INTO constants (name, value) VALUES
 ("CUSTOM_WALLETS_STATE_SUCCESS", "SUCCESS"),
 ("CUSTOM_WALLETS_STATE_FAIL", "FAIL"),
 ("CUSTOM_WALLETS_STATE_AVAILABLE", "AVAILABLE"),
-("CUSTOM_WALLETS_STATE_NOT_AVAILABLE", "NOT_AVAILABLE");
+("CUSTOM_WALLETS_STATE_NOT_AVAILABLE", "NOT_AVAILABLE"),
+("CUSTOM_WALLETS_STATE_SOLD_OUT", "SOLD_OUT");
 
 -- Create the table "currencies", where are stored the server currencies
 CREATE TABLE IF NOT EXISTS currencies (
     currency_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     name TEXT NOT NULL UNIQUE,
-    symbol CHAR NOT NULL UNIQUE,
+    symbol CHAR NOT NULL,
     iso TEXT NOT NULL UNIQUE,
     creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
@@ -41,7 +42,7 @@ CREATE TABLE IF NOT EXISTS countries (
 CREATE TABLE IF NOT EXISTS banks (
     bank_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     name TEXT NOT NULL,
-    country_id INTEGER NOT NULL REFERENCES countries(country_id),
+    headquarter_country INTEGER NOT NULL REFERENCES countries(country_id),
     owner_id INTEGER REFERENCES users(user_id),
     creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
@@ -61,7 +62,7 @@ CREATE TABLE IF NOT EXISTS exchange_rules (
     exchange_rule_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     source_currency INTEGER REFERENCES currencies(currency_id),
     destination_currency INTEGER REFERENCES currencies(currency_id),
-    price_ratio DECIMAL(60,10) NOT NULL DEFAULT 0,
+    price_ratio DECIMAL(60,10) NOT NULL DEFAULT 1,
     UNIQUE(source_currency, destination_currency)
 );
 
@@ -94,6 +95,7 @@ CREATE TABLE IF NOT EXISTS bank_accounts (
     creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
+-- Create the table "accounts_currencies", where are stored the account's currencies
 CREATE TABLE IF NOT EXISTS accounts_currencies (
     account_currency_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     account_id INTEGER NOT NULL REFERENCES bank_accounts(account_id),
@@ -102,7 +104,6 @@ CREATE TABLE IF NOT EXISTS accounts_currencies (
     CHECK(balance >= 0),
     UNIQUE(account_id, currency_id)
 );
-
 
 -- Create the table "bank_items", where are stored all the account's items
 CREATE TABLE IF NOT EXISTS bank_items (
@@ -128,8 +129,8 @@ CREATE TABLE IF NOT EXISTS transactions (
     destination_amount DECIMAL(60,10) NOT NULL,
     destination_currency INTEGER NOT NULL REFERENCES currencies(currency_id),
     state TEXT NOT NULL,
-    CHECK(source_amount > 0),
-    CHECK(destination_amount > 0)
+    CHECK(source_amount >= 0),
+    CHECK(destination_amount >= 0)
 );
 
 -- Create the table "offers", where are stored all the account's offers
@@ -156,3 +157,67 @@ CREATE TABLE IF NOT EXISTS trades (
     state TEXT NOT NULL,
     CHECK(quantity > 0)
 );
+
+-- Views Declaration
+-- Create view "users_accounts_banks", where are filtered the users, their account's name, and the bank name
+CREATE OR REPLACE VIEW v_users_accounts_banks AS (
+    SELECT
+        j.name AS PlayerName, j.displayed_name AS AccountName,
+        b.name AS Bank, j.user_id AS PlayerID,
+        j.account_id AS AccountID, b.bank_id AS BankID
+    FROM
+    (
+        SELECT u.user_id, name, displayed_name, bank_id, account_id
+        FROM users AS u
+        JOIN bank_accounts AS ba ON u.user_id = ba.user_id
+    ) AS j
+    JOIN banks AS b ON j.bank_id = b.bank_id
+);
+
+-- Create view "account_currencies", where are filtered the the account's name, the balance and the value iso
+CREATE OR REPLACE VIEW v_accounts_currencies AS
+(
+    SELECT
+        j.displayed_name AS AccountName, j.balance AS Balance,
+        c.iso AS ISO, j.account_id AS AccountID,
+        j.account_currency_id AS BalanceID, j.currency_id AS CurrencyID
+FROM (
+        SELECT displayed_name, balance, currency_id, ac.account_id, account_currency_id
+        FROM bank_accounts AS ba
+        JOIN accounts_currencies ac ON ba.account_id = ac.account_id
+    ) AS j
+    JOIN currencies AS c ON j.currency_id = c.currency_id
+);
+
+-- Create view "account_balances", where are filtered the account's name, the player name, the balance and the iso, all with the ids
+CREATE OR REPLACE VIEW v_accounts_balances AS (
+    SELECT
+        ub.PlayerName AS PlayerName, ub.AccountName AS AccountName,
+        ub.Bank As Bank, acv.Balance AS Balance,
+        acv.ISO AS ISO, ub.PlayerID AS PlayerID,
+        ub.AccountID AS AccountID, ub.BankID AS BankID,
+        acv.BalanceID AS BalanceID, acv.CurrencyID AS CurrencyID
+    FROM v_users_accounts_banks AS ub
+    JOIN v_accounts_currencies AS acv ON ub.AccountName = acv.AccountName
+);
+
+-- Triggers Declaration
+-- TODO: FIX THIS SHIT
+DELIMITER $$
+CREATE TRIGGER bank_balance_updater
+    AFTER UPDATE
+    ON accounts_currencies FOR EACH ROW
+    BEGIN
+        UPDATE bank_currencies
+        SET balance = (SELECT SUM(balance)
+                       FROM accounts_currencies AS ac JOIN bank_accounts AS ba ON ac.account_id = ba.account_id
+                       WHERE
+                           currency_id = NEW.currency_id
+        )
+        WHERE bank_id = (
+            SELECT bank_id
+            FROM bank_accounts
+            WHERE account_id = NEW.account_id
+        );
+    END$$
+DELIMITER ;
