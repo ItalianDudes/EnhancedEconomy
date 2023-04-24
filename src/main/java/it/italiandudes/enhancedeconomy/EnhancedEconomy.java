@@ -34,6 +34,10 @@ public final class EnhancedEconomy extends JavaPlugin {
             // Connect to DB using configs and
             loadDB();
 
+            ServerLogger.getLogger().info("All required modules are loaded, loading plugin modules...");
+
+            //
+
         }catch (Exception e) {
             ServerLogger.getLogger().severe("An unhandled exception has reached the function, shutting down the plugin...");
             ServerLogger.getLogger().severe("Exception stacktrace:");

@@ -21,7 +21,7 @@ INSERT INTO constants (name, value) VALUES
 ("CUSTOM_WALLETS_STATE_AVAILABLE", "AVAILABLE"),
 ("CUSTOM_WALLETS_STATE_NOT_AVAILABLE", "NOT_AVAILABLE");
 
--- Create the table currencies, where are stored the server currencies
+-- Create the table "currencies", where are stored the server currencies
 CREATE TABLE IF NOT EXISTS currencies (
     currency_id INT PRIMARY KEY AUTO_INCREMENT,
     name TEXT NOT NULL UNIQUE,
@@ -29,15 +29,15 @@ CREATE TABLE IF NOT EXISTS currencies (
     iso TEXT NOT NULL UNIQUE
 );
 
--- Create the table banks, where are stored the server banks
-    CREATE TABLE IF NOT EXISTS banks (
+-- Create the table "banks", where are stored the server banks
+CREATE TABLE IF NOT EXISTS banks (
     bank_id INT PRIMARY KEY AUTO_INCREMENT,
     name TEXT NOT NULL,
     owner_id INT NOT NULL REFERENCES users(user_id),
     balance DECIMAL(60,10) NOT NULL DEFAULT 0
 );
 
--- Create the table bank_currencies, where are stored the server banks
+-- Create the table "bank_currencies", where are stored the server banks
 CREATE TABLE IF NOT EXISTS bank_currencies (
     bank_currency_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     bank_id INT NOT NULL REFERENCES banks(bank_id),
@@ -45,12 +45,21 @@ CREATE TABLE IF NOT EXISTS bank_currencies (
     UNIQUE(bank_id, currency_id)
 );
 
+-- Create the table "exchange_rules", where are stored all currency exchange rules (NB: must exists 2 rules for entry, one for source to dest, the other for dest to source)
+CREATE TABLE IF NOT EXISTS exchange_rules (
+    exchange_rule_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    source_currency INTEGER REFERENCES currencies(currency_id),
+    destination_currency INTEGER REFERENCES currencies(currency_id),
+    price_ratio DECIMAL(60,10) NOT NULL DEFAULT 0,
+    UNIQUE(source_currency, destination_currency)
+);
+
 -- Create the table "central_banks", where are stored the server's central banks
 CREATE TABLE IF NOT EXISTS central_banks (
     central_bank_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    bank_id INTEGER NOT NULL UNIQUE REFERENCES banks(bank_id),
-    name TEXT NOT NULL,
+    name TEXT NOT NULL UNIQUE,
     owner_id INTEGER REFERENCES users(user_id),
+    owned_currency INTEGER NOT NULL REFERENCES currencies(currency_id),
     balance DECIMAL(60,10) NOT NULL DEFAULT 0,
     CHECK (balance >= 0)
 );
