@@ -20,7 +20,7 @@ public final class EnhancedEconomy extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        // Instance
+        // Instance Errored Flag
         instanceErrored = false;
 
         try {
