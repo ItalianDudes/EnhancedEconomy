@@ -1,26 +1,11 @@
 /* Plugin Name: EnhancedEconomy */
 
--- Create the table "constants", where are stored all the server constants
-CREATE TABLE IF NOT EXISTS constants (
-    constant_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    name TEXT NOT NULL UNIQUE,
-    value TEXT NOT NULL
-);
-
 -- Create the table "players", where are stored the player data
 CREATE TABLE IF NOT EXISTS users (
     user_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     name TEXT NOT NULL UNIQUE,
     creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
-
--- Define Constants
-INSERT INTO constants (name, value) VALUES
-("CUSTOM_WALLETS_STATE_SUCCESS", "SUCCESS"),
-("CUSTOM_WALLETS_STATE_FAIL", "FAIL"),
-("CUSTOM_WALLETS_STATE_AVAILABLE", "AVAILABLE"),
-("CUSTOM_WALLETS_STATE_NOT_AVAILABLE", "NOT_AVAILABLE"),
-("CUSTOM_WALLETS_STATE_SOLD_OUT", "SOLD_OUT");
 
 -- Create the table "currencies", where are stored the server currencies
 CREATE TABLE IF NOT EXISTS currencies (
