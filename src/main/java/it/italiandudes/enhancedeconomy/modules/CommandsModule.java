@@ -1,16 +1,15 @@
 package it.italiandudes.enhancedeconomy.modules;
 
+import it.italiandudes.enhancedeconomy.commands.TestCommand;
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleAlreadyLoadedException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleLoadingException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleNotLoadedException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleReloadingException;
 import it.italiandudes.enhancedeconomy.utils.ServerLogger;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
 import java.util.Objects;
 
 @SuppressWarnings("unused")
@@ -19,7 +18,6 @@ public final class CommandsModule {
     // Attributes
     private static boolean isModuleLoaded = false;
     private static boolean areCommandsLoading = false;
-    public static final HashMap<String, CommandExecutor> COMMANDS = new HashMap<>();
 
     // Default Constructor
     public CommandsModule() {
@@ -48,13 +46,9 @@ public final class CommandsModule {
 
         areCommandsLoading = true;
 
+        // List of commands here...
         try {
-            for (String commandName : COMMANDS.keySet()) {
-                if (!Objects.requireNonNull(pluginInstance.getCommand(commandName)).isRegistered()) {
-                    Objects.requireNonNull(pluginInstance.getCommand(commandName)).setExecutor(COMMANDS.get(commandName));
-                    if (!disableLog) ServerLogger.getLogger().info("Command \"" + commandName + "\": " + Objects.requireNonNull(pluginInstance.getCommand(commandName)).isRegistered());
-                }
-            }
+            Objects.requireNonNull(pluginInstance.getCommand(TestCommand.COMMAND_NAME)).setExecutor(new TestCommand());
         } catch (Exception e) {
             areCommandsLoading = false;
             if (!disableLog) ServerLogger.getLogger().severe("Commands Module Load: Failed! (Reason: an error has occurred on module loading)");

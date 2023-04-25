@@ -14,9 +14,6 @@ public final class TestCommand implements CommandExecutor {
     // Command Name
     public static final String COMMAND_NAME = "eetest";
 
-    // Command Instance
-    private static final CommandExecutor COMMAND_INSTANCE = CommandsModule.COMMANDS.put(COMMAND_NAME, new TestCommand());
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!CommandsModule.isModuleLoaded()) return false;
