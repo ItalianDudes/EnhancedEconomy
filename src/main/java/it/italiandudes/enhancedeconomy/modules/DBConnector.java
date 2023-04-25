@@ -15,14 +15,14 @@ import java.sql.*;
 import java.util.Scanner;
 
 @SuppressWarnings("unused")
-public final class DBConnection {
+public final class DBConnector {
 
     // Attributes
     private static Connection dbConnection = null;
     private static boolean isDBConnecting = false;
 
     // Default Constructor
-    public DBConnection() {
+    public DBConnector() {
         throw new RuntimeException("Can't instantiate this class!");
     }
 
