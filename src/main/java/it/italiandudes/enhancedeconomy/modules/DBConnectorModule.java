@@ -34,8 +34,7 @@ public final class DBConnectorModule {
 
         Scanner queryReader = new Scanner(inStream);
         while(queryReader.hasNext()) {
-            String buffer = queryReader.nextLine();
-            if (!buffer.startsWith("--")) queryBuilder.append(buffer);
+            queryBuilder.append(queryReader.nextLine()).append('\n');
         }
         queryReader.close();
 
