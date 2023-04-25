@@ -63,6 +63,7 @@ public final class CommandsModule {
 
         areCommandsLoading = false;
         isModuleLoaded = true;
+        if (!disableLog) ServerLogger.getLogger().info("Commands Module Load: Successful!");
     }
     public synchronized static void unload() throws ModuleException {
         unload(false);
