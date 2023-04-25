@@ -20,14 +20,14 @@ import java.io.FileReader;
 import java.io.IOException;
 
 @SuppressWarnings("unused")
-public final class Config {
+public final class ConfigsModule {
 
     // Attributes
     private static JSONObject generalConfigFile = null;
     private static boolean areConfigsLoading = false;
 
     // Default Constructor
-    public Config() {
+    public ConfigsModule() {
         throw new RuntimeException("Can't instantiate this class!");
     }
 

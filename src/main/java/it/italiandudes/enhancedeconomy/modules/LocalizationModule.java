@@ -18,14 +18,14 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 
 @SuppressWarnings("unused")
-public final class Localization {
+public final class LocalizationModule {
 
     // Attributes
     private static JSONObject langFile = null;
     private static boolean areLangsLoading = false;
 
     // Default Constructor
-    public Localization() {
+    public LocalizationModule() {
         throw new RuntimeException("Can't instantiate this class!");
     }
 

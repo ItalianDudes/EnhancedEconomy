@@ -1,9 +1,9 @@
 package it.italiandudes.enhancedeconomy;
 
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
-import it.italiandudes.enhancedeconomy.modules.Config;
-import it.italiandudes.enhancedeconomy.modules.DBConnection;
-import it.italiandudes.enhancedeconomy.modules.Localization;
+import it.italiandudes.enhancedeconomy.modules.ConfigsModule;
+import it.italiandudes.enhancedeconomy.modules.DBConnectorModule;
+import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
 import it.italiandudes.enhancedeconomy.utils.*;
 import it.italiandudes.idl.common.StringHandler;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -52,29 +52,29 @@ public final class EnhancedEconomy extends JavaPlugin {
         if (instanceErrored) return;
         instanceErrored = true;
         try {
-            DBConnection.unload(true);
+            DBConnectorModule.unload(true);
         } catch (ModuleException ignored) {}
         ServerLogger.getLogger().info("DB Connection Module Unload: Successful!");
         try {
-            Localization.unload(true);
+            LocalizationModule.unload(true);
         } catch (ModuleException ignored) {}
         ServerLogger.getLogger().info("Localization Module Unload: Successful!");
         try {
-            Config.unload(true);
+            ConfigsModule.unload(true);
         } catch (ModuleException ignored) {}
         ServerLogger.getLogger().info("Config Module Unload: Successful!");
     }
 
     // Methods
     private void loadConfigs(@NotNull JavaPlugin pluginInstance) throws ModuleException {
-        Config.load(pluginInstance);
+        ConfigsModule.load(pluginInstance);
     }
     private void loadLangs(@NotNull JavaPlugin pluginInstance) throws ModuleException {
-        Localization.load(pluginInstance, Objects.requireNonNull(Config.getConfig(Defs.Config.Identifiers.GENERAL_CONFIG, Defs.Config.Keys.General.KEY_LANG)));
+        LocalizationModule.load(pluginInstance, Objects.requireNonNull(ConfigsModule.getConfig(Defs.Config.Identifiers.GENERAL_CONFIG, Defs.Config.Keys.General.KEY_LANG)));
     }
     private void loadDB() throws ModuleException {
-        DBConnection.load(Objects.requireNonNull(Config.getConfig(Defs.Config.Identifiers.GENERAL_CONFIG, Defs.Config.Keys.General.KEY_DATABASE_URL)));
-        String query = DBConnection.getQueryFromResourcesFileSQL(Resource.Path.DBConnection.DATABASE_QUERY_PATH);
-        DBConnection.executePreparedStatementFromQueryIgnoreResult(query);
+        DBConnectorModule.load(Objects.requireNonNull(ConfigsModule.getConfig(Defs.Config.Identifiers.GENERAL_CONFIG, Defs.Config.Keys.General.KEY_DATABASE_URL)));
+        String query = DBConnectorModule.getQueryFromResourcesFileSQL(Resource.Path.DBConnection.DATABASE_QUERY_PATH);
+        DBConnectorModule.executePreparedStatementFromQueryIgnoreResult(query);
     }
 }
