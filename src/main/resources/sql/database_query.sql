@@ -188,21 +188,23 @@ CREATE OR REPLACE VIEW v_accounts_balances AS (
 
 -- Triggers Declaration
 -- TODO: FIX THIS SHIT
+/*
 DELIMITER $$
 CREATE TRIGGER bank_balance_updater
     AFTER UPDATE
     ON accounts_currencies FOR EACH ROW
-    BEGIN
-        UPDATE bank_currencies
-        SET balance = (SELECT SUM(balance)
-                       FROM accounts_currencies AS ac JOIN bank_accounts AS ba ON ac.account_id = ba.account_id
-                       WHERE
+BEGIN
+    UPDATE bank_currencies
+    SET balance = (SELECT SUM(balance)
+                   FROM accounts_currencies AS ac JOIN bank_accounts AS ba ON ac.account_id = ba.account_id
+                   WHERE
                            currency_id = NEW.currency_id
-        )
-        WHERE bank_id = (
-            SELECT bank_id
-            FROM bank_accounts
-            WHERE account_id = NEW.account_id
-        );
-    END$$
+    )
+    WHERE bank_id = (
+        SELECT bank_id
+        FROM bank_accounts
+        WHERE account_id = NEW.account_id
+    );
+END$$
 DELIMITER ;
+*/
