@@ -1,8 +1,9 @@
 package it.italiandudes.enhancedeconomy;
 
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
-import it.italiandudes.enhancedeconomy.modules.ConfigsModule;
-import it.italiandudes.enhancedeconomy.modules.DBConnectorModule;
+import it.italiandudes.enhancedeconomy.modules.CommandsModule;
+import it.italiandudes.enhancedeconomy.modules.ConfigModule;
+import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;
 import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
 import it.italiandudes.enhancedeconomy.utils.*;
 import it.italiandudes.idl.common.StringHandler;
@@ -36,7 +37,8 @@ public final class EnhancedEconomy extends JavaPlugin {
 
             ServerLogger.getLogger().info("All required modules are loaded, loading plugin modules...");
 
-            //
+            // Load Commands
+            CommandsModule.load(this);
 
         }catch (Exception e) {
             ServerLogger.getLogger().severe("An unhandled exception has reached the function, shutting down the plugin...");
@@ -52,7 +54,10 @@ public final class EnhancedEconomy extends JavaPlugin {
         if (instanceErrored) return;
         instanceErrored = true;
         try {
-            DBConnectorModule.unload(true);
+            CommandsModule.unload(true);
+        } catch (ModuleException ignored) {}
+        try {
+            DBConnectionModule.unload(true);
         } catch (ModuleException ignored) {}
         ServerLogger.getLogger().info("DB Connection Module Unload: Successful!");
         try {
@@ -60,21 +65,21 @@ public final class EnhancedEconomy extends JavaPlugin {
         } catch (ModuleException ignored) {}
         ServerLogger.getLogger().info("Localization Module Unload: Successful!");
         try {
-            ConfigsModule.unload(true);
+            ConfigModule.unload(true);
         } catch (ModuleException ignored) {}
         ServerLogger.getLogger().info("Config Module Unload: Successful!");
     }
 
     // Methods
     private void loadConfigs(@NotNull JavaPlugin pluginInstance) throws ModuleException {
-        ConfigsModule.load(pluginInstance);
+        ConfigModule.load(pluginInstance);
     }
     private void loadLangs(@NotNull JavaPlugin pluginInstance) throws ModuleException {
-        LocalizationModule.load(pluginInstance, Objects.requireNonNull(ConfigsModule.getConfig(Defs.Config.Identifiers.GENERAL_CONFIG, Defs.Config.Keys.General.KEY_LANG)));
+        LocalizationModule.load(pluginInstance, Objects.requireNonNull(ConfigModule.getConfig(Defs.Config.Identifiers.GENERAL_CONFIG, Defs.Config.Keys.General.KEY_LANG)));
     }
     private void loadDB() throws ModuleException {
-        DBConnectorModule.load(Objects.requireNonNull(ConfigsModule.getConfig(Defs.Config.Identifiers.GENERAL_CONFIG, Defs.Config.Keys.General.KEY_DATABASE_URL)));
-        String query = DBConnectorModule.getQueryFromResourcesFileSQL(Resource.Path.DBConnection.DATABASE_QUERY_PATH);
-        DBConnectorModule.executePreparedStatementFromQueryIgnoreResult(query);
+        DBConnectionModule.load(Objects.requireNonNull(ConfigModule.getConfig(Defs.Config.Identifiers.GENERAL_CONFIG, Defs.Config.Keys.General.KEY_DATABASE_URL)));
+        String query = DBConnectionModule.getQueryFromResourcesFileSQL(Resource.Path.DBConnection.DATABASE_QUERY_PATH);
+        DBConnectionModule.executePreparedStatementFromQueryIgnoreResult(query);
     }
 }

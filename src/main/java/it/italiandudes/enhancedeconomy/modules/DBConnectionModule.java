@@ -1,10 +1,7 @@
 package it.italiandudes.enhancedeconomy.modules;
 
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
-import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleAlreadyLoadedException;
-import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleLoadingException;
-import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleNotLoadedException;
-import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleOperationException;
+import it.italiandudes.enhancedeconomy.exceptions.modules.*;
 import it.italiandudes.enhancedeconomy.utils.Resource;
 import it.italiandudes.enhancedeconomy.utils.ServerLogger;
 import org.jetbrains.annotations.NotNull;
@@ -15,14 +12,14 @@ import java.sql.*;
 import java.util.Scanner;
 
 @SuppressWarnings("unused")
-public final class DBConnectorModule {
+public final class DBConnectionModule {
 
     // Attributes
     private static Connection dbConnection = null;
     private static boolean isDBConnecting = false;
 
     // Default Constructor
-    public DBConnectorModule() {
+    public DBConnectionModule() {
         throw new RuntimeException("Can't instantiate this class!");
     }
 
@@ -48,10 +45,10 @@ public final class DBConnectorModule {
     }
 
     // Methods
-    public synchronized static void load(@NotNull String jdbcConnectionString) throws ModuleException {
+    public synchronized static void load(@NotNull final String jdbcConnectionString) throws ModuleException {
         load(jdbcConnectionString, false);
     }
-    private static void load(@NotNull String jdbcConnectionString, boolean disableLog) throws ModuleException {
+    private static void load(@NotNull String jdbcConnectionString, final boolean disableLog) throws ModuleException {
 
         if (isDBConnecting) {
             if (!disableLog) ServerLogger.getLogger().warning("DBConnect Module Load: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
@@ -94,7 +91,7 @@ public final class DBConnectorModule {
     public static void unload() throws ModuleException {
         unload(true);
     }
-    public static void unload(boolean disableLog) throws ModuleException {
+    public static void unload(final boolean disableLog) throws ModuleException {
 
         if (isDBConnecting) {
             if (!disableLog) ServerLogger.getLogger().warning("DBConnection Module Unload: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
@@ -111,7 +108,7 @@ public final class DBConnectorModule {
 
         if (!disableLog) ServerLogger.getLogger().info("DBConnection Module Unload: Successful!");
     }
-    public static void reload(@NotNull String jdbcConnectionString) throws ModuleException {
+    public static void reload(@NotNull final String jdbcConnectionString) throws ModuleException {
 
         if (isDBConnecting) {
             ServerLogger.getLogger().warning("DBConnect Module Reload: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
@@ -123,30 +120,28 @@ public final class DBConnectorModule {
         }
 
         try {
-            unload();
+            unload(true);
         } catch (ModuleException e) {
             ServerLogger.getLogger().severe("DBConnect Module Reload: Failed! (Reason: an error has occurred in the unload routine)");
-            throw new ModuleAlreadyLoadedException("DBConnect Module Reload: Failed! (Reason: an error has occurred in the unload routine)");
+            throw new ModuleReloadingException("DBConnect Module Reload: Failed! (Reason: an error has occurred in the unload routine)");
         }
 
         try {
             load(jdbcConnectionString, true);
         } catch (ModuleException e) {
             ServerLogger.getLogger().severe("DBConnect Module Reload: Failed! (Reason: the load routine has failed)");
-            throw new ModuleAlreadyLoadedException("DBConnect Module Reload: Failed! (Reason: the load routine has failed)", e);
+            throw new ModuleReloadingException("DBConnect Module Reload: Failed! (Reason: the load routine has failed)", e);
         }
 
         ServerLogger.getLogger().info("DBConnect Module Reload: Successful!");
-
     }
     @NotNull
-    public static PreparedStatement getPreparedStatement(@NotNull String sql) throws ModuleException {
+    public static PreparedStatement getPreparedStatement(@NotNull final String sql) throws ModuleException {
 
         if (isDBConnecting) {
             ServerLogger.getLogger().warning("GetPreparedStatement Operation: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
             throw new ModuleLoadingException("GetPreparedStatement Operation: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
         }
-
         if (!isModuleLoaded()) {
             ServerLogger.getLogger().severe("GetPreparedStatement Operation: Failed! (Reason: the module isn't loaded)");
             throw new ModuleNotLoadedException("GetPreparedStatement Operation: Failed! (Reason: the module isn't loaded)");
@@ -160,13 +155,12 @@ public final class DBConnectorModule {
         }
     }
     @Nullable @SuppressWarnings("UnusedReturnValue")
-    public static ResultSet executeStatementFromQuery(@NotNull String query) throws ModuleException {
+    public static ResultSet executeStatementFromQuery(@NotNull final String query) throws ModuleException {
 
         if (isDBConnecting) {
             ServerLogger.getLogger().warning("ExecuteStatementFromQuery Operation: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
             throw new ModuleLoadingException("ExecuteStatementFromQuery Operation: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
         }
-
         if (!isModuleLoaded()) {
             ServerLogger.getLogger().severe("ExecuteStatementFromQuery Operation: Failed! (Reason: the module isn't loaded)");
             throw new ModuleNotLoadedException("ExecuteStatementFromQuery Operation: Failed! (Reason: the module isn't loaded)");
@@ -193,20 +187,19 @@ public final class DBConnectorModule {
             throw new ModuleOperationException("ExecuteStatementFromQuery Operation: Failed! (Reason: an error has occurred with the sql query)", e);
         }
     }
-    public static void executeStatementFromQueryIgnoreResult(@NotNull String query) throws ModuleException {
+    public static void executeStatementFromQueryIgnoreResult(@NotNull final String query) throws ModuleException {
         ResultSet resultSet = executeStatementFromQuery(query);
         try {
             if (resultSet != null) resultSet.close();
         }catch (SQLException ignored) {}
     }
     @Nullable @SuppressWarnings("UnusedReturnValue")
-    public static ResultSet executePreparedStatement(@NotNull PreparedStatement preparedStatement, boolean closeStatementAfterExecute) throws ModuleException {
+    public static ResultSet executePreparedStatement(@NotNull final PreparedStatement preparedStatement, boolean closeStatementAfterExecute) throws ModuleException {
 
         if (isDBConnecting) {
             ServerLogger.getLogger().warning("ExecutePreparedStatement Operation: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
             throw new ModuleLoadingException("ExecutePreparedStatement Operation: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
         }
-
         if (!isModuleLoaded()) {
             ServerLogger.getLogger().severe("ExecutePreparedStatement Operation: Failed! (Reason: the module isn't loaded)");
             throw new ModuleNotLoadedException("ExecutePreparedStatement Operation: Failed! (Reason: the module isn't loaded)");
@@ -226,13 +219,12 @@ public final class DBConnectorModule {
         }
     }
     @Nullable @SuppressWarnings("UnusedReturnValue")
-    public static ResultSet executePreparedStatementFromQuery(@NotNull String query) throws ModuleException {
+    public static ResultSet executePreparedStatementFromQuery(@NotNull final String query) throws ModuleException {
 
         if (isDBConnecting) {
             ServerLogger.getLogger().warning("ExecuteStatementFromQuery Operation: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
             throw new ModuleLoadingException("ExecuteStatementFromQuery Operation: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
         }
-
         if (!isModuleLoaded()) {
             ServerLogger.getLogger().severe("ExecuteStatementFromQuery Operation: Failed! (Reason: the module isn't loaded)");
             throw new ModuleNotLoadedException("ExecuteStatementFromQuery Operation: Failed! (Reason: the module isn't loaded)");
@@ -259,7 +251,7 @@ public final class DBConnectorModule {
             throw new ModuleOperationException("ExecuteStatementFromQuery Operation: Failed! (Reason: an error has occurred with the sql query)", e);
         }
     }
-    public static void executePreparedStatementFromQueryIgnoreResult(@NotNull String query) throws ModuleException {
+    public static void executePreparedStatementFromQueryIgnoreResult(@NotNull final String query) throws ModuleException {
         ResultSet resultSet = executePreparedStatementFromQuery(query);
         try {
             if (resultSet != null) resultSet.close();

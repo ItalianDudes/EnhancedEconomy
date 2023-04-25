@@ -2,3 +2,7 @@ name: EnhancedEconomy
 version: '0.5.4A'
 main: it.italiandudes.enhancedeconomy.EnhancedEconomy
 api-version: 1.19
+commands:
+  eetest:
+    description: A test command
+    usage: /<command>

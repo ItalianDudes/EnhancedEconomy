@@ -4,6 +4,7 @@ import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleAlreadyLoadedException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleLoadingException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleNotLoadedException;
+import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleReloadingException;
 import it.italiandudes.enhancedeconomy.utils.Defs;
 import it.italiandudes.enhancedeconomy.utils.Resource;
 import it.italiandudes.enhancedeconomy.utils.ServerLogger;
@@ -39,7 +40,7 @@ public final class LocalizationModule {
     public synchronized static void load(@NotNull final JavaPlugin pluginInstance, @NotNull final String LOCALIZATION) throws ModuleException {
         load(pluginInstance, LOCALIZATION, false);
     }
-    private synchronized static void load(@NotNull final JavaPlugin pluginInstance, @NotNull final String LOCALIZATION, boolean disableLog) throws ModuleException {
+    private synchronized static void load(@NotNull final JavaPlugin pluginInstance, @NotNull final String LOCALIZATION, final boolean disableLog) throws ModuleException {
 
         if (areLangsLoading) {
             if (!disableLog) ServerLogger.getLogger().warning("Localization Module Load: Canceled! (Reason: Another thread is executing a langs loading command)");
@@ -88,7 +89,7 @@ public final class LocalizationModule {
     public synchronized static void unload() throws ModuleException {
         unload(false);
     }
-    public synchronized static void unload(boolean disableLog) throws ModuleException {
+    public synchronized static void unload(final boolean disableLog) throws ModuleException {
 
         if (areLangsLoading) {
             if (!disableLog) ServerLogger.getLogger().warning("Localization Module Unload: Canceled! (Reason: Another thread is executing a langs loading command)");
@@ -102,7 +103,7 @@ public final class LocalizationModule {
         langFile = null;
         if (!disableLog) ServerLogger.getLogger().info("Localization Module Unload: Successful!");
     }
-    public synchronized static void reload(@NotNull final JavaPlugin pluginInstance, final String LOCALIZATION) throws ModuleException {
+    public synchronized static void reload(@NotNull final JavaPlugin pluginInstance, @NotNull final String LOCALIZATION) throws ModuleException {
 
         if (areLangsLoading) {
             ServerLogger.getLogger().warning("Localization Module Reload: Canceled! (Reason: Another thread is executing a langs loading command)");
@@ -116,7 +117,16 @@ public final class LocalizationModule {
         // Do current lang backup
         JSONObject langFileBACKUP = langFile;
 
-        unload();
+        try {
+            unload(true);
+        } catch (ModuleException e) {
+            ServerLogger.getLogger().severe("Localization Module Reload: Failed! (Reason: the unload routine has failed)");
+
+            // Put lang backup online again
+            langFile= langFileBACKUP;
+
+            throw new ModuleReloadingException("Localization Module Reload: Failed! (Reason: the unload routine has failed)", e);
+        }
 
         try {
             load(pluginInstance, LOCALIZATION, true);
@@ -126,13 +136,13 @@ public final class LocalizationModule {
             // Put lang backup online again
             langFile= langFileBACKUP;
 
-            throw new ModuleLoadingException("Localization Module Reload: Failed! (Reason: the load routine has failed)", e);
+            throw new ModuleReloadingException("Localization Module Reload: Failed! (Reason: the load routine has failed)", e);
         }
 
         ServerLogger.getLogger().info("Localization Module Reload: Successful!");
     }
     @Nullable
-    public synchronized static String translate(final String KEY) throws ModuleException {
+    public synchronized static String translate(@NotNull final String KEY) throws ModuleException {
 
         if (areLangsLoading) {
             ServerLogger.getLogger().warning("Translate Operation: Canceled! (Reason: Another thread is executing a langs loading command)");

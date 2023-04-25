@@ -4,6 +4,7 @@ import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleAlreadyLoadedException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleLoadingException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleNotLoadedException;
+import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleReloadingException;
 import it.italiandudes.enhancedeconomy.utils.Defs;
 import it.italiandudes.enhancedeconomy.utils.Resource;
 import it.italiandudes.enhancedeconomy.utils.ServerLogger;
@@ -20,14 +21,14 @@ import java.io.FileReader;
 import java.io.IOException;
 
 @SuppressWarnings("unused")
-public final class ConfigsModule {
+public final class ConfigModule {
 
     // Attributes
     private static JSONObject generalConfigFile = null;
     private static boolean areConfigsLoading = false;
 
     // Default Constructor
-    public ConfigsModule() {
+    public ConfigModule() {
         throw new RuntimeException("Can't instantiate this class!");
     }
 
@@ -38,14 +39,17 @@ public final class ConfigsModule {
     }
 
     // Methods
-    public synchronized static void load(final JavaPlugin pluginInstance) throws ModuleException {
+    public synchronized static void load(@NotNull final JavaPlugin pluginInstance) throws ModuleException {
+        load(pluginInstance, false);
+    }
+    public synchronized static void load(@NotNull final JavaPlugin pluginInstance, final boolean disableLog) throws ModuleException {
 
         if (areConfigsLoading) {
-            ServerLogger.getLogger().warning("Config Module Load: Canceled! (Reason: Another thread is executing a config loading command)");
+            if (!disableLog) ServerLogger.getLogger().warning("Config Module Load: Canceled! (Reason: Another thread is executing a config loading command)");
             throw new ModuleLoadingException("Config Module Load: Canceled! (Reason: Another thread is executing a config loading command)");
         }
         if (isModuleLoaded()) {
-            ServerLogger.getLogger().severe("Config Module Load: Failed! (Reason: the module has already been loaded)");
+            if (!disableLog) ServerLogger.getLogger().severe("Config Module Load: Failed! (Reason: the module has already been loaded)");
             throw new ModuleAlreadyLoadedException("Config Module Load: Failed! (Reason: the module has already been loaded)");
         }
 
@@ -60,7 +64,7 @@ public final class ConfigsModule {
                 JarHandler.copyDirectoryFromJar(new File(Defs.PluginInfo.PLUGIN_JAR_PATH), Resource.Path.Config.CONFIG_DIR, pluginInstance.getDataFolder(), false, false);
             } catch (IOException e) {
                 areConfigsLoading = false;
-                ServerLogger.getLogger().severe("Config Module Load: Failed! (Reason: Config file copy failed)");
+                if (!disableLog) ServerLogger.getLogger().severe("Config Module Load: Failed! (Reason: Config file copy failed)");
                 throw new ModuleLoadingException("Config Module Load: Failed! (Reason: Config file copy failed)");
             }
         }
@@ -76,17 +80,17 @@ public final class ConfigsModule {
             try {
                 if (fileReader != null) fileReader.close();
             }catch (Exception ignored) {}
-            ServerLogger.getLogger().severe("Config Module Load: Failed! (Reason: an error has occurred on config file reading/parsing)");
+            if (!disableLog) ServerLogger.getLogger().severe("Config Module Load: Failed! (Reason: an error has occurred on config file reading/parsing)");
             throw new ModuleLoadingException("Config Module Load: Failed! (Reason: an error has occurred on config file reading/parsing)");
         }
 
-        ServerLogger.getLogger().info("Config Module Load: Successful!");
+        if (!disableLog) ServerLogger.getLogger().info("Config Module Load: Successful!");
         areConfigsLoading = false;
     }
     public synchronized static void unload() throws ModuleException {
         unload(false);
     }
-    public synchronized static void unload(boolean disableLog) throws ModuleException {
+    public synchronized static void unload(final boolean disableLog) throws ModuleException {
 
         if (areConfigsLoading) {
             if (!disableLog) ServerLogger.getLogger().warning("Config Module Unload: Canceled! (Reason: Another thread is executing a config loading command)");
@@ -101,7 +105,7 @@ public final class ConfigsModule {
 
         if(!disableLog) ServerLogger.getLogger().info("Config Module Unload: Successful!");
     }
-    public synchronized static void reload(final JavaPlugin pluginInstance) throws Exception {
+    public synchronized static void reload(@NotNull final JavaPlugin pluginInstance) throws Exception {
 
         if (areConfigsLoading) {
             ServerLogger.getLogger().warning("Config Module Reload: Canceled! (Reason: Another thread is executing a config loading command)");
@@ -115,17 +119,26 @@ public final class ConfigsModule {
         // Do current config backups
         JSONObject generalConfigFileBACKUP = generalConfigFile;
 
-        unload();
+        try {
+            unload(true);
+        } catch (ModuleException e) {
+            ServerLogger.getLogger().severe("Config Module Reload: Failed! (Reason: the unload routine has failed)");
+
+            // Put config backups online again
+            generalConfigFile = generalConfigFileBACKUP;
+
+            throw new ModuleReloadingException("Config Module Reload: Failed! (Reason: the unload routine has failed)", e);
+        }
 
         try {
-            load(pluginInstance);
+            load(pluginInstance, true);
         } catch (ModuleException e) {
             ServerLogger.getLogger().severe("Config Module Reload: Failed! (Reason: the load routine has failed)");
 
             // Put config backups online again
             generalConfigFile = generalConfigFileBACKUP;
 
-            throw new ModuleLoadingException("Config Module Reload: Failed! (Reason: the load routine has failed)", e);
+            throw new ModuleReloadingException("Config Module Reload: Failed! (Reason: the load routine has failed)", e);
         }
 
         ServerLogger.getLogger().info("Config Module Reload: Successful!");

@@ -35,7 +35,7 @@ public final class CommandsModule {
     public synchronized static void load(@NotNull final JavaPlugin pluginInstance) throws ModuleException {
         load(pluginInstance, false);
     }
-    private synchronized static void load(final JavaPlugin pluginInstance, boolean disableLog) throws ModuleException {
+    private synchronized static void load(@NotNull final JavaPlugin pluginInstance, final boolean disableLog) throws ModuleException {
 
         if (areCommandsLoading) {
             if (!disableLog) ServerLogger.getLogger().warning("Commands Module Load: Canceled! (Reason: Another thread is executing a commands loading command)");
@@ -67,7 +67,7 @@ public final class CommandsModule {
     public synchronized static void unload() throws ModuleException {
         unload(false);
     }
-    public synchronized static void unload(boolean disableLog) throws ModuleException {
+    public synchronized static void unload(final boolean disableLog) throws ModuleException {
 
         if (areCommandsLoading) {
             if (!disableLog) ServerLogger.getLogger().warning("Commands Module Unload: Canceled! (Reason: Another thread is executing a commands loading command)");
@@ -82,7 +82,7 @@ public final class CommandsModule {
 
         if(!disableLog) ServerLogger.getLogger().info("Commands Module Unload: Successful!");
     }
-    public synchronized static void reload(final JavaPlugin pluginInstance) throws Exception {
+    public synchronized static void reload(@NotNull final JavaPlugin pluginInstance) throws Exception {
 
         if (areCommandsLoading) {
             ServerLogger.getLogger().warning("Commands Module Reload: Canceled! (Reason: Another thread is executing a commands loading command)");
