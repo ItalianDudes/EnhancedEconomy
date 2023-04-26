@@ -70,9 +70,9 @@ public final class DBConnectionModule {
         isDBConnecting = true;
 
         // DB Type Assigner
-        if (jdbcConnectionString.startsWith("jdbc:mysql")) {
+        if (jdbcConnectionString.startsWith(Defs.DBConnection.JDBC_MYSQL_CONNECTOR_STRING_START)) {
             dbType = Defs.DBConnection.MYSQL_CONNECTOR;
-        }else if (jdbcConnectionString.startsWith("jdbc:sqlite")) {
+        }else if (jdbcConnectionString.startsWith(Defs.DBConnection.JDBC_SQLITE_CONNECTOR_STRING_START)) {
             dbType = Defs.DBConnection.SQLITE_CONNECTOR;
         }else {
             throw new ModuleLoadingException("DBConnect Module Load: Failed! (Reason: can't recognize connector type)");
