@@ -224,7 +224,7 @@ CREATE TRIGGER IF NOT EXISTS bank_balance_updater
     ON accounts_currencies FOR EACH ROW
 BEGIN
     UPDATE bank_currencies
-    SET bank_currencies.balance = (
+    SET balance = (
         SELECT SUM(vab1.balance)
         FROM v_accounts_balances AS vab1
         WHERE
