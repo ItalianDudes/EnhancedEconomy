@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS bank_currencies (
     bank_currency_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     bank_id INTEGER NOT NULL REFERENCES banks(bank_id),
     currency_id INTEGER NOT NULL REFERENCES currencies(currency_id),
-    balance INTEGER NOT NULL DEFAULT 0,
+    balance DECIMAL(60,10) NOT NULL DEFAULT 0,
     CHECK(balance >= 0),
     UNIQUE(bank_id, currency_id)
 );
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS accounts_currencies (
     account_currency_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     account_id INTEGER NOT NULL REFERENCES bank_accounts(account_id),
     currency_id INTEGER NOT NULL REFERENCES currencies(currency_id),
-    balance INTEGER NOT NULL DEFAULT 0,
+    balance DECIMAL(60,10) NOT NULL DEFAULT 0,
     CHECK(balance >= 0),
     UNIQUE(account_id, currency_id)
 );
@@ -186,25 +186,49 @@ CREATE OR REPLACE VIEW v_accounts_balances AS (
     JOIN v_accounts_currencies AS acv ON ub.AccountName = acv.AccountName
 );
 
+-- Create view "bank_currencies", where are filtered the bank's name, the balance and the iso, all with the ids
+CREATE OR  REPLACE VIEW v_bank_currencies AS (
+    SELECT
+        j.BankName AS BankName, j.balance AS Balance,
+        c.iso AS ISO, j.bank_id AS BankID,
+        j.BalanceID AS BalanceID, c.currency_id AS CurrencyID
+    FROM (
+        SELECT b.name AS BankName, bc.balance, bc.bank_id, bc.currency_id, bc.bank_currency_id AS BalanceID
+        FROM bank_currencies AS bc
+        JOIN banks AS b ON b.bank_id = bc.bank_id
+    ) AS j
+    JOIN currencies AS c ON c.currency_id = j.currency_id
+);
+
 -- Triggers Declaration
--- TODO: FIX THIS SHIT
-/*
+-- Create trigger "bank_balance_updater", that updates tha bank's balances on user's accounts balance update
+DROP TRIGGER bank_balance_updater;
+
 DELIMITER $$
 CREATE TRIGGER bank_balance_updater
     AFTER UPDATE
     ON accounts_currencies FOR EACH ROW
-BEGIN
-    UPDATE bank_currencies
-    SET balance = (SELECT SUM(balance)
-                   FROM accounts_currencies AS ac JOIN bank_accounts AS ba ON ac.account_id = ba.account_id
-                   WHERE
-                           currency_id = NEW.currency_id
-    )
-    WHERE bank_id = (
-        SELECT bank_id
-        FROM bank_accounts
-        WHERE account_id = NEW.account_id
-    );
-END$$
+    BEGIN
+        UPDATE bank_currencies
+        SET bank_currencies.balance = (
+            SELECT SUM(vab1.balance)
+            FROM v_accounts_balances AS vab1
+            WHERE
+                vab1.CurrencyID = NEW.currency_id
+                AND
+                vab1.BankID = (
+                    SELECT ba.bank_id
+                    FROM bank_accounts AS ba
+                    WHERE ba.account_id = NEW.account_id
+                )
+        )
+        WHERE
+            bank_currencies.currency_id = NEW.currency_id
+            AND
+            bank_currencies.bank_id = (
+                SELECT ba.bank_id
+                FROM bank_accounts AS ba
+                WHERE ba.account_id = NEW.account_id
+            );
+    END$$
 DELIMITER ;
-*/
