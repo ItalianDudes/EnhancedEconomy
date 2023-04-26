@@ -202,6 +202,29 @@ CREATE OR  REPLACE VIEW v_bank_currencies AS (
 );
 
 -- Triggers Declaration
+-- Create trigger "accounts_currencies_checker", that prevents the insert of account currencies if the bank doesn't support the currency
+DROP TRIGGER IF EXISTS accounts_currencies_checker;
+DELIMITER $$
+CREATE TRIGGER accounts_currencies_checker
+    BEFORE INSERT
+    ON accounts_currencies FOR EACH ROW
+    BEGIN
+        IF NEW.currency_id NOT IN (
+            SELECT vbc1.CurrencyID
+            FROM v_bank_currencies AS vbc1
+            WHERE vbc1.BankID = (
+                SELECT ba.bank_id
+                FROM bank_accounts AS ba
+                WHERE ba.account_id = NEW.account_id
+            )
+        ) THEN
+            SIGNAL
+                SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Cannot insert this account currency: the bank does not support the currency';
+        END IF;
+    END$$
+DELIMITER ;
+
 -- Create trigger "bank_balance_updater", that updates tha bank's balances on user's accounts balance update
 DROP TRIGGER IF EXISTS bank_balance_updater;
 DELIMITER $$
