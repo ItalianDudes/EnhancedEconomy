@@ -1,5 +1,5 @@
 name: EnhancedEconomy
-version: '0.10.3A'
+version: '0.10.4A'
 main: it.italiandudes.enhancedeconomy.EnhancedEconomy
 api-version: 1.19
 commands:
