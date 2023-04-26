@@ -1,5 +1,6 @@
 /* Plugin Name: EnhancedEconomy */
 
+-- Tables Declaration
 -- Create the table "players", where are stored the player data
 CREATE TABLE IF NOT EXISTS users (
     user_id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -202,8 +203,7 @@ CREATE OR  REPLACE VIEW v_bank_currencies AS (
 
 -- Triggers Declaration
 -- Create trigger "bank_balance_updater", that updates tha bank's balances on user's accounts balance update
-DROP TRIGGER bank_balance_updater;
-
+DROP TRIGGER IF EXISTS bank_balance_updater;
 DELIMITER $$
 CREATE TRIGGER bank_balance_updater
     AFTER UPDATE
