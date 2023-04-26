@@ -7,7 +7,7 @@ plugins {
 //Version
 final String VERSION_MAJOR = '0' // Big updates, usually flagged as RELEASE
 final String VERSION_MINOR = '10' // Feature implementation, various patches
-final String VERSION_PATCH = '5' // Small patch
+final String VERSION_PATCH = '6' // Small patch
 final String VERSION_IDENTIFIER = 'A' // Valid Values: [R]elease, [B]eta, [A]lpha
 
 // Program Info
@@ -36,8 +36,8 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15'
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'it.italiandudes:idl:1.0.4'
-    implementation group: 'org.xerial', name:'sqlite-jdbc', version:'3.40.0.0'
-    implementation 'com.mysql:mysql-connector-j:8.0.33'
+    // implementation group: 'org.xerial', name:'sqlite-jdbc', version:'3.40.0.0'
+    // implementation 'com.mysql:mysql-connector-j:8.0.33'
 
 }
 
