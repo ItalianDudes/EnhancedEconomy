@@ -35,7 +35,9 @@ public final class Resource {
         }
         public static final class DBConnection {
             public static final String SQL_DIR = RESOURCE_DIR+"sql/";
-            public static final String DATABASE_QUERY_PATH = SQL_DIR+"database_query.sql";
+            public static final String SQL_FILE_EXTENSION = ".sql";
+            public static final String MYSQL_QUERY_PATH = SQL_DIR+"mysql"+SQL_FILE_EXTENSION;
+            public static final String SQLITE_QUERY_PATH = SQL_DIR+"sqlite"+SQL_FILE_EXTENSION;
         }
     }
 }

@@ -2,6 +2,7 @@ package it.italiandudes.enhancedeconomy.modules;
 
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.*;
+import it.italiandudes.enhancedeconomy.utils.Defs;
 import it.italiandudes.enhancedeconomy.utils.Resource;
 import it.italiandudes.enhancedeconomy.utils.ServerLogger;
 import org.jetbrains.annotations.NotNull;
@@ -17,6 +18,7 @@ public final class DBConnectionModule {
     // Attributes
     private static Connection dbConnection = null;
     private static boolean isDBConnecting = false;
+    @Nullable private static String dbType = null;
 
     // Default Constructor
     public DBConnectionModule() {
@@ -36,6 +38,12 @@ public final class DBConnectionModule {
         queryReader.close();
 
         return queryBuilder.toString();
+    }
+
+    // Connector Type Getter
+    @Nullable
+    public static String getConnectorType() {
+        return dbType;
     }
 
     // Module Checker
@@ -61,6 +69,15 @@ public final class DBConnectionModule {
 
         isDBConnecting = true;
 
+        // DB Type Assigner
+        if (jdbcConnectionString.startsWith("jdbc:mysql")) {
+            dbType = Defs.DBConnection.MYSQL_CONNECTOR;
+        }else if (jdbcConnectionString.startsWith("jdbc:sqlite")) {
+            dbType = Defs.DBConnection.SQLITE_CONNECTOR;
+        }else {
+            throw new ModuleLoadingException("DBConnect Module Load: Failed! (Reason: can't recognize connector type)");
+        }
+
         if (jdbcConnectionString.contains("allowMultiQueries=false")) {
             jdbcConnectionString = jdbcConnectionString.replace("?allowMultiQueries=false", "allowMultiQueries=true");
         }else if (!jdbcConnectionString.contains("allowMultiQueries=true")) {
@@ -79,6 +96,7 @@ public final class DBConnectionModule {
             try {
                 if (dbConnection != null) dbConnection.close();
             } catch (Exception ignored){}
+            dbType = null;
             dbConnection = null;
             isDBConnecting = false;
             if (!disableLog) ServerLogger.getLogger().severe("DBConnect Module Load: Failed! (Reason: an error during connection has occurred)");
@@ -105,6 +123,8 @@ public final class DBConnectionModule {
         try {
             if(dbConnection != null) dbConnection.close();
         }catch (SQLException ignored){}
+
+        dbType = null;
 
         if (!disableLog) ServerLogger.getLogger().info("DBConnection Module Unload: Successful!");
     }

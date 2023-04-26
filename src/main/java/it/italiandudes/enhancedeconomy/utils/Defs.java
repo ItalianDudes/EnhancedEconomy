@@ -41,6 +41,8 @@ public final class Defs {
 
     // DBConnection Constants
     public static final class DBConnection {
+        public static final String MYSQL_CONNECTOR = "mysql";
+        public static final String SQLITE_CONNECTOR = "sqlite";
     }
 
     // Localization Constants
