@@ -3,39 +3,39 @@
 -- Tables Declaration
 -- Create the table "players", where are stored the player data
 CREATE TABLE IF NOT EXISTS users (
-    user_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    user_id SERIAL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
-    creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
+    creation_date TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
 -- Create the table "currencies", where are stored the server currencies
 CREATE TABLE IF NOT EXISTS currencies (
-    currency_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    currency_id SERIAL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
     symbol CHAR NOT NULL,
     iso TEXT NOT NULL UNIQUE,
-    creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
+    creation_date TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
 -- Create the table "countries", where are stored the server countries
 CREATE TABLE IF NOT EXISTS countries (
-    country_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    country_id SERIAL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
-    creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
+    creation_date TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
 -- Create the table "banks", where are stored the server banks
 CREATE TABLE IF NOT EXISTS banks (
-    bank_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    bank_id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     headquarter_country INTEGER NOT NULL REFERENCES countries(country_id),
     owner_id INTEGER REFERENCES users(user_id),
-    creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
+    creation_date TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
 -- Create the table "bank_currencies", where are stored the server banks
 CREATE TABLE IF NOT EXISTS bank_currencies (
-    bank_currency_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    bank_currency_id SERIAL PRIMARY KEY,
     bank_id INTEGER NOT NULL REFERENCES banks(bank_id),
     currency_id INTEGER NOT NULL REFERENCES currencies(currency_id),
     balance DECIMAL(60,10) NOT NULL DEFAULT 0,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS bank_currencies (
 
 -- Create the table "exchange_rules", where are stored all currency exchange rules (NB: must exists 2 rules for entry, one for source to dest, the other for dest to source)
 CREATE TABLE IF NOT EXISTS exchange_rules (
-    exchange_rule_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    exchange_rule_id SERIAL PRIMARY KEY,
     source_currency INTEGER REFERENCES currencies(currency_id),
     destination_currency INTEGER REFERENCES currencies(currency_id),
     price_ratio DECIMAL(60,10) NOT NULL DEFAULT 1,
@@ -54,18 +54,18 @@ CREATE TABLE IF NOT EXISTS exchange_rules (
 
 -- Create the table "central_banks", where are stored the server's central banks
 CREATE TABLE IF NOT EXISTS central_banks (
-    central_bank_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    central_bank_id SERIAL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
     owner_id INTEGER REFERENCES users(user_id),
     owned_currency INTEGER NOT NULL REFERENCES currencies(currency_id),
     balance DECIMAL(60,10) NOT NULL DEFAULT 0,
-    creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
+    creation_date TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP)
     CHECK (balance >= 0)
 );
 
 -- Create the table "central_banks_countries", where are stored the server's central bank countries
 CREATE TABLE IF NOT EXISTS central_banks_countries (
-    central_bank_country_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    central_bank_country_id SERIAL PRIMARY KEY,
     central_bank_id INTEGER NOT NULL REFERENCES central_banks(central_bank_id),
     country_id INTEGER NOT NULL REFERENCES countries(country_id),
     UNIQUE(central_bank_id, country_id)
@@ -73,17 +73,17 @@ CREATE TABLE IF NOT EXISTS central_banks_countries (
 
 -- Create the table "bank_accounts", where are stored the user's bank accounts
 CREATE TABLE IF NOT EXISTS bank_accounts (
-    account_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    account_id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL REFERENCES users(user_id),
     bank_id INTEGER NOT NULL REFERENCES banks(bank_id),
     displayed_name TEXT NOT NULL UNIQUE,
     sha512_pwd TEXT NOT NULL,
-    creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
+    creation_date TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
 -- Create the table "accounts_currencies", where are stored the account's currencies
 CREATE TABLE IF NOT EXISTS accounts_currencies (
-    account_currency_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    account_currency_id SERIAL PRIMARY KEY,
     account_id INTEGER NOT NULL REFERENCES bank_accounts(account_id),
     currency_id INTEGER NOT NULL REFERENCES currencies(currency_id),
     balance DECIMAL(60,10) NOT NULL DEFAULT 0,
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS accounts_currencies (
 
 -- Create the table "bank_items", where are stored all the account's items
 CREATE TABLE IF NOT EXISTS bank_items (
-    item_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    item_id SERIAL PRIMARY KEY,
     account_id INTEGER NOT NULL,
     item TEXT NOT NULL,
     quantity INTEGER NOT NULL DEFAULT 1,
@@ -104,12 +104,12 @@ CREATE TABLE IF NOT EXISTS bank_items (
 
 -- Create the table "transactions", where are stored all the account's transactions (NOTE: the field "amount" is intended as the amount of money that were transferred)
 CREATE TABLE IF NOT EXISTS transactions (
-    transaction_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    transaction_id SERIAL PRIMARY KEY,
     source INTEGER NOT NULL REFERENCES bank_accounts(account_id),
     destination INTEGER NOT NULL REFERENCES bank_accounts(account_id),
     name TEXT NOT NULL,
     description TEXT,
-    date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP),
+    date TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP),
     source_amount DECIMAL(60,10) NOT NULL,
     source_currency INTEGER NOT NULL REFERENCES currencies(currency_id),
     destination_amount DECIMAL(60,10) NOT NULL,
@@ -121,13 +121,13 @@ CREATE TABLE IF NOT EXISTS transactions (
 
 -- Create the table "offers", where are stored all the account's offers
 CREATE TABLE IF NOT EXISTS offers (
-    offer_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    offer_id SERIAL PRIMARY KEY,
     seller INTEGER NOT NULL REFERENCES bank_accounts(account_id),
     item_id INTEGER NOT NULL REFERENCES bank_items(item_id),
     quantity INTEGER NOT NULL DEFAULT 1,
     price DECIMAL(60,10) NOT NULL,
     currency INTEGER NOT NULL REFERENCES currencies(currency_id),
-    date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP),
+    date TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP),
     state TEXT NOT NULL,
     CHECK(quantity >= 0),
     CHECK(price >= 0)
@@ -135,11 +135,11 @@ CREATE TABLE IF NOT EXISTS offers (
 
 -- Create the table "trades", where are stored all the trades
 CREATE TABLE IF NOT EXISTS trades (
-    trade_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    trade_id SERIAL PRIMARY KEY,
     offer INTEGER NOT NULL REFERENCES offers(offer_id),
     buyer INTEGER NOT NULL REFERENCES bank_accounts(account_id),
     quantity INTEGER NOT NULL DEFAULT 1,
-    date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP),
+    date TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP),
     state TEXT NOT NULL,
     CHECK(quantity > 0)
 );
@@ -201,12 +201,13 @@ CREATE OR  REPLACE VIEW v_bank_currencies AS (
     JOIN currencies AS c ON c.currency_id = j.currency_id
 );
 
--- Triggers Declaration
--- Create trigger "accounts_currencies_checker", that prevents the insert of account currencies if the bank doesn't support the currency
-DROP TRIGGER IF EXISTS accounts_currencies_checker;
-CREATE TRIGGER accounts_currencies_checker
-    BEFORE INSERT
-    ON accounts_currencies FOR EACH ROW
+-- Procedures Declaration
+-- Create procedure "accounts_currencies_checker_procedure()", used in the trigger "accounts_currencies_checker"
+CREATE OR REPLACE FUNCTION accounts_currencies_checker_procedure()
+    RETURNS TRIGGER
+    LANGUAGE PLPGSQL
+    AS
+$$
 BEGIN
     IF NEW.currency_id NOT IN (
         SELECT vbc1.CurrencyID
@@ -217,20 +218,20 @@ BEGIN
             WHERE ba.account_id = NEW.account_id
         )
     ) THEN
-        SIGNAL
-            SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Cannot insert this account currency: the bank does not support the currency';
+        RAISE EXCEPTION 'Cannot insert this account currency: the bank does not support the currency';
     END IF;
-END;
+END
+$$;
 
--- Create trigger "bank_balance_updater", that updates tha bank's balances on user's accounts balance update
-DROP TRIGGER IF EXISTS bank_balance_updater;
-CREATE TRIGGER bank_balance_updater
-    AFTER UPDATE
-    ON accounts_currencies FOR EACH ROW
+-- Create procedure "bank_balance_updater_procedure()", used in the trigger "bank_balance_updater"
+CREATE OR REPLACE FUNCTION bank_balance_updater_procedure()
+    RETURNS TRIGGER
+    LANGUAGE PLPGSQL
+    AS
+$$
 BEGIN
     UPDATE bank_currencies
-    SET bank_currencies.balance = (
+    SET balance = (
         SELECT SUM(vab1.balance)
         FROM v_accounts_balances AS vab1
         WHERE
@@ -251,3 +252,19 @@ BEGIN
             WHERE ba.account_id = NEW.account_id
         );
 END;
+$$;
+
+-- Triggers Declaration
+-- Create trigger "accounts_currencies_checker", that prevents the insert of account currencies if the bank doesn't support the currency
+DROP TRIGGER IF EXISTS accounts_currencies_checker ON accounts_currencies;
+CREATE TRIGGER accounts_currencies_checker
+    BEFORE INSERT
+    ON accounts_currencies FOR EACH ROW
+    EXECUTE PROCEDURE accounts_currencies_checker_procedure();
+
+-- Create trigger "bank_balance_updater", that updates tha bank's balances on user's accounts balance update
+DROP TRIGGER IF EXISTS bank_balance_updater ON accounts_currencies;
+CREATE TRIGGER bank_balance_updater
+    AFTER UPDATE
+    ON accounts_currencies FOR EACH ROW
+    EXECUTE PROCEDURE bank_balance_updater_procedure();

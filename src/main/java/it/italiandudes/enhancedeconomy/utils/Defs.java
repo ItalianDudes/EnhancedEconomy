@@ -43,8 +43,10 @@ public final class Defs {
     public static final class DBConnection {
         public static final String JDBC_MYSQL_CONNECTOR_STRING_START = "jdbc:mysql";
         public static final String JDBC_SQLITE_CONNECTOR_STRING_START = "jdbc:sqlite";
+        public static final String JDBC_POSTGRESQL_CONNECTOR_STRING_START = "jdbc:postgresql";
         public static final String MYSQL_CONNECTOR = "mysql";
         public static final String SQLITE_CONNECTOR = "sqlite";
+        public static final String POSTGRESQL_CONNECTOR = "postgresql";
     }
 
     // Localization Constants
