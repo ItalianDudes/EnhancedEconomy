@@ -20,6 +20,14 @@ public final class Defs {
         }
     }
 
+    // Module Names
+    public static final class ModuleNames {
+        public static final String MODULE_LOCALIZATION = "localization";
+        public static final String MODULE_CONFIG = "config";
+        public static final String MODULE_DBCONNECTION = "dbconnection";
+        public static final String MODULE_COMMANDS = "commands";
+    }
+
     // Config Constants
     public static final class Config {
 
@@ -64,4 +72,13 @@ public final class Defs {
         }
     }
 
+    // Command Constants
+    public static final class Commands {
+        public static final class EnhancedEconomy {
+            public static final String[] COMMAND_NAME = {"enhancedeconomy", "ee"};
+            public static final String EE_LOAD = "load";
+            public static final String EE_UNLOAD = "unload";
+            public static final String EE_RELOAD = "reload";
+        }
+    }
 }

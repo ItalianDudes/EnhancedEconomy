@@ -105,7 +105,7 @@ public final class ConfigModule {
 
         if(!disableLog) ServerLogger.getLogger().info("Config Module Unload: Successful!");
     }
-    public synchronized static void reload(@NotNull final JavaPlugin pluginInstance) throws Exception {
+    public synchronized static void reload(@NotNull final JavaPlugin pluginInstance) throws ModuleException {
 
         if (areConfigsLoading) {
             ServerLogger.getLogger().warning("Config Module Reload: Canceled! (Reason: Another thread is executing a config loading command)");

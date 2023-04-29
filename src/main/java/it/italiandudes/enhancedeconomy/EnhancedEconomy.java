@@ -18,6 +18,7 @@ public final class EnhancedEconomy extends JavaPlugin {
 
     // Attributes
     private boolean instanceErrored;
+    private static JavaPlugin pluginInstance = null;
 
     // Plugin Startup
     @Override
@@ -25,6 +26,7 @@ public final class EnhancedEconomy extends JavaPlugin {
 
         // Instance Errored Flag
         instanceErrored = false;
+        pluginInstance = this;
 
         try {
 
@@ -70,6 +72,12 @@ public final class EnhancedEconomy extends JavaPlugin {
             ConfigModule.unload(true);
         } catch (ModuleException ignored) {}
         ServerLogger.getLogger().info("Config Module Unload: Successful!");
+    }
+
+    // Instance Getter
+    @NotNull
+    public static JavaPlugin getPluginInstance() {
+        return pluginInstance;
     }
 
     // Methods

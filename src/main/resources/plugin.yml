@@ -1,8 +1,9 @@
 name: EnhancedEconomy
-version: '0.11.2A'
+version: '0.11.1A'
 main: it.italiandudes.enhancedeconomy.EnhancedEconomy
 api-version: 1.19
 commands:
-  eetest:
-    description: A test command
+  enhancedeconomy:
+    description: The plugin command.
     usage: /<command>
+    aliases: [ee]

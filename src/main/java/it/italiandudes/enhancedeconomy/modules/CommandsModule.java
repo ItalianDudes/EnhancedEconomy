@@ -1,6 +1,6 @@
 package it.italiandudes.enhancedeconomy.modules;
 
-import it.italiandudes.enhancedeconomy.commands.TestCommand;
+import it.italiandudes.enhancedeconomy.commands.EnhancedEconomyCommand;
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleAlreadyLoadedException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleLoadingException;
@@ -48,7 +48,7 @@ public final class CommandsModule {
 
         // List of commands here...
         try {
-            Objects.requireNonNull(pluginInstance.getCommand(TestCommand.COMMAND_NAME)).setExecutor(new TestCommand());
+            Objects.requireNonNull(pluginInstance.getCommand(EnhancedEconomyCommand.COMMAND_NAME)).setExecutor(new EnhancedEconomyCommand());
         } catch (Exception e) {
             areCommandsLoading = false;
             if (!disableLog) ServerLogger.getLogger().severe("Commands Module Load: Failed! (Reason: an error has occurred on module loading)");
@@ -77,7 +77,7 @@ public final class CommandsModule {
 
         if(!disableLog) ServerLogger.getLogger().info("Commands Module Unload: Successful!");
     }
-    public synchronized static void reload(@NotNull final JavaPlugin pluginInstance) throws Exception {
+    public synchronized static void reload(@NotNull final JavaPlugin pluginInstance) throws ModuleException {
 
         if (areCommandsLoading) {
             ServerLogger.getLogger().warning("Commands Module Reload: Canceled! (Reason: Another thread is executing a commands loading command)");
