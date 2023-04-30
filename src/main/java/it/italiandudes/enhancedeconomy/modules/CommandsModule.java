@@ -42,7 +42,7 @@ public final class CommandsModule {
     public synchronized static void load(@NotNull final JavaPlugin pluginInstance) throws ModuleException {
         load(pluginInstance, false);
     }
-    private synchronized static void load(@NotNull final JavaPlugin pluginInstance, final boolean disableLog) throws ModuleException {
+    public synchronized static void load(@NotNull final JavaPlugin pluginInstance, final boolean disableLog) throws ModuleException {
 
         if (areCommandsLoading) {
             if (!disableLog) ServerLogger.getLogger().warning("Commands Module Load: Canceled! (Reason: Another thread is executing a commands loading command)");
@@ -93,31 +93,34 @@ public final class CommandsModule {
         if(!disableLog) ServerLogger.getLogger().info("Commands Module Unload: Successful!");
     }
     public synchronized static void reload(@NotNull final JavaPlugin pluginInstance) throws ModuleException {
+        reload(pluginInstance, false);
+    }
+    public synchronized static void reload(@NotNull final JavaPlugin pluginInstance, final boolean disableLog) throws ModuleException {
 
         if (areCommandsLoading) {
-            ServerLogger.getLogger().warning("Commands Module Reload: Canceled! (Reason: Another thread is executing a commands loading command)");
+            if (!disableLog) ServerLogger.getLogger().warning("Commands Module Reload: Canceled! (Reason: Another thread is executing a commands loading command)");
             throw new ModuleLoadingException("Commands Module Reload: Canceled! (Reason: Another thread is executing a commands loading command)");
         }
         if (!isModuleLoaded()) {
-            ServerLogger.getLogger().severe("Commands Module Reload: Failed! (Reason: the module isn't loaded)");
+            if (!disableLog) ServerLogger.getLogger().severe("Commands Module Reload: Failed! (Reason: the module isn't loaded)");
             throw new ModuleNotLoadedException("Commands Module Reload: Failed! (Reason: the module isn't loaded)");
         }
 
         try {
             unload(true);
         } catch (ModuleException e) {
-            ServerLogger.getLogger().severe("Commands Module Reload: Failed! (Reason: the unload routine has failed)");
+            if (!disableLog) ServerLogger.getLogger().severe("Commands Module Reload: Failed! (Reason: the unload routine has failed)");
             throw new ModuleReloadingException("Commands Module Reload: Failed! (Reason: the unload routine has failed)", e);
         }
 
         try {
             load(pluginInstance, true);
         } catch (ModuleException e) {
-            ServerLogger.getLogger().severe("Commands Module Reload: Failed! (Reason: the load routine has failed)");
+            if (!disableLog) ServerLogger.getLogger().severe("Commands Module Reload: Failed! (Reason: the load routine has failed)");
             throw new ModuleReloadingException("Commands Module Reload: Failed! (Reason: the load routine has failed)", e);
         }
 
-        ServerLogger.getLogger().info("Commands Module Reload: Successful!");
+        if (!disableLog) ServerLogger.getLogger().info("Commands Module Reload: Successful!");
     }
     public static void sendDefaultError(@NotNull final CommandSender sender, @Nullable final Throwable e) {
         try {

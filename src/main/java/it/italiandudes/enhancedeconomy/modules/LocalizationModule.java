@@ -42,7 +42,7 @@ public final class LocalizationModule {
     public synchronized static void load(@NotNull final JavaPlugin pluginInstance, @NotNull final String LOCALIZATION) throws ModuleException {
         load(pluginInstance, LOCALIZATION, false);
     }
-    private synchronized static void load(@NotNull final JavaPlugin pluginInstance, @NotNull final String LOCALIZATION, final boolean disableLog) throws ModuleException {
+    public synchronized static void load(@NotNull final JavaPlugin pluginInstance, @NotNull final String LOCALIZATION, final boolean disableLog) throws ModuleException {
 
         if (areLangsLoading) {
             if (!disableLog) ServerLogger.getLogger().warning("Localization Module Load: Canceled! (Reason: Another thread is executing a langs loading command)");
@@ -106,13 +106,16 @@ public final class LocalizationModule {
         if (!disableLog) ServerLogger.getLogger().info("Localization Module Unload: Successful!");
     }
     public synchronized static void reload(@NotNull final JavaPlugin pluginInstance, @NotNull final String LOCALIZATION) throws ModuleException {
+        reload(pluginInstance, LOCALIZATION, false);
+    }
+    public synchronized static void reload(@NotNull final JavaPlugin pluginInstance, @NotNull final String LOCALIZATION, final boolean disableLog) throws ModuleException {
 
         if (areLangsLoading) {
-            ServerLogger.getLogger().warning("Localization Module Reload: Canceled! (Reason: Another thread is executing a langs loading command)");
+            if (!disableLog) ServerLogger.getLogger().warning("Localization Module Reload: Canceled! (Reason: Another thread is executing a langs loading command)");
             throw new ModuleLoadingException("Localization Module Reload: Canceled! (Reason: Another thread is executing a langs loading command)");
         }
         if (!isModuleLoaded()) {
-            ServerLogger.getLogger().severe("Localization Module Reload: Failed! (Reason: the module isn't loaded)");
+            if (!disableLog) ServerLogger.getLogger().severe("Localization Module Reload: Failed! (Reason: the module isn't loaded)");
             throw new ModuleNotLoadedException("Localization Module Reload: Failed! (Reason: the module isn't loaded)");
         }
 
@@ -122,7 +125,7 @@ public final class LocalizationModule {
         try {
             unload(true);
         } catch (ModuleException e) {
-            ServerLogger.getLogger().severe("Localization Module Reload: Failed! (Reason: the unload routine has failed)");
+            if (!disableLog) ServerLogger.getLogger().severe("Localization Module Reload: Failed! (Reason: the unload routine has failed)");
 
             // Put lang backup online again
             langFile= langFileBACKUP;
@@ -133,7 +136,7 @@ public final class LocalizationModule {
         try {
             load(pluginInstance, LOCALIZATION, true);
         } catch (ModuleException e) {
-            ServerLogger.getLogger().severe("Localization Module Reload: Failed! (Reason: the load routine has failed)");
+            if (!disableLog) ServerLogger.getLogger().severe("Localization Module Reload: Failed! (Reason: the load routine has failed)");
 
             // Put lang backup online again
             langFile= langFileBACKUP;
@@ -141,7 +144,7 @@ public final class LocalizationModule {
             throw new ModuleReloadingException("Localization Module Reload: Failed! (Reason: the load routine has failed)", e);
         }
 
-        ServerLogger.getLogger().info("Localization Module Reload: Successful!");
+        if (!disableLog) ServerLogger.getLogger().info("Localization Module Reload: Successful!");
     }
     @Nullable
     public synchronized static String translate(@NotNull final String KEY) throws ModuleException {

@@ -106,13 +106,16 @@ public final class ConfigModule {
         if(!disableLog) ServerLogger.getLogger().info("Config Module Unload: Successful!");
     }
     public synchronized static void reload(@NotNull final JavaPlugin pluginInstance) throws ModuleException {
+        reload(pluginInstance, false);
+    }
+    public synchronized static void reload(@NotNull final JavaPlugin pluginInstance, final boolean disableLog) throws ModuleException {
 
         if (areConfigsLoading) {
-            ServerLogger.getLogger().warning("Config Module Reload: Canceled! (Reason: Another thread is executing a config loading command)");
+            if (!disableLog) ServerLogger.getLogger().warning("Config Module Reload: Canceled! (Reason: Another thread is executing a config loading command)");
             throw new ModuleLoadingException("Config Module Reload: Canceled! (Reason: Another thread is executing a config loading command)");
         }
         if (!isModuleLoaded()) {
-            ServerLogger.getLogger().severe("Config Module Reload: Failed! (Reason: the module isn't loaded)");
+            if (!disableLog) ServerLogger.getLogger().severe("Config Module Reload: Failed! (Reason: the module isn't loaded)");
             throw new ModuleNotLoadedException("Config Module Reload: Failed! (Reason: the module isn't loaded)");
         }
 
@@ -122,7 +125,7 @@ public final class ConfigModule {
         try {
             unload(true);
         } catch (ModuleException e) {
-            ServerLogger.getLogger().severe("Config Module Reload: Failed! (Reason: the unload routine has failed)");
+            if (!disableLog) ServerLogger.getLogger().severe("Config Module Reload: Failed! (Reason: the unload routine has failed)");
 
             // Put config backups online again
             generalConfigFile = generalConfigFileBACKUP;
@@ -133,7 +136,7 @@ public final class ConfigModule {
         try {
             load(pluginInstance, true);
         } catch (ModuleException e) {
-            ServerLogger.getLogger().severe("Config Module Reload: Failed! (Reason: the load routine has failed)");
+            if (!disableLog) ServerLogger.getLogger().severe("Config Module Reload: Failed! (Reason: the load routine has failed)");
 
             // Put config backups online again
             generalConfigFile = generalConfigFileBACKUP;
@@ -141,7 +144,7 @@ public final class ConfigModule {
             throw new ModuleReloadingException("Config Module Reload: Failed! (Reason: the load routine has failed)", e);
         }
 
-        ServerLogger.getLogger().info("Config Module Reload: Successful!");
+        if (!disableLog) ServerLogger.getLogger().info("Config Module Reload: Successful!");
     }
     @Nullable
     public synchronized static String getConfig(@NotNull final String CONFIG_TYPE, @NotNull final String KEY) throws ModuleException {
