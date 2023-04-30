@@ -1,12 +1,16 @@
 package it.italiandudes.enhancedeconomy.modules;
 
 import it.italiandudes.enhancedeconomy.commands.EnhancedEconomyCommand;
+import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.LoadCommand;
+import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.ReloadCommand;
+import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.UnloadCommand;
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleAlreadyLoadedException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleLoadingException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleNotLoadedException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleReloadingException;
 import it.italiandudes.enhancedeconomy.utils.ServerLogger;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,7 +52,10 @@ public final class CommandsModule {
 
         // List of commands here...
         try {
-            Objects.requireNonNull(pluginInstance.getCommand(EnhancedEconomyCommand.COMMAND_NAME)).setExecutor(new EnhancedEconomyCommand());
+            registerCommand(pluginInstance, EnhancedEconomyCommand.COMMAND_NAME, new EnhancedEconomyCommand());
+            registerCommand(pluginInstance, LoadCommand.COMMAND_NAME, new LoadCommand());
+            registerCommand(pluginInstance, UnloadCommand.COMMAND_NAME, new UnloadCommand());
+            registerCommand(pluginInstance, ReloadCommand.COMMAND_NAME, new ReloadCommand());
         } catch (Exception e) {
             areCommandsLoading = false;
             if (!disableLog) ServerLogger.getLogger().severe("Commands Module Load: Failed! (Reason: an error has occurred on module loading)");
@@ -58,6 +65,9 @@ public final class CommandsModule {
         areCommandsLoading = false;
         isModuleLoaded = true;
         if (!disableLog) ServerLogger.getLogger().info("Commands Module Load: Successful!");
+    }
+    private synchronized static void registerCommand(@NotNull final JavaPlugin PLUGIN_INSTANCE, @NotNull final String COMMAND_NAME, @NotNull final CommandExecutor COMMAND) {
+        Objects.requireNonNull(PLUGIN_INSTANCE.getCommand(COMMAND_NAME)).setExecutor(COMMAND);
     }
     public synchronized static void unload() throws ModuleException {
         unload(false);

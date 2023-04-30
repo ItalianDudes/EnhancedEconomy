@@ -1,4 +1,4 @@
-package it.italiandudes.enhancedeconomy.commands.enhancedeconomy;
+package it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules;
 
 import it.italiandudes.enhancedeconomy.EnhancedEconomy;
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
@@ -6,53 +6,61 @@ import it.italiandudes.enhancedeconomy.modules.CommandsModule;
 import it.italiandudes.enhancedeconomy.modules.ConfigModule;
 import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;
 import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
-import it.italiandudes.enhancedeconomy.utils.Defs;
-import org.bukkit.entity.Player;
+import it.italiandudes.enhancedeconomy.utils.Defs.ModuleNames;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public final class EEReload {
+@SuppressWarnings("deprecation")
+public final class LoadCommand implements CommandExecutor {
 
-    // Subcommand Body
-    public static boolean executeSubcommand(@Nullable Player player, @NotNull String[] args) {
-        if (player != null && !player.isOp()) return false;
-        if (args.length < 3) return false;
+    // Attributes
+    @NotNull public static final String COMMAND_NAME = "load";
+    public static final boolean RUN_WITH_MODULE_NOT_LOADED = true;
 
-        for (int i = 2; i< args.length; i++) {
+    // Command Body
+    @Override
+    public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label, @NotNull final String[] args) {
+        if (!CommandsModule.isModuleLoaded() && !RUN_WITH_MODULE_NOT_LOADED) return false;
+        if (!sender.isOp()) return false;
+        if (args.length < 1) return false;
+
+        for (int i = 0; i< args.length; i++) {
             switch (args[i]) {
-                case Defs.ModuleNames.MODULE_DBCONNECTION -> {
+                case ModuleNames.MODULE_DBCONNECTION -> {
                     if (i+1 < args.length) {
                         i++;
                         try {
-                            DBConnectionModule.reload(args[i]);
+                            DBConnectionModule.load(args[i]);
                         }catch (ModuleException e) {
                             return false;
                             // TODO: handle error
                         }
                     }
                 }
-                case Defs.ModuleNames.MODULE_LOCALIZATION -> {
+                case ModuleNames.MODULE_LOCALIZATION -> {
                     if (i+1 < args.length) {
                         i++;
                         try {
-                            LocalizationModule.reload(EnhancedEconomy.getPluginInstance(), args[i]);
+                            LocalizationModule.load(EnhancedEconomy.getPluginInstance(), args[i]);
                         }catch (ModuleException e) {
                             return false;
                             // TODO: handle error
                         }
                     }
                 }
-                case Defs.ModuleNames.MODULE_CONFIG -> {
+                case ModuleNames.MODULE_CONFIG -> {
                     try {
-                        ConfigModule.reload(EnhancedEconomy.getPluginInstance());
+                        ConfigModule.load(EnhancedEconomy.getPluginInstance());
                     }catch (ModuleException e) {
                         return false;
                         // TODO: handle error
                     }
                 }
-                case Defs.ModuleNames.MODULE_COMMANDS -> {
+                case ModuleNames.MODULE_COMMANDS -> {
                     try {
-                        CommandsModule.reload(EnhancedEconomy.getPluginInstance());
+                        CommandsModule.load(EnhancedEconomy.getPluginInstance());
                     }catch (ModuleException e) {
                         return false;
                         // TODO: handle error

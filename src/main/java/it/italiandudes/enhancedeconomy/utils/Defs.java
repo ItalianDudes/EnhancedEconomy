@@ -64,6 +64,7 @@ public final class Defs {
         public static final class Langs {
             public static final String EN_US = "en-US";
             public static final String IT_IT = "it-IT";
+            public static final String FALLBACK_LANGUAGE = EN_US;
         }
 
         // Lang Keys
