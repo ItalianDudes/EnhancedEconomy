@@ -127,6 +127,7 @@ public final class DBConnectionModule {
         }catch (SQLException ignored){}
 
         dbType = null;
+        dbConnection = null;
 
         if (!disableLog) ServerLogger.getLogger().info("DBConnection Module Unload: Successful!");
     }
