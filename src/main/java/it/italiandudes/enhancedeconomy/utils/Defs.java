@@ -18,6 +18,7 @@ public final class Defs {
                 throw new RuntimeException(e);
             }
         }
+        public static final String PLUGIN_VERSION = "0.11.2A";
     }
 
     // Module Names
@@ -70,6 +71,9 @@ public final class Defs {
         // Lang Keys
         public static final class Keys {
             public static final String TEST_ENTRY = "test_entry";
+            public static final String EE_VERSION = "ee_version";
+            public static final String EE_INFO = "ee_info";
+            public static final String COMMAND_EXECUTION_ERROR = "command_execution_error";
         }
     }
 

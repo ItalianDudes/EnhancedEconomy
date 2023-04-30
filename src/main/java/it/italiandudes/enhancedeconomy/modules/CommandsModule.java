@@ -9,14 +9,19 @@ import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleAlreadyLoadedExc
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleLoadingException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleNotLoadedException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleReloadingException;
+import it.italiandudes.enhancedeconomy.utils.Defs;
 import it.italiandudes.enhancedeconomy.utils.ServerLogger;
+import it.italiandudes.idl.common.StringHandler;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "deprecation"})
 public final class CommandsModule {
 
     // Attributes
@@ -113,5 +118,13 @@ public final class CommandsModule {
         }
 
         ServerLogger.getLogger().info("Commands Module Reload: Successful!");
+    }
+    public static void sendDefaultError(@NotNull final CommandSender sender, @Nullable final Throwable e) {
+        try {
+            String err = LocalizationModule.translate(Defs.Localization.Keys.COMMAND_EXECUTION_ERROR);
+            sender.sendMessage(ChatColor.RED + err);
+            ServerLogger.getLogger().severe(err);
+            if (e != null) ServerLogger.getLogger().severe(StringHandler.getStackTrace(e));
+        } catch (Exception ignored) {}
     }
 }
