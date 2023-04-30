@@ -13,6 +13,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"deprecation", "DuplicatedCode"})
@@ -28,8 +29,8 @@ public final class LoadCommand implements CommandExecutor {
         if (!CommandsModule.isModuleLoaded() && !RUN_WITH_MODULE_NOT_LOADED) {
             try {
                 sender.sendMessage(
-                        ChatColor.RED +
-                                LocalizationModule.translate(Keys.COMMAND_MODULE_NOT_LOADED)
+                    ChatColor.RED +
+                    LocalizationModule.translate(Keys.COMMAND_MODULE_NOT_LOADED)
                 );
             } catch (ModuleException ignored) {}
             return true;
@@ -37,8 +38,8 @@ public final class LoadCommand implements CommandExecutor {
         if (!sender.isOp()) {
             try {
                 sender.sendMessage(
-                        ChatColor.RED +
-                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_MISSING_PERMISSIONS)
+                    ChatColor.RED +
+                    LocalizationModule.translate(Defs.Localization.Keys.COMMAND_MISSING_PERMISSIONS)
                 );
             }catch (ModuleException ignored) {}
             return true;
@@ -57,7 +58,7 @@ public final class LoadCommand implements CommandExecutor {
                                     LocalizationModule.translate(Keys.COMMAND_LOADING_STARTED) +
                                     ModuleNames.MODULE_DBCONNECTION
                                 );
-                                DBConnectionModule.load(args[i]);
+                                DBConnectionModule.load(args[i], !(sender instanceof Player));
                                 sender.sendMessage(
                                     ChatColor.AQUA +
                                     LocalizationModule.translate(Keys.COMMAND_LOADING_SUCCESS) +
@@ -78,19 +79,19 @@ public final class LoadCommand implements CommandExecutor {
                             try {
                                 sender.sendMessage(
                                     ChatColor.AQUA +
-                                    LocalizationModule.translate(Keys.COMMAND_LOADING_STARTED) +
+                                    "Loading Module: " +
                                     ModuleNames.MODULE_LOCALIZATION
                                 );
-                                LocalizationModule.load(EnhancedEconomy.getPluginInstance(), args[i]);
+                                LocalizationModule.load(EnhancedEconomy.getPluginInstance(), args[i], !(sender instanceof Player));
                                 sender.sendMessage(
                                     ChatColor.AQUA +
-                                    LocalizationModule.translate(Keys.COMMAND_LOADING_SUCCESS) +
+                                    "Loading Module Success: " +
                                     ModuleNames.MODULE_LOCALIZATION
                                 );
                             } catch (ModuleException e) {
                                 sender.sendMessage(
                                     ChatColor.RED +
-                                    LocalizationModule.translate(Keys.COMMAND_LOADING_FAIL) +
+                                    "Loading Module Failed: " +
                                     ModuleNames.MODULE_LOCALIZATION
                                 );
                             }
@@ -103,7 +104,7 @@ public final class LoadCommand implements CommandExecutor {
                                 LocalizationModule.translate(Keys.COMMAND_LOADING_STARTED) +
                                 ModuleNames.MODULE_CONFIG
                             );
-                            ConfigModule.load(EnhancedEconomy.getPluginInstance());
+                            ConfigModule.load(EnhancedEconomy.getPluginInstance(), !(sender instanceof Player));
                             sender.sendMessage(
                                 ChatColor.AQUA +
                                 LocalizationModule.translate(Keys.COMMAND_LOADING_SUCCESS) +
@@ -124,7 +125,7 @@ public final class LoadCommand implements CommandExecutor {
                                 LocalizationModule.translate(Keys.COMMAND_LOADING_STARTED) +
                                 ModuleNames.MODULE_COMMANDS
                             );
-                            CommandsModule.load(EnhancedEconomy.getPluginInstance());
+                            CommandsModule.load(EnhancedEconomy.getPluginInstance(), !(sender instanceof Player));
                             sender.sendMessage(
                                 ChatColor.AQUA +
                                 LocalizationModule.translate(Keys.COMMAND_LOADING_SUCCESS) +

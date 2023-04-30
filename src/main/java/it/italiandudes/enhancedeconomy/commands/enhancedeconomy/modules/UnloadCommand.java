@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"deprecation", "DuplicatedCode"})
@@ -25,8 +26,8 @@ public final class UnloadCommand implements CommandExecutor {
         if (!CommandsModule.isModuleLoaded() && !RUN_WITH_MODULE_NOT_LOADED) {
             try {
                 sender.sendMessage(
-                        ChatColor.RED +
-                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_MODULE_NOT_LOADED)
+                    ChatColor.RED +
+                    LocalizationModule.translate(Defs.Localization.Keys.COMMAND_MODULE_NOT_LOADED)
                 );
             } catch (ModuleException ignored) {}
             return true;
@@ -52,7 +53,7 @@ public final class UnloadCommand implements CommandExecutor {
                                 LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_STARTED) +
                                 Defs.ModuleNames.MODULE_DBCONNECTION
                             );
-                            DBConnectionModule.unload();
+                            DBConnectionModule.unload(!(sender instanceof Player));
                             sender.sendMessage(
                                 ChatColor.AQUA +
                                 LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_SUCCESS) +
@@ -70,19 +71,19 @@ public final class UnloadCommand implements CommandExecutor {
                         try {
                             sender.sendMessage(
                                 ChatColor.AQUA +
-                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_STARTED) +
+                                "Unloading Module: " +
                                 Defs.ModuleNames.MODULE_LOCALIZATION
                             );
-                            LocalizationModule.unload();
+                            LocalizationModule.unload(!(sender instanceof Player));
                             sender.sendMessage(
                                 ChatColor.AQUA +
-                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_SUCCESS) +
+                                "Unloading Module Success: " +
                                 Defs.ModuleNames.MODULE_LOCALIZATION
                             );
                         } catch (ModuleException e) {
                             sender.sendMessage(
                                 ChatColor.RED +
-                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_FAIL) +
+                                "Unloading Module Failed: " +
                                 Defs.ModuleNames.MODULE_LOCALIZATION
                             );
                         }
@@ -94,7 +95,7 @@ public final class UnloadCommand implements CommandExecutor {
                                 LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_STARTED) +
                                 Defs.ModuleNames.MODULE_CONFIG
                             );
-                            ConfigModule.unload();
+                            ConfigModule.unload(!(sender instanceof Player));
                             sender.sendMessage(
                                 ChatColor.AQUA +
                                 LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_SUCCESS) +
@@ -115,7 +116,7 @@ public final class UnloadCommand implements CommandExecutor {
                                 LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_STARTED) +
                                 Defs.ModuleNames.MODULE_COMMANDS
                             );
-                            CommandsModule.unload();
+                            CommandsModule.unload(!(sender instanceof Player));
                             sender.sendMessage(
                                 ChatColor.AQUA +
                                 LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_SUCCESS) +

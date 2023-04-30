@@ -11,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"deprecation", "DuplicatedCode"})
@@ -26,8 +27,8 @@ public final class ReloadCommand implements CommandExecutor {
         if (!CommandsModule.isModuleLoaded() && !RUN_WITH_MODULE_NOT_LOADED) {
             try {
                 sender.sendMessage(
-                        ChatColor.RED +
-                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_MODULE_NOT_LOADED)
+                    ChatColor.RED +
+                    LocalizationModule.translate(Defs.Localization.Keys.COMMAND_MODULE_NOT_LOADED)
                 );
             } catch (ModuleException ignored) {}
             return true;
@@ -35,8 +36,8 @@ public final class ReloadCommand implements CommandExecutor {
         if (!sender.isOp()) {
             try {
                 sender.sendMessage(
-                        ChatColor.RED +
-                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_MISSING_PERMISSIONS)
+                    ChatColor.RED +
+                    LocalizationModule.translate(Defs.Localization.Keys.COMMAND_MISSING_PERMISSIONS)
                 );
             }catch (ModuleException ignored) {}
             return true;
@@ -55,7 +56,7 @@ public final class ReloadCommand implements CommandExecutor {
                                     LocalizationModule.translate(Defs.Localization.Keys.COMMAND_RELOADING_STARTED) +
                                     Defs.ModuleNames.MODULE_DBCONNECTION
                                 );
-                                DBConnectionModule.reload(args[i]);
+                                DBConnectionModule.reload(args[i], !(sender instanceof Player));
                                 sender.sendMessage(
                                     ChatColor.AQUA +
                                     LocalizationModule.translate(Defs.Localization.Keys.COMMAND_RELOADING_SUCCESS) +
@@ -76,19 +77,19 @@ public final class ReloadCommand implements CommandExecutor {
                             try {
                                 sender.sendMessage(
                                     ChatColor.AQUA +
-                                    LocalizationModule.translate(Defs.Localization.Keys.COMMAND_RELOADING_STARTED) +
+                                    "Reloading Module: " +
                                     Defs.ModuleNames.MODULE_LOCALIZATION
                                 );
-                                LocalizationModule.reload(EnhancedEconomy.getPluginInstance(), args[i]);
+                                LocalizationModule.reload(EnhancedEconomy.getPluginInstance(), args[i], !(sender instanceof Player));
                                 sender.sendMessage(
                                     ChatColor.AQUA +
-                                    LocalizationModule.translate(Defs.Localization.Keys.COMMAND_RELOADING_SUCCESS) +
+                                    "Reloading Module Success: " +
                                     Defs.ModuleNames.MODULE_LOCALIZATION
                                 );
                             } catch (ModuleException e) {
                                 sender.sendMessage(
                                     ChatColor.RED +
-                                    LocalizationModule.translate(Defs.Localization.Keys.COMMAND_RELOADING_FAIL) +
+                                    "Reloading Module Failed: " +
                                     Defs.ModuleNames.MODULE_LOCALIZATION
                                 );
                             }
@@ -101,7 +102,7 @@ public final class ReloadCommand implements CommandExecutor {
                                 LocalizationModule.translate(Defs.Localization.Keys.COMMAND_RELOADING_STARTED) +
                                 Defs.ModuleNames.MODULE_CONFIG
                             );
-                            ConfigModule.reload(EnhancedEconomy.getPluginInstance());
+                            ConfigModule.reload(EnhancedEconomy.getPluginInstance(), !(sender instanceof Player));
                             sender.sendMessage(
                                 ChatColor.AQUA +
                                 LocalizationModule.translate(Defs.Localization.Keys.COMMAND_RELOADING_SUCCESS) +
@@ -122,7 +123,7 @@ public final class ReloadCommand implements CommandExecutor {
                                 LocalizationModule.translate(Defs.Localization.Keys.COMMAND_RELOADING_STARTED) +
                                 Defs.ModuleNames.MODULE_COMMANDS
                             );
-                            CommandsModule.reload(EnhancedEconomy.getPluginInstance());
+                            CommandsModule.reload(EnhancedEconomy.getPluginInstance(), !(sender instanceof Player));
                             sender.sendMessage(
                                 ChatColor.AQUA +
                                 LocalizationModule.translate(Defs.Localization.Keys.COMMAND_RELOADING_SUCCESS) +
