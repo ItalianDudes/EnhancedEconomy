@@ -1,11 +1,14 @@
 package it.italiandudes.enhancedeconomy.commands;
 
+import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.modules.CommandsModule;
+import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
+import it.italiandudes.enhancedeconomy.utils.Defs;
+import it.italiandudes.enhancedeconomy.utils.Defs.Localization.Keys;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("deprecation")
@@ -24,25 +27,37 @@ public final class EnhancedEconomyCommand implements CommandExecutor {
     // Command Body
     @Override
     public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label, @NotNull final String[] args) {
-        if (!CommandsModule.isModuleLoaded() && !RUN_WITH_MODULE_NOT_LOADED) return false;
+        if (!CommandsModule.isModuleLoaded() && !RUN_WITH_MODULE_NOT_LOADED) {
+            try {
+                sender.sendMessage(
+                    ChatColor.RED +
+                    LocalizationModule.translate(Keys.COMMAND_MODULE_NOT_LOADED)
+                );
+            } catch (ModuleException ignored) {}
+            return true;
+        }
         if (args.length < 1) return false;
 
-        for (String key : args) {
-            switch (key) {
-                case Arguments.INFO -> {
+        try {
 
-                }
-                case Arguments.VERSION -> {
-                    if (sender instanceof Player) {
-                        sender.sendMessage(ChatColor.GOLD + "CLIENT SIDE");
-                    }else {
-                        sender.sendMessage(ChatColor.AQUA + "SERVER SIDE");
-                    }
-                }
-                default -> {
-                    return false;
-                }
+            switch (args[0].toLowerCase()) {
+                case Arguments.INFO -> sender.sendMessage(
+                        ChatColor.AQUA +
+                        LocalizationModule.translate(Keys.EE_INFO)
+                );
+                case Arguments.VERSION -> sender.sendMessage(
+                    ChatColor.AQUA +
+                    LocalizationModule.translate(Keys.EE_VERSION) +
+                    Defs.PluginInfo.PLUGIN_VERSION
+                );
+                default -> sender.sendMessage(
+                    ChatColor.RED +
+                    LocalizationModule.translate(Defs.Localization.Keys.COMMAND_SYNTAX_ERROR)
+                );
             }
+
+        } catch (ModuleException e) {
+            CommandsModule.sendDefaultError(sender, e);
         }
 
         return true;

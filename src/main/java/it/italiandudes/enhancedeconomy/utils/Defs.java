@@ -18,7 +18,7 @@ public final class Defs {
                 throw new RuntimeException(e);
             }
         }
-        public static final String PLUGIN_VERSION = "0.11.2A";
+        public static final String PLUGIN_VERSION = "0.13.5A";
     }
 
     // Module Names
@@ -74,6 +74,18 @@ public final class Defs {
             public static final String EE_VERSION = "ee_version";
             public static final String EE_INFO = "ee_info";
             public static final String COMMAND_EXECUTION_ERROR = "command_execution_error";
+            public static final String COMMAND_SYNTAX_ERROR = "command_syntax_error";
+            public static final String COMMAND_LOADING_STARTED = "command_loading_started";
+            public static final String COMMAND_LOADING_SUCCESS = "command_loading_success";
+            public static final String COMMAND_LOADING_FAIL = "command_loading_fail";
+            public static final String COMMAND_UNLOADING_STARTED = "command_unloading_started";
+            public static final String COMMAND_UNLOADING_SUCCESS = "command_unloading_success";
+            public static final String COMMAND_UNLOADING_FAIL = "command_unloading_fail";
+            public static final String COMMAND_RELOADING_STARTED = "command_reloading_started";
+            public static final String COMMAND_RELOADING_SUCCESS = "command_reloading_success";
+            public static final String COMMAND_RELOADING_FAIL = "command_reloading_fail";
+            public static final String COMMAND_MODULE_NOT_LOADED = "command_module_not_loaded";
+            public static final String COMMAND_MISSING_PERMISSIONS = "command_missing_permissions";
         }
     }
 

@@ -6,12 +6,13 @@ import it.italiandudes.enhancedeconomy.modules.ConfigModule;
 import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;
 import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
 import it.italiandudes.enhancedeconomy.utils.Defs;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "DuplicatedCode"})
 public final class UnloadCommand implements CommandExecutor {
 
     // Attributes
@@ -21,47 +22,120 @@ public final class UnloadCommand implements CommandExecutor {
     // Subcommand Body
     @Override
     public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label, @NotNull final String[] args) {
-        if (!CommandsModule.isModuleLoaded() && !RUN_WITH_MODULE_NOT_LOADED) return false;
-        if (!sender.isOp()) return false;
+        if (!CommandsModule.isModuleLoaded() && !RUN_WITH_MODULE_NOT_LOADED) {
+            try {
+                sender.sendMessage(
+                        ChatColor.RED +
+                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_MODULE_NOT_LOADED)
+                );
+            } catch (ModuleException ignored) {}
+            return true;
+        }
+        if (!sender.isOp()) {
+            try {
+                sender.sendMessage(
+                    ChatColor.RED +
+                    LocalizationModule.translate(Defs.Localization.Keys.COMMAND_MISSING_PERMISSIONS)
+                );
+            }catch (ModuleException ignored) {}
+            return true;
+        }
         if (args.length < 1) return false;
 
         for (String module : args) {
-            switch (module) {
-                case Defs.ModuleNames.MODULE_DBCONNECTION -> {
-                    try {
-                        DBConnectionModule.unload();
-                    } catch (ModuleException e) {
-                        return false;
-                        // TODO: handle error
+            try {
+                switch (module) {
+                    case Defs.ModuleNames.MODULE_DBCONNECTION -> {
+                        try {
+                            sender.sendMessage(
+                                ChatColor.AQUA +
+                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_STARTED) +
+                                Defs.ModuleNames.MODULE_DBCONNECTION
+                            );
+                            DBConnectionModule.unload();
+                            sender.sendMessage(
+                                ChatColor.AQUA +
+                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_SUCCESS) +
+                                Defs.ModuleNames.MODULE_DBCONNECTION
+                            );
+                        } catch (ModuleException e) {
+                            sender.sendMessage(
+                                ChatColor.RED +
+                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_FAIL) +
+                                Defs.ModuleNames.MODULE_DBCONNECTION
+                            );
+                        }
                     }
-                }
-                case Defs.ModuleNames.MODULE_LOCALIZATION -> {
-                    try {
-                        LocalizationModule.unload();
-                    } catch (ModuleException e) {
-                        return false;
-                        // TODO: handle error
+                    case Defs.ModuleNames.MODULE_LOCALIZATION -> {
+                        try {
+                            sender.sendMessage(
+                                ChatColor.AQUA +
+                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_STARTED) +
+                                Defs.ModuleNames.MODULE_LOCALIZATION
+                            );
+                            LocalizationModule.unload();
+                            sender.sendMessage(
+                                ChatColor.AQUA +
+                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_SUCCESS) +
+                                Defs.ModuleNames.MODULE_LOCALIZATION
+                            );
+                        } catch (ModuleException e) {
+                            sender.sendMessage(
+                                ChatColor.RED +
+                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_FAIL) +
+                                Defs.ModuleNames.MODULE_LOCALIZATION
+                            );
+                        }
                     }
-                }
-                case Defs.ModuleNames.MODULE_CONFIG -> {
-                    try {
-                        ConfigModule.unload();
-                    } catch (ModuleException e) {
-                        return false;
-                        // TODO: handle error
+                    case Defs.ModuleNames.MODULE_CONFIG -> {
+                        try {
+                            sender.sendMessage(
+                                ChatColor.AQUA +
+                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_STARTED) +
+                                Defs.ModuleNames.MODULE_CONFIG
+                            );
+                            ConfigModule.unload();
+                            sender.sendMessage(
+                                ChatColor.AQUA +
+                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_SUCCESS) +
+                                Defs.ModuleNames.MODULE_CONFIG
+                            );
+                        } catch (ModuleException e) {
+                            sender.sendMessage(
+                                ChatColor.RED +
+                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_FAIL) +
+                                Defs.ModuleNames.MODULE_CONFIG
+                            );
+                        }
                     }
-                }
-                case Defs.ModuleNames.MODULE_COMMANDS -> {
-                    try {
-                        CommandsModule.unload();
-                    } catch (ModuleException e) {
-                        return false;
-                        // TODO: handle error
+                    case Defs.ModuleNames.MODULE_COMMANDS -> {
+                        try {
+                            sender.sendMessage(
+                                ChatColor.AQUA +
+                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_STARTED) +
+                                Defs.ModuleNames.MODULE_COMMANDS
+                            );
+                            CommandsModule.unload();
+                            sender.sendMessage(
+                                ChatColor.AQUA +
+                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_SUCCESS) +
+                                Defs.ModuleNames.MODULE_COMMANDS
+                            );
+                        } catch (ModuleException e) {
+                            sender.sendMessage(
+                                ChatColor.RED +
+                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_UNLOADING_FAIL) +
+                                Defs.ModuleNames.MODULE_COMMANDS
+                            );
+                        }
                     }
+                    default -> sender.sendMessage(
+                        ChatColor.RED +
+                        LocalizationModule.translate(Defs.Localization.Keys.COMMAND_SYNTAX_ERROR)
+                    );
                 }
-                default -> {
-                    return false;
-                }
+            } catch (ModuleException e) {
+                CommandsModule.sendDefaultError(sender, e);
             }
         }
 

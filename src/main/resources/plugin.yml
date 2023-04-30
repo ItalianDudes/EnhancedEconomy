@@ -1,9 +1,9 @@
 name: EnhancedEconomy
-version: '0.11.1A'
+version: '0.13.5A'
 author: Hacker6329
 prefix: EnhancedEconomy
 main: it.italiandudes.enhancedeconomy.EnhancedEconomy
-description: A plugin that implements a similar realistic economy system.
+description: ee
 load: POSTWORLD
 api-version: 1.19
 libraries:
