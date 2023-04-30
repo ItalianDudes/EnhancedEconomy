@@ -44,7 +44,8 @@ public final class ReloadCommand implements CommandExecutor {
         }
         if (args.length < 1) return false;
 
-        for (int i = 0; i< args.length; i++) {
+        boolean commandError = false;
+        for (int i = 0; i< args.length && !commandError; i++) {
             try {
                 switch (args[i]) {
                     case Defs.ModuleNames.MODULE_DBCONNECTION -> {
@@ -69,6 +70,12 @@ public final class ReloadCommand implements CommandExecutor {
                                     Defs.ModuleNames.MODULE_DBCONNECTION
                                 );
                             }
+                        }else {
+                            sender.sendMessage(
+                                ChatColor.RED +
+                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_SYNTAX_ERROR)
+                            );
+                            commandError = true;
                         }
                     }
                     case Defs.ModuleNames.MODULE_LOCALIZATION -> {
@@ -93,6 +100,12 @@ public final class ReloadCommand implements CommandExecutor {
                                     Defs.ModuleNames.MODULE_LOCALIZATION
                                 );
                             }
+                        }else {
+                            sender.sendMessage(
+                                ChatColor.RED +
+                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_SYNTAX_ERROR)
+                            );
+                            commandError = true;
                         }
                     }
                     case Defs.ModuleNames.MODULE_CONFIG -> {

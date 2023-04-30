@@ -46,7 +46,8 @@ public final class LoadCommand implements CommandExecutor {
         }
         if (args.length < 1) return false;
 
-        for (int i = 0; i< args.length; i++) {
+        boolean commandError = false;
+        for (int i = 0; i< args.length && !commandError; i++) {
             try {
                 switch (args[i]) {
                     case ModuleNames.MODULE_DBCONNECTION -> {
@@ -71,6 +72,12 @@ public final class LoadCommand implements CommandExecutor {
                                     ModuleNames.MODULE_DBCONNECTION
                                 );
                             }
+                        }else {
+                            sender.sendMessage(
+                                ChatColor.RED +
+                                LocalizationModule.translate(Keys.COMMAND_SYNTAX_ERROR)
+                            );
+                            commandError = true;
                         }
                     }
                     case ModuleNames.MODULE_LOCALIZATION -> {
@@ -95,6 +102,12 @@ public final class LoadCommand implements CommandExecutor {
                                     ModuleNames.MODULE_LOCALIZATION
                                 );
                             }
+                        }else {
+                            sender.sendMessage(
+                                ChatColor.RED +
+                                LocalizationModule.translate(Keys.COMMAND_SYNTAX_ERROR)
+                            );
+                            commandError = true;
                         }
                     }
                     case ModuleNames.MODULE_CONFIG -> {
