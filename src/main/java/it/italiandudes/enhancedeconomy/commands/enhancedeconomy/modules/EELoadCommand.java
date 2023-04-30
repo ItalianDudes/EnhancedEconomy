@@ -17,10 +17,10 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"deprecation", "DuplicatedCode"})
-public final class LoadCommand implements CommandExecutor {
+public final class EELoadCommand implements CommandExecutor {
 
     // Attributes
-    @NotNull public static final String COMMAND_NAME = "load";
+    @NotNull public static final String COMMAND_NAME = "eeload";
     public static final boolean RUN_WITH_MODULE_NOT_LOADED = true;
 
     // Command Body

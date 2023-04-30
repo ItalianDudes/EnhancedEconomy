@@ -15,10 +15,10 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"deprecation", "DuplicatedCode"})
-public final class ReloadCommand implements CommandExecutor {
+public final class EEReloadCommand implements CommandExecutor {
 
     // Attributes
-    public static final String COMMAND_NAME = "reload";
+    public static final String COMMAND_NAME = "eereload";
     public static final boolean RUN_WITH_MODULE_NOT_LOADED = true;
 
     // Subcommand Body

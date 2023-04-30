@@ -1,9 +1,9 @@
 package it.italiandudes.enhancedeconomy.modules;
 
 import it.italiandudes.enhancedeconomy.commands.EnhancedEconomyCommand;
-import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.LoadCommand;
-import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.ReloadCommand;
-import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.UnloadCommand;
+import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.EELoadCommand;
+import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.EEReloadCommand;
+import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.EEUnloadCommand;
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleAlreadyLoadedException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleLoadingException;
@@ -58,9 +58,9 @@ public final class CommandsModule {
         // List of commands here...
         try {
             registerCommand(pluginInstance, EnhancedEconomyCommand.COMMAND_NAME, new EnhancedEconomyCommand());
-            registerCommand(pluginInstance, LoadCommand.COMMAND_NAME, new LoadCommand());
-            registerCommand(pluginInstance, UnloadCommand.COMMAND_NAME, new UnloadCommand());
-            registerCommand(pluginInstance, ReloadCommand.COMMAND_NAME, new ReloadCommand());
+            registerCommand(pluginInstance, EELoadCommand.COMMAND_NAME, new EELoadCommand());
+            registerCommand(pluginInstance, EEUnloadCommand.COMMAND_NAME, new EEUnloadCommand());
+            registerCommand(pluginInstance, EEReloadCommand.COMMAND_NAME, new EEReloadCommand());
         } catch (Exception e) {
             areCommandsLoading = false;
             if (!disableLog) ServerLogger.getLogger().severe("Commands Module Load: Failed! (Reason: an error has occurred on module loading)");

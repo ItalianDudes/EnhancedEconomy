@@ -14,10 +14,10 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"deprecation", "DuplicatedCode"})
-public final class UnloadCommand implements CommandExecutor {
+public final class EEUnloadCommand implements CommandExecutor {
 
     // Attributes
-    public static final String COMMAND_NAME = "unload";
+    public static final String COMMAND_NAME = "eeunload";
     public static final boolean RUN_WITH_MODULE_NOT_LOADED = true;
 
     // Subcommand Body

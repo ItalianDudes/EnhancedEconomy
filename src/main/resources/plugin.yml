@@ -1,5 +1,5 @@
 name: EnhancedEconomy
-version: '0.13.11A'
+version: '0.13.12A'
 author: Hacker6329
 prefix: EnhancedEconomy
 main: it.italiandudes.enhancedeconomy.EnhancedEconomy
@@ -14,12 +14,12 @@ commands:
     description: Shows the info about the plugin.
     usage: /<command> <info>
     aliases: ee
-  load:
+  eeload:
     description: Load one or more plugin's modules.
     usage: /<command> <module> <parameters> [module1 parameters1 ...]
-  unload:
+  eeunload:
     description: Unload one or more plugin's modules.
     usage: /<command> <module> [module1 ...]
-  reload:
+  eereload:
     description: Reload one or more plugin's modules.
     usage: /<command> <module> <parameters> [module1 parameters1 ...]
