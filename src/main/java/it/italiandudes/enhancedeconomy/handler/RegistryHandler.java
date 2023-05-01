@@ -1,9 +1,12 @@
 package it.italiandudes.enhancedeconomy.handler;
 
+import it.italiandudes.enhancedeconomy.modules.CommandsModule;
+import it.italiandudes.enhancedeconomy.util.ServerLogger;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
+@SuppressWarnings("unused")
 @Mod.EventBusSubscriber
 public final class RegistryHandler {
 
@@ -12,7 +15,7 @@ public final class RegistryHandler {
      * The registry events below will have fired prior to entry to this method.
      */
     public static void preInitRegistries(FMLPreInitializationEvent event){
-        //ConfigHandler.registerConfig(event);
+        ServerLogger.initLogger(event.getModLog());
     }
 
     /**
@@ -30,5 +33,6 @@ public final class RegistryHandler {
     }
 
     public static void serverRegistries(FMLServerStartingEvent event){
+        CommandsModule.registerCommands(event);
     }
 }

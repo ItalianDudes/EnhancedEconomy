@@ -56,9 +56,10 @@ configurations {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
     compileOnly 'org.jetbrains:annotations:23.0.0'
+    implementation 'it.italiandudes:idl:1.0.4'
     bundleLibs 'commons-codec:commons-codec:1.15'
     bundleLibs 'commons-io:commons-io:2.11.0'
-    bundleLibs 'it.italianDudes:idl:1.0.4'
+    bundleLibs 'it.italiandudes:idl:1.0.4'
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

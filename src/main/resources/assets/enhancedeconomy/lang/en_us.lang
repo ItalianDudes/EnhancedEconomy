@@ -1,0 +1,3 @@
+# Commands
+commands.enhancedeconomy.enhancedeconomy.usage=/example <value>
+commands.enhancedeconomy.syntax_error=Syntax error, check the command usage

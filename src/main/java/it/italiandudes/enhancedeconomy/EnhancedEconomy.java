@@ -10,18 +10,15 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.io.File;
-
-@Mod(modid = Defs.MOD_ID, name = Defs.MOD_NAME, version = Defs.VERSION)
+@SuppressWarnings("unused")
+@Mod(modid = Defs.ModInfo.MOD_ID, name = Defs.ModInfo.MOD_NAME, version = Defs.ModInfo.VERSION, useMetadata = true)
 public class EnhancedEconomy {
 
-    //Attributes
-    public static File configs;
-
-    @Mod.Instance(Defs.MOD_ID)
+    // Mod Instance
+    @Mod.Instance(Defs.ModInfo.MOD_ID)
     public static EnhancedEconomy INSTANCE;
 
-    @SidedProxy(clientSide = Defs.CLIENT, serverSide = Defs.COMMON) @SuppressWarnings("unused")
+    @SidedProxy(clientSide = Defs.CLIENT, serverSide = Defs.COMMON)
     public static CommonProxy proxy;
 
     @Mod.EventHandler
@@ -37,7 +34,7 @@ public class EnhancedEconomy {
         RegistryHandler.postInitRegistries();
     }
     @Mod.EventHandler
-    public void serverRegistries(FMLServerStartingEvent event){
+    public void serverinit(FMLServerStartingEvent event){
         RegistryHandler.serverRegistries(event);
     }
 }
