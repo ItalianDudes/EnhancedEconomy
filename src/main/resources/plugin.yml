@@ -1,0 +1,25 @@
+name: EnhancedEconomy
+version: '0.13.12A'
+author: Hacker6329
+prefix: EnhancedEconomy
+main: it.italiandudes.enhancedeconomy.EnhancedEconomy
+description: ee
+load: POSTWORLD
+api-version: 1.19
+libraries:
+  - commons-codec:commons-codec:1.15
+  - commons-io:commons-io:2.11.0
+commands:
+  enhancedeconomy:
+    description: Shows the info about the plugin.
+    usage: /<command> <info>
+    aliases: ee
+  eeload:
+    description: Load one or more plugin's modules.
+    usage: /<command> <module> <parameters> [module1 parameters1 ...]
+  eeunload:
+    description: Unload one or more plugin's modules.
+    usage: /<command> <module> [module1 ...]
+  eereload:
+    description: Reload one or more plugin's modules.
+    usage: /<command> <module> <parameters> [module1 parameters1 ...]

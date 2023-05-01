@@ -11,8 +11,6 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
-
 @SuppressWarnings("unused")
 public final class CommandsModule {
 
@@ -23,12 +21,31 @@ public final class CommandsModule {
     public static void registerCommands(@NotNull final FMLServerStartingEvent event) {
         event.registerServerCommand(new EnhancedEconomyCommand());
     }
-    public static void sendDefaultError(@NotNull final ICommandSender sender, String message, @Nullable final Throwable e) {
+    public static void sendCommandExecutionError(@NotNull final ICommandSender sender, @Nullable final Throwable e) {
         try {
-            TextComponentString msg = new TextComponentString(message);
+            String errorMessage = LocalizationModule.translate(Defs.LangKeys.COMMAND_EXECUTION_ERROR);
+            if (errorMessage == null) {
+                ServerLogger.getLogger().error("Can't retrieve command execution error default message");
+                return;
+            }
+            TextComponentString msg = new TextComponentString(errorMessage);
             msg.getStyle().setColor(TextFormatting.RED);
             sender.sendMessage(msg);
-            ServerLogger.getLogger().error(message);
+            ServerLogger.getLogger().error(errorMessage);
+            if (e != null) ServerLogger.getLogger().error(StringHandler.getStackTrace(e));
+        } catch (Exception ignored) {}
+    }
+    public static void sendCommandSyntaxError(@NotNull final ICommandSender sender, @Nullable final Throwable e) {
+        try {
+            String errorMessage = LocalizationModule.translate(Defs.LangKeys.COMMAND_SYNTAX_ERROR);
+            if (errorMessage == null) {
+                ServerLogger.getLogger().error("Can't retrieve command syntax error default message");
+                return;
+            }
+            TextComponentString msg = new TextComponentString(errorMessage);
+            msg.getStyle().setColor(TextFormatting.RED);
+            sender.sendMessage(msg);
+            ServerLogger.getLogger().error(errorMessage);
             if (e != null) ServerLogger.getLogger().error(StringHandler.getStackTrace(e));
         } catch (Exception ignored) {}
     }

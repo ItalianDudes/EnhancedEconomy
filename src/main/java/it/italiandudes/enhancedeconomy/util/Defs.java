@@ -44,7 +44,6 @@ public final class Defs {
 
     // Lang Keys
     public static final class LangKeys {
-        public static final String TEST_ENTRY = "test_entry";
         public static final String EE_VERSION = "ee_version";
         public static final String EE_INFO = "ee_info";
         public static final String COMMAND_EXECUTION_ERROR = "command_execution_error";
@@ -60,6 +59,7 @@ public final class Defs {
         public static final String COMMAND_RELOADING_FAIL = "command_reloading_fail";
         public static final String COMMAND_MODULE_NOT_LOADED = "command_module_not_loaded";
         public static final String COMMAND_MISSING_PERMISSIONS = "command_missing_permissions";
+        public static final String COMMAND_USAGE_EE = "usage_ee";
     }
 
     // Command Constants

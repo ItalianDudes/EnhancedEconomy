@@ -5,7 +5,6 @@ import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.modules.CommandsModule;
 import it.italiandudes.enhancedeconomy.modules.ConfigModule;
 import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;
-import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
 import it.italiandudes.enhancedeconomy.util.Defs.ModuleNames;
 import it.italiandudes.enhancedeconomy.util.Defs.LangKeys;
 import org.bukkit.ChatColor;
@@ -157,7 +156,7 @@ public final class EELoadCommand implements CommandExecutor {
                     );
                 }
             } catch (ModuleException e) {
-                CommandsModule.sendDefaultError(sender, e);
+                CommandsModule.sendCommandExecutionError(sender, e);
             }
         }
 

@@ -4,7 +4,6 @@ import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.modules.CommandsModule;
 import it.italiandudes.enhancedeconomy.modules.ConfigModule;
 import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;
-import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
 import it.italiandudes.enhancedeconomy.util.Defs;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -136,7 +135,7 @@ public final class EEUnloadCommand implements CommandExecutor {
                     );
                 }
             } catch (ModuleException e) {
-                CommandsModule.sendDefaultError(sender, e);
+                CommandsModule.sendCommandExecutionError(sender, e);
             }
         }
 

@@ -2,8 +2,11 @@ package it.italiandudes.enhancedeconomy.commands;
 
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.modules.CommandsModule;
+import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
 import it.italiandudes.enhancedeconomy.util.Defs;
 import it.italiandudes.enhancedeconomy.util.Defs.LangKeys;
+import it.italiandudes.enhancedeconomy.util.ServerLogger;
+import it.italiandudes.idl.common.StringHandler;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -15,7 +18,6 @@ import net.minecraft.util.text.TextFormatting;
 import org.jetbrains.annotations.NotNull;
 import scala.actors.threadpool.Arrays;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
@@ -32,18 +34,18 @@ public final class EnhancedEconomyCommand extends CommandBase {
     @SuppressWarnings("unchecked")
     @Override @NotNull
     public List<String> getAliases() {
-        return (List<String>) Arrays.asList(new String[]{
-            getName(),
-            "ee"
-        });
+        return (List<String>) Arrays.asList(Defs.Commands.EnhancedEconomy.COMMAND_NAME);
     }
 
     @Override @NotNull
     public String getUsage(@NotNull final ICommandSender sender) {
-        if (sender instanceof EntityPlayerMP) {
-            return I18n.format("commands.enhancedeconomy.enhancedeconomy.usage");
-        }else {
-            return '/'+getName()+" <info>";
+
+        try {
+            String usage = LocalizationModule.translate(LangKeys.COMMAND_USAGE_EE);
+            if (usage != null) return usage;
+            throw new ModuleException("Localization failed");
+        }catch (ModuleException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -51,12 +53,7 @@ public final class EnhancedEconomyCommand extends CommandBase {
     public void execute(@NotNull final MinecraftServer server, @NotNull final ICommandSender sender, final String @NotNull [] args) throws CommandException {
         if (args.length < 1) {
             if (sender instanceof EntityPlayerMP) {
-                sender.sendMessage(
-                        new TextComponentString(
-                                TextFormatting.RED +
-                                I18n.format("commands.enhancedeconomy.syntax_error")
-                        )
-                );
+                CommandsModule.sendCommandSyntaxError(sender, null);
             }
             return;
         }
@@ -64,24 +61,35 @@ public final class EnhancedEconomyCommand extends CommandBase {
         try {
 
             switch (args[0].toLowerCase()) {
+
                 case Arguments.INFO:
-                case Arguments.INFO -> sender.sendMessage(
-                        ChatColor.AQUA +
-                                LocalizationModule.translate(LangKeys.EE_INFO)
-                );
-                case Arguments.VERSION -> sender.sendMessage(
-                        ChatColor.AQUA +
-                                LocalizationModule.translate(LangKeys.EE_VERSION) +
-                                Defs.ModInfo.PLUGIN_VERSION
-                );
-                default -> sender.sendMessage(
-                        ChatColor.RED +
-                                LocalizationModule.translate(LangKeys.COMMAND_SYNTAX_ERROR)
-                );
+                    sender.sendMessage(
+                            new TextComponentString(
+                                    TextFormatting.AQUA +
+                                            LocalizationModule.translate(LangKeys.EE_INFO)
+                            )
+                    );
+
+                case Arguments.VERSION:
+                    sender.sendMessage(
+                            new TextComponentString(
+                                    TextFormatting.AQUA +
+                                            LocalizationModule.translate(LangKeys.EE_VERSION) +
+                                            Defs.ModInfo.VERSION
+                            )
+                    );
+
+                default:
+                    sender.sendMessage(
+                            new TextComponentString(
+                                    TextFormatting.RED +
+                                            LocalizationModule.translate(LangKeys.COMMAND_SYNTAX_ERROR)
+                            )
+                    );
             }
 
         } catch (ModuleException e) {
-            CommandsModule.sendDefaultError(sender, e);
+            throw new RuntimeException();
         }
     }
 
