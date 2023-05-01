@@ -3,6 +3,7 @@ package it.italiandudes.enhancedeconomy.modules;
 import it.italiandudes.enhancedeconomy.util.Defs;
 import net.minecraftforge.common.config.Config;
 
+@SuppressWarnings("unused")
 @Config(modid = Defs.ModInfo.MOD_ID)
 public final class ConfigModule {
 

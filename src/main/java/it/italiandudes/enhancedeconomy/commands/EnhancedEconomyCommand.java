@@ -5,11 +5,7 @@ import it.italiandudes.enhancedeconomy.modules.CommandsModule;
 import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
 import it.italiandudes.enhancedeconomy.util.Defs;
 import it.italiandudes.enhancedeconomy.util.Defs.LangKeys;
-import it.italiandudes.enhancedeconomy.util.ServerLogger;
-import it.italiandudes.idl.common.StringHandler;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
@@ -20,7 +16,7 @@ import scala.actors.threadpool.Arrays;
 
 import java.util.List;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings("unused")
 public final class EnhancedEconomyCommand extends CommandBase {
 
     // Command Name
@@ -50,7 +46,7 @@ public final class EnhancedEconomyCommand extends CommandBase {
     }
 
     @Override
-    public void execute(@NotNull final MinecraftServer server, @NotNull final ICommandSender sender, final String @NotNull [] args) throws CommandException {
+    public void execute(@NotNull final MinecraftServer server, @NotNull final ICommandSender sender, final String @NotNull [] args) {
         if (args.length < 1) {
             if (sender instanceof EntityPlayerMP) {
                 CommandsModule.sendCommandSyntaxError(sender, null);
@@ -59,9 +55,7 @@ public final class EnhancedEconomyCommand extends CommandBase {
         }
 
         try {
-
             switch (args[0].toLowerCase()) {
-
                 case Arguments.INFO:
                     sender.sendMessage(
                             new TextComponentString(
@@ -87,7 +81,6 @@ public final class EnhancedEconomyCommand extends CommandBase {
                             )
                     );
             }
-
         } catch (ModuleException e) {
             throw new RuntimeException();
         }
@@ -98,9 +91,4 @@ public final class EnhancedEconomyCommand extends CommandBase {
         public static final String INFO = "info";
         public static final String VERSION = "version";
     }
-
-    // Command Body
-    @Override
-    public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label, @NotNull final String[] args) {
-
 }

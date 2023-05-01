@@ -5,6 +5,7 @@ import it.italiandudes.enhancedeconomy.EnhancedEconomy;
 import java.io.File;
 import java.net.URISyntaxException;
 
+@SuppressWarnings("unused")
 public final class Defs {
 
     //Mod Info
@@ -30,6 +31,7 @@ public final class Defs {
     public static final class ModuleNames {
         public static final String MODULE_DBCONNECTION = "dbconnection";
         public static final String MODULE_COMMANDS = "commands";
+        public static final String MODULE_LOCALIZATION = "localization";
     }
 
     // DBConnection Constants

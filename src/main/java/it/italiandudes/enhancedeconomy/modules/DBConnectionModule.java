@@ -29,6 +29,8 @@ public final class DBConnectionModule {
     public static String getQueryFromResourcesFileSQL(@NotNull final String QUERY_PATH) {
         InputStream inStream = Resource.getResourceAsStream(QUERY_PATH);
 
+        if (inStream == null) return null;
+
         StringBuilder queryBuilder = new StringBuilder();
 
         Scanner queryReader = new Scanner(inStream);
