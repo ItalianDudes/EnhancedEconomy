@@ -3,12 +3,12 @@ package it.italiandudes.enhancedeconomy;
 import it.italiandudes.enhancedeconomy.handler.RegistryHandler;
 import it.italiandudes.enhancedeconomy.proxy.CommonProxy;
 import it.italiandudes.enhancedeconomy.util.Defs;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.Mod;
 
 @SuppressWarnings("unused")
 @Mod(modid = Defs.ModInfo.MOD_ID, useMetadata = true)
