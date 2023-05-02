@@ -128,7 +128,8 @@ public final class EELoadCommand extends CommandBase {
                             } catch (ModuleAlreadyLoadedException e) {
                                 sender.sendMessage(
                                     new TextComponentString(
-                                        TextFormatting.AQUA + "Can't execute the command: the requested module is already loaded."
+                                        TextFormatting.AQUA +
+                                                LocalizationModule.translate(LangKeys.MODULE_ALREADY_LOADED)
                                     )
                                 );
                             } catch (ModuleException e) {
