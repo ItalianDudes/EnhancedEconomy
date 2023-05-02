@@ -5,7 +5,12 @@ plugins {
 }
 
 group = 'it.italiandudes'
-version = '1.12.2-0.0.0.1A' //MCVERSION-MAJORMOD.MAJORAPI.MINOR.PATCH'T' ('T': type of version between "Release"/"Beta"/"Alpha") | See https://docs.minecraftforge.net/en/1.12.x/conventions/versioning/
+/*
+ * MCVERSION-MAJORMOD.MAJORAPI.MINOR.PATCH'T'
+ * ('T': type of version between "Release"/"Beta"/"Alpha")
+ * See https://docs.minecraftforge.net/en/1.12.x/conventions/versioning/
+ */
+version = '1.12.2-0.1.1.6A'
 
 java {
     archivesBaseName = 'EnhancedEconomy'

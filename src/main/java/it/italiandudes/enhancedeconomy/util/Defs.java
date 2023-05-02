@@ -19,7 +19,6 @@ public final class Defs {
             }
         }
         public static final String MOD_ID = "enhancedeconomy";
-        public static final String MOD_NAME = "EnhancedEconomy";
     }
 
     //Proxy
@@ -63,8 +62,6 @@ public final class Defs {
         public static final String COMMAND_USAGE_EELOAD = "command_eeload_usage";
         public static final String COMMAND_USAGE_EEUNLOAD = "command_eeunload_usage";
         public static final String COMMAND_USAGE_EERELOAD = "command_eereload_usage";
-        public static final String COMMAND_USAGE_EECONFIG = "command_eeconfig_usage";
-        public static final String COMMAND_CONFIG_SUCCESS = "command_eeconfig_success";
     }
 
     // Command Constants
@@ -73,6 +70,5 @@ public final class Defs {
         public static final String EE_LOAD = "eeload";
         public static final String EE_UNLOAD = "eeunload";
         public static final String EE_RELOAD = "eereload";
-        public static final String EE_CONFIG = "eeconfig";
     }
 }
