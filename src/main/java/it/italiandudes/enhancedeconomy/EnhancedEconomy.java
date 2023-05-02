@@ -27,11 +27,11 @@ public class EnhancedEconomy {
     }
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        RegistryHandler.initRegistries();
+        RegistryHandler.initRegistries(event);
     }
     @Mod.EventHandler
     public void postinit(FMLPostInitializationEvent event) {
-        RegistryHandler.postInitRegistries();
+        RegistryHandler.postInitRegistries(event);
     }
     @Mod.EventHandler
     public void serverinit(FMLServerStartingEvent event){

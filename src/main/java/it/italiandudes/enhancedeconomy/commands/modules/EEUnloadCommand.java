@@ -2,143 +2,149 @@ package it.italiandudes.enhancedeconomy.commands.modules;
 
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.modules.CommandsModule;
-import it.italiandudes.enhancedeconomy.modules.ConfigModule;
 import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;
+import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
 import it.italiandudes.enhancedeconomy.util.Defs;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings({"deprecation", "DuplicatedCode"})
-public final class EEUnloadCommand implements CommandExecutor {
+@SuppressWarnings("unused")
+public final class EEUnloadCommand extends CommandBase {
 
     // Attributes
-    public static final String COMMAND_NAME = "eeunload";
     public static final boolean RUN_WITH_MODULE_NOT_LOADED = true;
+
+    // Command Info
+    @Override @NotNull
+    public String getName() {
+        return Defs.Commands.EnhancedEconomy.EE_UNLOAD;
+    }
+    @Override @NotNull
+    public String getUsage(@NotNull final ICommandSender sender) {
+        try {
+            String usage = LocalizationModule.translate(Defs.LangKeys.COMMAND_USAGE_EEUNLOAD);
+            if (usage != null) return usage;
+            throw new RuntimeException("Usage localization is null");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Override
+    public int getRequiredPermissionLevel() {
+        return super.getRequiredPermissionLevel(); // MAX OP LEVEL
+    }
+    @Override
+    public boolean checkPermission(@NotNull final MinecraftServer server, @NotNull final ICommandSender sender) {
+        return super.checkPermission(server, sender);
+    }
 
     // Subcommand Body
     @Override
-    public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label, @NotNull final String[] args) {
+    public void execute(@NotNull final MinecraftServer server, @NotNull final ICommandSender sender, final String @NotNull [] args) {
         if (!CommandsModule.isModuleLoaded() && !RUN_WITH_MODULE_NOT_LOADED) {
-            try {
-                sender.sendMessage(
-                    ChatColor.RED +
-                    LocalizationModule.translate(Defs.LangKeys.COMMAND_MODULE_NOT_LOADED)
-                );
-            } catch (ModuleException ignored) {}
-            return true;
+            CommandsModule.sendModuleNotLoadedError(sender);
+            return;
         }
-        if (!sender.isOp()) {
-            try {
-                sender.sendMessage(
-                    ChatColor.RED +
-                    LocalizationModule.translate(Defs.LangKeys.COMMAND_MISSING_PERMISSIONS)
-                );
-            }catch (ModuleException ignored) {}
-            return true;
+        if (args.length < 1) {
+            CommandsModule.sendCommandSyntaxError(sender, null);
+            return;
         }
-        if (args.length < 1) return false;
 
         for (String module : args) {
             try {
                 switch (module) {
-                    case Defs.ModuleNames.MODULE_DBCONNECTION -> {
+                    case Defs.ModuleNames.MODULE_DBCONNECTION:
                         try {
                             sender.sendMessage(
-                                ChatColor.AQUA +
-                                LocalizationModule.translate(Defs.LangKeys.COMMAND_UNLOADING_STARTED) +
-                                Defs.ModuleNames.MODULE_DBCONNECTION
+                                new TextComponentString(
+                                    TextFormatting.AQUA +
+                                    LocalizationModule.translate(Defs.LangKeys.COMMAND_UNLOADING_STARTED) +
+                                    Defs.ModuleNames.MODULE_DBCONNECTION
+                                )
                             );
-                            DBConnectionModule.unload(!(sender instanceof Player));
+                            DBConnectionModule.unload(!(sender instanceof EntityPlayerMP));
                             sender.sendMessage(
-                                ChatColor.AQUA +
-                                LocalizationModule.translate(Defs.LangKeys.COMMAND_UNLOADING_SUCCESS) +
-                                Defs.ModuleNames.MODULE_DBCONNECTION
+                                new TextComponentString(
+                                    TextFormatting.AQUA +
+                                    LocalizationModule.translate(Defs.LangKeys.COMMAND_UNLOADING_SUCCESS) +
+                                    Defs.ModuleNames.MODULE_DBCONNECTION
+                                )
                             );
                         } catch (ModuleException e) {
                             sender.sendMessage(
-                                ChatColor.RED +
-                                LocalizationModule.translate(Defs.LangKeys.COMMAND_UNLOADING_FAIL) +
-                                Defs.ModuleNames.MODULE_DBCONNECTION
+                                new TextComponentString(
+                                    TextFormatting.RED +
+                                    LocalizationModule.translate(Defs.LangKeys.COMMAND_UNLOADING_FAIL) +
+                                    Defs.ModuleNames.MODULE_DBCONNECTION
+                                )
                             );
                         }
-                    }
-                    case Defs.ModuleNames.MODULE_LOCALIZATION -> {
+
+                    case Defs.ModuleNames.MODULE_LOCALIZATION:
                         try {
                             sender.sendMessage(
-                                ChatColor.AQUA +
-                                "Unloading Module: " +
-                                Defs.ModuleNames.MODULE_LOCALIZATION
+                                new TextComponentString(
+                                TextFormatting.AQUA +
+                                    "Unloading Module: " +
+                                    Defs.ModuleNames.MODULE_LOCALIZATION
+                                )
                             );
-                            LocalizationModule.unload(!(sender instanceof Player));
+                            LocalizationModule.unload(!(sender instanceof EntityPlayerMP));
                             sender.sendMessage(
-                                ChatColor.AQUA +
-                                "Unloading Module Success: " +
-                                Defs.ModuleNames.MODULE_LOCALIZATION
+                                new TextComponentString(
+                                    TextFormatting.AQUA +
+                                    "Unloading Module Success: " +
+                                    Defs.ModuleNames.MODULE_LOCALIZATION
+                                )
                             );
                         } catch (ModuleException e) {
                             sender.sendMessage(
-                                ChatColor.RED +
-                                "Unloading Module Failed: " +
-                                Defs.ModuleNames.MODULE_LOCALIZATION
+                                new TextComponentString(
+                                    TextFormatting.RED +
+                                    "Unloading Module Failed: " +
+                                    Defs.ModuleNames.MODULE_LOCALIZATION
+                                )
                             );
                         }
-                    }
-                    case Defs.ModuleNames.MODULE_CONFIG -> {
+
+                    case Defs.ModuleNames.MODULE_COMMANDS:
                         try {
                             sender.sendMessage(
-                                ChatColor.AQUA +
-                                LocalizationModule.translate(Defs.LangKeys.COMMAND_UNLOADING_STARTED) +
-                                Defs.ModuleNames.MODULE_CONFIG
+                                new TextComponentString(
+                                    TextFormatting.AQUA +
+                                    LocalizationModule.translate(Defs.LangKeys.COMMAND_UNLOADING_STARTED) +
+                                    Defs.ModuleNames.MODULE_COMMANDS
+                                )
                             );
-                            ConfigModule.unload(!(sender instanceof Player));
+                            CommandsModule.unload();
                             sender.sendMessage(
-                                ChatColor.AQUA +
-                                LocalizationModule.translate(Defs.LangKeys.COMMAND_UNLOADING_SUCCESS) +
-                                Defs.ModuleNames.MODULE_CONFIG
+                                new TextComponentString(
+                                    TextFormatting.AQUA +
+                                    LocalizationModule.translate(Defs.LangKeys.COMMAND_UNLOADING_SUCCESS) +
+                                    Defs.ModuleNames.MODULE_COMMANDS
+                                )
                             );
                         } catch (ModuleException e) {
                             sender.sendMessage(
-                                ChatColor.RED +
-                                LocalizationModule.translate(Defs.LangKeys.COMMAND_UNLOADING_FAIL) +
-                                Defs.ModuleNames.MODULE_CONFIG
+                                new TextComponentString(
+                                    TextFormatting.RED +
+                                    LocalizationModule.translate(Defs.LangKeys.COMMAND_UNLOADING_FAIL) +
+                                    Defs.ModuleNames.MODULE_COMMANDS
+                                )
                             );
                         }
-                    }
-                    case Defs.ModuleNames.MODULE_COMMANDS -> {
-                        try {
-                            sender.sendMessage(
-                                ChatColor.AQUA +
-                                LocalizationModule.translate(Defs.LangKeys.COMMAND_UNLOADING_STARTED) +
-                                Defs.ModuleNames.MODULE_COMMANDS
-                            );
-                            CommandsModule.unload(!(sender instanceof Player));
-                            sender.sendMessage(
-                                ChatColor.AQUA +
-                                LocalizationModule.translate(Defs.LangKeys.COMMAND_UNLOADING_SUCCESS) +
-                                Defs.ModuleNames.MODULE_COMMANDS
-                            );
-                        } catch (ModuleException e) {
-                            sender.sendMessage(
-                                ChatColor.RED +
-                                LocalizationModule.translate(Defs.LangKeys.COMMAND_UNLOADING_FAIL) +
-                                Defs.ModuleNames.MODULE_COMMANDS
-                            );
-                        }
-                    }
-                    default -> sender.sendMessage(
-                        ChatColor.RED +
-                        LocalizationModule.translate(Defs.LangKeys.COMMAND_SYNTAX_ERROR)
-                    );
+
+                    default:
+                        CommandsModule.sendCommandSyntaxError(sender, null);
                 }
             } catch (ModuleException e) {
                 CommandsModule.sendCommandExecutionError(sender, e);
             }
         }
-
-        return true;
     }
 }

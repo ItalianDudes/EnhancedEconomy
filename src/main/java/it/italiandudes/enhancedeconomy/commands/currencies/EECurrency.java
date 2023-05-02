@@ -4,7 +4,6 @@ package it.italiandudes.enhancedeconomy.commands.currencies;
 public final class EECurrency {
 
     // Attributes
-    public static final String COMMAND_NAME = "currency";
     public static final boolean RUN_WITH_MODULE_NOT_LOADED = false;
 
     // Command Body

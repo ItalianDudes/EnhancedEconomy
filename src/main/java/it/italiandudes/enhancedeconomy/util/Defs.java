@@ -62,6 +62,9 @@ public final class Defs {
         public static final String COMMAND_MODULE_NOT_LOADED = "command_module_not_loaded";
         public static final String COMMAND_MISSING_PERMISSIONS = "command_missing_permissions";
         public static final String COMMAND_USAGE_EE = "usage_ee";
+        public static final String COMMAND_USAGE_EELOAD = "command_eeload_usage";
+        public static final String COMMAND_USAGE_EEUNLOAD = "command_eeunload_usage";
+        public static final String COMMAND_USAGE_EERELOAD = "command_eereload_usage";
     }
 
     // Command Constants

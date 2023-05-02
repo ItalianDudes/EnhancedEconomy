@@ -33,7 +33,7 @@ public final class LocalizationModule {
         return langFile != null;
     }
 
-    // Localized String Getter
+    // Methods
     public synchronized static void load(@NotNull final String LOCALIZATION) throws ModuleException {
         load(LOCALIZATION, false);
     }

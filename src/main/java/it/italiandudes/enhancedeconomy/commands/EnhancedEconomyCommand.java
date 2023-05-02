@@ -7,7 +7,6 @@ import it.italiandudes.enhancedeconomy.util.Defs;
 import it.italiandudes.enhancedeconomy.util.Defs.LangKeys;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -24,7 +23,7 @@ public final class EnhancedEconomyCommand extends CommandBase {
 
     @Override @NotNull
     public String getName() {
-        return "enhancedeconomy";
+        return Defs.Commands.EnhancedEconomy.COMMAND_NAME[0];
     }
 
     @SuppressWarnings("unchecked")
@@ -32,7 +31,6 @@ public final class EnhancedEconomyCommand extends CommandBase {
     public List<String> getAliases() {
         return (List<String>) Arrays.asList(Defs.Commands.EnhancedEconomy.COMMAND_NAME);
     }
-
     @Override @NotNull
     public String getUsage(@NotNull final ICommandSender sender) {
 
@@ -44,13 +42,18 @@ public final class EnhancedEconomyCommand extends CommandBase {
             throw new RuntimeException(e);
         }
     }
-
+    @Override
+    public boolean checkPermission(@NotNull final MinecraftServer server, @NotNull final ICommandSender sender) {
+        return true;
+    }
     @Override
     public void execute(@NotNull final MinecraftServer server, @NotNull final ICommandSender sender, final String @NotNull [] args) {
+        if (!CommandsModule.isModuleLoaded() && !RUN_WITH_MODULE_NOT_LOADED) {
+            CommandsModule.sendModuleNotLoadedError(sender);
+            return;
+        }
         if (args.length < 1) {
-            if (sender instanceof EntityPlayerMP) {
-                CommandsModule.sendCommandSyntaxError(sender, null);
-            }
+            CommandsModule.sendCommandSyntaxError(sender, null);
             return;
         }
 
