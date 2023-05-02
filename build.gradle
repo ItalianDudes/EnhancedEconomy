@@ -60,6 +60,7 @@ dependencies {
     implementation 'it.italiandudes:idl:1.0.4'
     bundleLibs 'commons-codec:commons-codec:1.15'
     bundleLibs 'commons-io:commons-io:2.11.0'
+    //noinspection VulnerableLibrariesLocal
     bundleLibs 'com.googlecode.json-simple:json-simple:1.1.1'
     bundleLibs 'it.italiandudes:idl:1.0.4'
 }
@@ -80,6 +81,7 @@ jar {
 }
 
 tasks.register('buildModJar', Jar) {
+    dependsOn jar
     archiveFileName = getRootDir().getName()+"-"+archiveVersion.get()+".jar"
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from {
@@ -90,7 +92,7 @@ tasks.register('buildModJar', Jar) {
     with jar
 }
 
-jar.finalizedBy('reobfJar')
+buildModJar.finalizedBy('reobfJar')
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
