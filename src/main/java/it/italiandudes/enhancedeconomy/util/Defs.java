@@ -69,11 +69,9 @@ public final class Defs {
 
     // Command Constants
     public static final class Commands {
-        public static final class EnhancedEconomy {
-            public static final String[] COMMAND_NAME = {"enhancedeconomy", "ee"};
-            public static final String EE_LOAD = "eeload";
-            public static final String EE_UNLOAD = "eeunload";
-            public static final String EE_RELOAD = "eereload";
-        }
+        public static final String[] COMMAND_NAME = {"enhancedeconomy", "ee"};
+        public static final String EE_LOAD = "eeload";
+        public static final String EE_UNLOAD = "eeunload";
+        public static final String EE_RELOAD = "eereload";
     }
 }

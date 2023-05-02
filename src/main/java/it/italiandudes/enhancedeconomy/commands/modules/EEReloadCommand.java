@@ -22,7 +22,7 @@ public final class EEReloadCommand extends CommandBase {
     // Command Info
     @Override @NotNull
     public String getName() {
-        return Defs.Commands.EnhancedEconomy.EE_RELOAD;
+        return Defs.Commands.EE_RELOAD;
     }
     @Override @NotNull
     public String getUsage(@NotNull final ICommandSender sender) {

@@ -23,11 +23,11 @@ public final class EnhancedEconomyCommand extends CommandBase {
 
     @Override @NotNull
     public String getName() {
-        return Defs.Commands.EnhancedEconomy.COMMAND_NAME[0];
+        return Defs.Commands.COMMAND_NAME[0];
     }
     @Override @NotNull
     public List<String> getAliases() {
-        return Lists.newArrayList(Defs.Commands.EnhancedEconomy.COMMAND_NAME);
+        return Lists.newArrayList(Defs.Commands.COMMAND_NAME);
     }
     @Override @NotNull
     public String getUsage(@NotNull final ICommandSender sender) {

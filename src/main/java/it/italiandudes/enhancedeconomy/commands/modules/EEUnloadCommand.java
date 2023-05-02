@@ -22,7 +22,7 @@ public final class EEUnloadCommand extends CommandBase {
     // Command Info
     @Override @NotNull
     public String getName() {
-        return Defs.Commands.EnhancedEconomy.EE_UNLOAD;
+        return Defs.Commands.EE_UNLOAD;
     }
     @Override @NotNull
     public String getUsage(@NotNull final ICommandSender sender) {

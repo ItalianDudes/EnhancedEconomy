@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 
 @SuppressWarnings("unused")
 @Mod(modid = Defs.ModInfo.MOD_ID, name = Defs.ModInfo.MOD_NAME, version = Defs.ModInfo.VERSION, useMetadata = true)
-public class EnhancedEconomy {
+public final class EnhancedEconomy {
 
     // Mod Instance
     @Mod.Instance(Defs.ModInfo.MOD_ID)

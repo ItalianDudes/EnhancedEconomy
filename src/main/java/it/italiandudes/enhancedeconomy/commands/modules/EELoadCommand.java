@@ -24,7 +24,7 @@ public final class EELoadCommand extends CommandBase {
     // Command Info
     @Override @NotNull
     public String getName() {
-        return Defs.Commands.EnhancedEconomy.EE_LOAD;
+        return Defs.Commands.EE_LOAD;
     }
     @Override @NotNull
     public String getUsage(@NotNull final ICommandSender sender) {

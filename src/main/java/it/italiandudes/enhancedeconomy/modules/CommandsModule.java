@@ -1,6 +1,5 @@
 package it.italiandudes.enhancedeconomy.modules;
 
-import it.italiandudes.enhancedeconomy.commands.EnhancedEconomyCommand;
 import it.italiandudes.enhancedeconomy.commands.modules.EELoadCommand;
 import it.italiandudes.enhancedeconomy.commands.modules.EEReloadCommand;
 import it.italiandudes.enhancedeconomy.commands.modules.EEUnloadCommand;
