@@ -62,6 +62,8 @@ public final class Defs {
         public static final String COMMAND_USAGE_EELOAD = "command_eeload_usage";
         public static final String COMMAND_USAGE_EEUNLOAD = "command_eeunload_usage";
         public static final String COMMAND_USAGE_EERELOAD = "command_eereload_usage";
+        public static final String MODULE_NOT_LOADED = "module_not_loaded";
+        public static final String MODULE_ALREADY_LOADED = "module_already_loaded";
     }
 
     // Command Constants

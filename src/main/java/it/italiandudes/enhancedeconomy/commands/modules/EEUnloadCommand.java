@@ -1,6 +1,7 @@
 package it.italiandudes.enhancedeconomy.commands.modules;
 
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
+import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleNotLoadedException;
 import it.italiandudes.enhancedeconomy.modules.CommandsModule;
 import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;
 import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
@@ -79,6 +80,13 @@ public final class EEUnloadCommand extends CommandBase {
                                     Defs.ModuleNames.MODULE_DBCONNECTION
                                 )
                             );
+                        } catch (ModuleNotLoadedException e) {
+                            sender.sendMessage(
+                                new TextComponentString(
+                                    TextFormatting.AQUA +
+                                            LocalizationModule.translate(Defs.LangKeys.MODULE_NOT_LOADED)
+                                )
+                            );
                         } catch (ModuleException e) {
                             sender.sendMessage(
                                 new TextComponentString(
@@ -107,6 +115,13 @@ public final class EEUnloadCommand extends CommandBase {
                                     Defs.ModuleNames.MODULE_LOCALIZATION
                                 )
                             );
+                        } catch (ModuleNotLoadedException e) {
+                            sender.sendMessage(
+                                new TextComponentString(
+                                    TextFormatting.AQUA +
+                                            "Can't execute the command: the requested module is not loaded."
+                                )
+                            );
                         } catch (ModuleException e) {
                             sender.sendMessage(
                                 new TextComponentString(
@@ -133,6 +148,13 @@ public final class EEUnloadCommand extends CommandBase {
                                     TextFormatting.AQUA +
                                     LocalizationModule.translate(Defs.LangKeys.COMMAND_UNLOADING_SUCCESS) +
                                     Defs.ModuleNames.MODULE_COMMANDS
+                                )
+                            );
+                        } catch (ModuleNotLoadedException e) {
+                            sender.sendMessage(
+                                new TextComponentString(
+                                    TextFormatting.AQUA +
+                                            LocalizationModule.translate(Defs.LangKeys.MODULE_NOT_LOADED)
                                 )
                             );
                         } catch (ModuleException e) {

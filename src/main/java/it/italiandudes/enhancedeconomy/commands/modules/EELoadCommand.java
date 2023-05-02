@@ -1,6 +1,7 @@
 package it.italiandudes.enhancedeconomy.commands.modules;
 
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
+import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleAlreadyLoadedException;
 import it.italiandudes.enhancedeconomy.modules.CommandsModule;
 import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;
 import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
@@ -83,6 +84,13 @@ public final class EELoadCommand extends CommandBase {
                                         ModuleNames.MODULE_DBCONNECTION
                                     )
                                 );
+                            } catch (ModuleAlreadyLoadedException e) {
+                                sender.sendMessage(
+                                    new TextComponentString(
+                                        TextFormatting.AQUA +
+                                                LocalizationModule.translate(LangKeys.MODULE_ALREADY_LOADED)
+                                    )
+                                );
                             } catch (ModuleException e) {
                                 sender.sendMessage(
                                     new TextComponentString(
@@ -117,6 +125,12 @@ public final class EELoadCommand extends CommandBase {
                                         ModuleNames.MODULE_LOCALIZATION
                                     )
                                 );
+                            } catch (ModuleAlreadyLoadedException e) {
+                                sender.sendMessage(
+                                    new TextComponentString(
+                                        TextFormatting.AQUA + "Can't execute the command: the requested module is already loaded."
+                                    )
+                                );
                             } catch (ModuleException e) {
                                 sender.sendMessage(
                                     new TextComponentString(
@@ -147,6 +161,13 @@ public final class EELoadCommand extends CommandBase {
                                     TextFormatting.AQUA +
                                     LocalizationModule.translate(LangKeys.COMMAND_LOADING_SUCCESS) +
                                     ModuleNames.MODULE_COMMANDS
+                                )
+                            );
+                        } catch (ModuleAlreadyLoadedException e) {
+                            sender.sendMessage(
+                                new TextComponentString(
+                                    TextFormatting.AQUA +
+                                            LocalizationModule.translate(LangKeys.MODULE_ALREADY_LOADED)
                                 )
                             );
                         } catch (ModuleException e) {

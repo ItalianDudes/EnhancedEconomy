@@ -18,5 +18,7 @@
   "command_eeload_usage": "Usage: /eeload <module> <params> [module1, params1 ...]",
   "command_eeunload_usage": "Usage: /eeunload <module> [module1 ...]",
   "command_eereload_usage": "Usage: /eereload <module> <params> [module1, params1 ...]",
-  "command_ee_usage": "Usage: /enhancedeconomy"
+  "command_ee_usage": "Usage: /enhancedeconomy",
+  "module_not_loaded": "Can't execute the command: the requested module is not loaded.",
+  "module_already_loaded": "Can't execute the command: the requested module is already loaded."
 }
