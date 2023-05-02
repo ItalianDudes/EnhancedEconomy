@@ -1,18 +1,19 @@
 [
   {
-    "modid": "EnhancedEconomy",
+    "modid": "enhancedeconomy",
     "name": "EnhancedEconomy",
-    "description": "DESCRIPTION",
+    "description": "A minecraft mod that implements a similar-economic system.",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "",
     "updateUrl": "",
     "authorList": [
-      "ItalianDudes"
+      "ItalianDudes", "Hacker6329"
     ],
-    "credits": "",
+    "credits": "By ItalianDudes, ideated by Hacker6329.",
     "logoFile": "",
     "screenshots": [],
+    "parent": "",
     "dependencies": []
   }
 ]

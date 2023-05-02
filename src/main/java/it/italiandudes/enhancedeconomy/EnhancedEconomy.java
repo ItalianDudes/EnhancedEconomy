@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @SuppressWarnings("unused")
-@Mod(modid = Defs.ModInfo.MOD_ID, name = Defs.ModInfo.MOD_NAME, version = Defs.ModInfo.VERSION, useMetadata = true)
+@Mod(modid = Defs.ModInfo.MOD_ID, useMetadata = true)
 public final class EnhancedEconomy {
 
     // Mod Instance
