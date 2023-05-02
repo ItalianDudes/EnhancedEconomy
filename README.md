@@ -1,2 +1,2 @@
 # EnhancedEconomy
-A minecraft plugin for 1.19.x that implements an economic system.
+A minecraft mod for 1.12.x that implements an economic system.
