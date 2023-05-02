@@ -27,13 +27,13 @@ public final class Resource {
 
     // Localization Directory
     public static final class Path {
-        public static final String RESOURCE_DIR = "/";
+        public static final String RESOURCE_DIR = "/assets/";
         public static final class Localization {
-            public static final String LOCALIZATION_DIR = RESOURCE_DIR+"localization/";
+            public static final String LOCALIZATION_DIR = RESOURCE_DIR+ "localization/";
             public static final String LANG_FILE_EXTENSION = ".json";
         }
         public static final class DBConnection {
-            public static final String SQL_DIR = RESOURCE_DIR+"sql/";
+            public static final String SQL_DIR = RESOURCE_DIR+ "sql/";
             public static final String SQL_FILE_EXTENSION = ".sql";
             public static final String MYSQL_QUERY_PATH = SQL_DIR+"mysql"+SQL_FILE_EXTENSION;
             public static final String SQLITE_QUERY_PATH = SQL_DIR+"sqlite"+SQL_FILE_EXTENSION;
