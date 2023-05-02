@@ -49,40 +49,15 @@ public final class EnhancedEconomyCommand extends CommandBase {
             CommandsModule.sendModuleNotLoadedError(sender);
             return;
         }
-        if (args.length < 1) {
-            sender.sendMessage(
-                new TextComponentString(
-                        TextFormatting.RED + getUsage(sender)
-                )
-            );
-            return;
-        }
 
         try {
-            String localizedMsg;
-            TextComponentString msg;
-            //noinspection SwitchStatementWithTooFewBranches
-            switch (args[0].toLowerCase()) {
-                case Arguments.INFO:
-                    localizedMsg = LocalizationModule.translate(LangKeys.EE_INFO);
-                    if (localizedMsg == null) throw new ModuleException("Localization failed");
-                    msg = new TextComponentString(localizedMsg);
-                    msg.getStyle().setColor(TextFormatting.AQUA);
-                    sender.sendMessage(msg);
-                    break;
-
-                default:
-                    CommandsModule.sendCommandSyntaxError(sender, null);
-                    break;
-            }
+            String localizedMsg = LocalizationModule.translate(LangKeys.EE_INFO);
+            if (localizedMsg == null) throw new ModuleException("Localization failed");
+            TextComponentString msg = new TextComponentString(localizedMsg);
+            msg.getStyle().setColor(TextFormatting.AQUA);
+            sender.sendMessage(msg);
         } catch (ModuleException e) {
-            throw new RuntimeException(e);
+            CommandsModule.sendCommandExecutionError(sender, e);
         }
-    }
-
-    // Command Arguments
-    public static final class Arguments {
-        public static final String INFO = "info";
-        public static final String VERSION = "version";
     }
 }
