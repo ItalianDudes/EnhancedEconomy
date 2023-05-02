@@ -19,7 +19,6 @@ import org.jetbrains.annotations.Nullable;
 public final class CommandsModule {
 
     // Attributes
-    private static boolean firstLoadingDone = false;
     private static boolean isModuleLoaded = false;
 
     // Module Checker
@@ -43,14 +42,11 @@ public final class CommandsModule {
         isModuleLoaded = true;
     }
     public static void load(@NotNull final FMLServerStartingEvent event) {
-        if (!firstLoadingDone) {
-            event.registerServerCommand(new EnhancedEconomyCommand());
-            event.registerServerCommand(new EELoadCommand());
-            event.registerServerCommand(new EEUnloadCommand());
-            event.registerServerCommand(new EEReloadCommand());
-        }
+        event.registerServerCommand(new EnhancedEconomyCommand());
+        event.registerServerCommand(new EELoadCommand());
+        event.registerServerCommand(new EEUnloadCommand());
+        event.registerServerCommand(new EEReloadCommand());
         isModuleLoaded = true;
-        firstLoadingDone = true;
     }
     public static void unload(){
         isModuleLoaded = false;

@@ -1,7 +1,7 @@
 {
   "test_entry": "valore di test",
   "ee_version": "Versione di EnhancedEconomy: ",
-  "ee_info": "Nome Mod: EnhancedEconomy\nAutore: Hacker6329\nDescrizione: Una mod che implementa un sistema economico simil-realistico.",
+  "ee_info": "Nome Mod: EnhancedEconomy\nAutore: Hacker6329\nDescrizione: Una mod che implementa un sistema economico simile a quello reale.",
   "command_execution_error": "Si è verificato un errore durante l'esecuzione del comando.",
   "command_syntax_error": "La sintassi del comando è errata, consulta per capire come funziona usando il comando /help <comando>",
   "command_loading_started": "Caricamento Modulo: ",
@@ -18,5 +18,5 @@
   "command_eeload_usage": "Sintassi: /eeload <modulo> <parametri> [modulo1, parametri1 ...]",
   "command_eeunload_usage": "Sintassi: /eeunload <modulo> [modulo1 ...]",
   "command_eereload_usage": "Sintassi: /eereload <modulo> <parametri> [modulo1, parametri1 ...]",
-  "command_ee_usage": "Sintassi: /enhancedeconomy <info>"
+  "command_ee_usage": "Sintassi: /enhancedeconomy"
 }
