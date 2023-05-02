@@ -37,6 +37,7 @@ public final class Resource {
             public static final String SQL_FILE_EXTENSION = ".sql";
             public static final String MYSQL_QUERY_PATH = SQL_DIR+"mysql"+SQL_FILE_EXTENSION;
             public static final String SQLITE_QUERY_PATH = SQL_DIR+"sqlite"+SQL_FILE_EXTENSION;
+            public static final String POSTGRESQL_QUERY_PATH = SQL_DIR+"postgresql"+SQL_FILE_EXTENSION;
         }
     }
 }

@@ -63,7 +63,7 @@ public final class EELoadCommand extends CommandBase {
         boolean commandError = false;
         for (int i = 0; i< args.length && !commandError; i++) {
             try {
-                switch (args[i]) {
+                switch (args[i].toLowerCase()) {
                     case ModuleNames.MODULE_DBCONNECTION:
                         if (i + 1 < args.length) {
                             i++;

@@ -56,6 +56,7 @@ public final class LocalizationModule {
 
         InputStream resourceStream = Resource.getResourceAsStream(Resource.Path.Localization.LOCALIZATION_DIR+LOCALIZATION+Resource.Path.Localization.LANG_FILE_EXTENSION);
         if (resourceStream == null) {
+            areLangsLoading = false;
             if (!disableLog) ServerLogger.getLogger().error("Localization Module Load: Failed! (Reason: the lang resource can't be located)");
             throw new ModuleAlreadyLoadedException("Localization Module Load: Failed! (Reason: the lang resource can't be located)");
         }

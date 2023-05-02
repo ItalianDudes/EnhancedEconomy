@@ -29,7 +29,7 @@ public final class Defs {
     public static final class ModuleNames {
         public static final String MODULE_DBCONNECTION = "dbconnection";
         public static final String MODULE_COMMANDS = "commands";
-        public static final String MODULE_LOCALIZATION = "assets/localization";
+        public static final String MODULE_LOCALIZATION = "localization";
     }
 
     // DBConnection Constants
