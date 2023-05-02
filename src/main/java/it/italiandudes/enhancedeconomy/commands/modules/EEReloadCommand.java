@@ -51,7 +51,11 @@ public final class EEReloadCommand extends CommandBase {
             return;
         }
         if (args.length < 1) {
-            CommandsModule.sendCommandSyntaxError(sender, null);
+            sender.sendMessage(
+                new TextComponentString(
+                        TextFormatting.RED + getUsage(sender)
+                )
+            );
             return;
         }
 
@@ -91,6 +95,7 @@ public final class EEReloadCommand extends CommandBase {
                             CommandsModule.sendCommandSyntaxError(sender, null);
                             commandError = true;
                         }
+                        break;
                 
                     case Defs.ModuleNames.MODULE_LOCALIZATION:
                         if (i + 1 < args.length) {
@@ -124,6 +129,7 @@ public final class EEReloadCommand extends CommandBase {
                             CommandsModule.sendCommandSyntaxError(sender, null);
                             commandError = true;
                         }
+                        break;
                 
                     case Defs.ModuleNames.MODULE_COMMANDS:
                         try {
@@ -151,9 +157,11 @@ public final class EEReloadCommand extends CommandBase {
                                 )
                             );
                         }
+                        break;
                 
                     default:
                         CommandsModule.sendCommandSyntaxError(sender, null);
+                        break;
                 }
             } catch (ModuleException e) {
                 CommandsModule.sendCommandExecutionError(sender, e);

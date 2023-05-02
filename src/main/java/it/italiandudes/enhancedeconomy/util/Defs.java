@@ -71,9 +71,9 @@ public final class Defs {
     public static final class Commands {
         public static final class EnhancedEconomy {
             public static final String[] COMMAND_NAME = {"enhancedeconomy", "ee"};
-            public static final String EE_LOAD = "load";
-            public static final String EE_UNLOAD = "unload";
-            public static final String EE_RELOAD = "reload";
+            public static final String EE_LOAD = "eeload";
+            public static final String EE_UNLOAD = "eeunload";
+            public static final String EE_RELOAD = "eereload";
         }
     }
 }

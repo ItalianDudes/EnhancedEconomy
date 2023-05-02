@@ -52,7 +52,11 @@ public final class EELoadCommand extends CommandBase {
             return;
         }
         if (args.length < 1) {
-            CommandsModule.sendCommandSyntaxError(sender, null);
+            sender.sendMessage(
+                new TextComponentString(
+                    TextFormatting.RED + getUsage(sender)
+                )
+            );
             return;
         }
         
@@ -92,6 +96,7 @@ public final class EELoadCommand extends CommandBase {
                             CommandsModule.sendCommandSyntaxError(sender, null);
                             commandError = true;
                         }
+                        break;
 
                     case ModuleNames.MODULE_LOCALIZATION:
                         if (i + 1 < args.length) {
@@ -125,6 +130,7 @@ public final class EELoadCommand extends CommandBase {
                             CommandsModule.sendCommandSyntaxError(sender, null);
                             commandError = true;
                         }
+                        break;
 
                     case ModuleNames.MODULE_COMMANDS:
                         try {
@@ -152,9 +158,11 @@ public final class EELoadCommand extends CommandBase {
                                 )
                             );
                         }
+                        break;
 
                     default:
                         CommandsModule.sendCommandSyntaxError(sender, null);
+                        break;
                 }
             } catch (ModuleException e) {
                 CommandsModule.sendCommandExecutionError(sender, e);

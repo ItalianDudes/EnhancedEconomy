@@ -1,5 +1,6 @@
 package it.italiandudes.enhancedeconomy.commands;
 
+import com.google.common.collect.Lists;
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.modules.CommandsModule;
 import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
@@ -11,7 +12,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import org.jetbrains.annotations.NotNull;
-import scala.actors.threadpool.Arrays;
 
 import java.util.List;
 
@@ -25,15 +25,12 @@ public final class EnhancedEconomyCommand extends CommandBase {
     public String getName() {
         return Defs.Commands.EnhancedEconomy.COMMAND_NAME[0];
     }
-
-    @SuppressWarnings("unchecked")
     @Override @NotNull
     public List<String> getAliases() {
-        return (List<String>) Arrays.asList(Defs.Commands.EnhancedEconomy.COMMAND_NAME);
+        return Lists.newArrayList(Defs.Commands.EnhancedEconomy.COMMAND_NAME);
     }
     @Override @NotNull
     public String getUsage(@NotNull final ICommandSender sender) {
-
         try {
             String usage = LocalizationModule.translate(LangKeys.COMMAND_USAGE_EE);
             if (usage != null) return usage;
@@ -53,7 +50,11 @@ public final class EnhancedEconomyCommand extends CommandBase {
             return;
         }
         if (args.length < 1) {
-            CommandsModule.sendCommandSyntaxError(sender, null);
+            sender.sendMessage(
+                new TextComponentString(
+                        TextFormatting.RED + getUsage(sender)
+                )
+            );
             return;
         }
 
@@ -61,28 +62,26 @@ public final class EnhancedEconomyCommand extends CommandBase {
             switch (args[0].toLowerCase()) {
                 case Arguments.INFO:
                     sender.sendMessage(
-                            new TextComponentString(
-                                    TextFormatting.AQUA +
-                                            LocalizationModule.translate(LangKeys.EE_INFO)
-                            )
+                        new TextComponentString(
+                                TextFormatting.AQUA +
+                                        LocalizationModule.translate(LangKeys.EE_INFO)
+                        )
                     );
+                    break;
 
                 case Arguments.VERSION:
                     sender.sendMessage(
-                            new TextComponentString(
-                                    TextFormatting.AQUA +
-                                            LocalizationModule.translate(LangKeys.EE_VERSION) +
-                                            Defs.ModInfo.VERSION
-                            )
+                        new TextComponentString(
+                                TextFormatting.AQUA +
+                                        LocalizationModule.translate(LangKeys.EE_VERSION) +
+                                        Defs.ModInfo.VERSION
+                        )
                     );
+                    break;
 
                 default:
-                    sender.sendMessage(
-                            new TextComponentString(
-                                    TextFormatting.RED +
-                                            LocalizationModule.translate(LangKeys.COMMAND_SYNTAX_ERROR)
-                            )
-                    );
+                    CommandsModule.sendCommandSyntaxError(sender, null);
+                    break;
             }
         } catch (ModuleException e) {
             throw new RuntimeException();

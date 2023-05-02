@@ -39,7 +39,8 @@ public final class CommandsModule {
     }
     public static void load(@NotNull final FMLServerStartingEvent event) {
         if (!firstLoadingDone) {
-            event.registerServerCommand(new EnhancedEconomyCommand());
+            ServerLogger.getLogger().info("REGISTERING COMMANDS!");
+            // event.registerServerCommand(new EnhancedEconomyCommand());
             event.registerServerCommand(new EELoadCommand());
             event.registerServerCommand(new EEUnloadCommand());
             event.registerServerCommand(new EEReloadCommand());

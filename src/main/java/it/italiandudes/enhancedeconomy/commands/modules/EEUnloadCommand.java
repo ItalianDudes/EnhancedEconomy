@@ -51,7 +51,11 @@ public final class EEUnloadCommand extends CommandBase {
             return;
         }
         if (args.length < 1) {
-            CommandsModule.sendCommandSyntaxError(sender, null);
+            sender.sendMessage(
+                new TextComponentString(
+                        TextFormatting.RED + getUsage(sender)
+                )
+            );
             return;
         }
 
@@ -84,6 +88,7 @@ public final class EEUnloadCommand extends CommandBase {
                                 )
                             );
                         }
+                        break;
 
                     case Defs.ModuleNames.MODULE_LOCALIZATION:
                         try {
@@ -111,6 +116,7 @@ public final class EEUnloadCommand extends CommandBase {
                                 )
                             );
                         }
+                        break;
 
                     case Defs.ModuleNames.MODULE_COMMANDS:
                         try {
@@ -138,9 +144,11 @@ public final class EEUnloadCommand extends CommandBase {
                                 )
                             );
                         }
+                        break;
 
                     default:
                         CommandsModule.sendCommandSyntaxError(sender, null);
+                        break;
                 }
             } catch (ModuleException e) {
                 CommandsModule.sendCommandExecutionError(sender, e);
