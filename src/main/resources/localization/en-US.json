@@ -15,7 +15,8 @@
   "command_reloading_fail": "Reloading Module Failed: ",
   "command_module_not_loaded": "Can't execute the command: the commands module isn't loaded.",
   "command_missing_permissions": "Can't execute the command: insufficient permissions.",
-  "command_eeload_usage": "/eeload <module> <params> [module1, params1 ...]",
-  "command_eeunload_usage": "/eeunload <module> [module1 ...]",
-  "command_eereload_usage": "/eereload <module> <params> [module1, params1 ...]"
+  "command_eeload_usage": "Usage: /eeload <module> <params> [module1, params1 ...]",
+  "command_eeunload_usage": "Usage: /eeunload <module> [module1 ...]",
+  "command_eereload_usage": "Usage: /eereload <module> <params> [module1, params1 ...]",
+  "command_ee_usage": "Usage: /enhancedeconomy <info>"
 }

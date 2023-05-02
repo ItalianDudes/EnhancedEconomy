@@ -1,6 +1,5 @@
 package it.italiandudes.enhancedeconomy.commands;
 
-import com.google.common.collect.Lists;
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.modules.CommandsModule;
 import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
@@ -13,6 +12,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -27,7 +27,7 @@ public final class EnhancedEconomyCommand extends CommandBase {
     }
     @Override @NotNull
     public List<String> getAliases() {
-        return Lists.newArrayList(Defs.Commands.COMMAND_NAME);
+        return Arrays.asList(Defs.Commands.COMMAND_NAME);
     }
     @Override @NotNull
     public String getUsage(@NotNull final ICommandSender sender) {
@@ -59,24 +59,16 @@ public final class EnhancedEconomyCommand extends CommandBase {
         }
 
         try {
+            String localizedMsg;
+            TextComponentString msg;
+            //noinspection SwitchStatementWithTooFewBranches
             switch (args[0].toLowerCase()) {
                 case Arguments.INFO:
-                    sender.sendMessage(
-                        new TextComponentString(
-                                TextFormatting.AQUA +
-                                        LocalizationModule.translate(LangKeys.EE_INFO)
-                        )
-                    );
-                    break;
-
-                case Arguments.VERSION:
-                    sender.sendMessage(
-                        new TextComponentString(
-                                TextFormatting.AQUA +
-                                        LocalizationModule.translate(LangKeys.EE_VERSION) +
-                                        Defs.ModInfo.VERSION
-                        )
-                    );
+                    localizedMsg = LocalizationModule.translate(LangKeys.EE_INFO);
+                    if (localizedMsg == null) throw new ModuleException("Localization failed");
+                    msg = new TextComponentString(localizedMsg);
+                    msg.getStyle().setColor(TextFormatting.AQUA);
+                    sender.sendMessage(msg);
                     break;
 
                 default:
@@ -84,7 +76,7 @@ public final class EnhancedEconomyCommand extends CommandBase {
                     break;
             }
         } catch (ModuleException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 

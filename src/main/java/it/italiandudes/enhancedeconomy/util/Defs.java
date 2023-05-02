@@ -20,7 +20,6 @@ public final class Defs {
         }
         public static final String MOD_ID = "enhancedeconomy";
         public static final String MOD_NAME = "EnhancedEconomy";
-        public static final String VERSION = "0.0.1A";
     }
 
     //Proxy
@@ -46,7 +45,6 @@ public final class Defs {
 
     // Lang Keys
     public static final class LangKeys {
-        public static final String EE_VERSION = "ee_version";
         public static final String EE_INFO = "ee_info";
         public static final String COMMAND_EXECUTION_ERROR = "command_execution_error";
         public static final String COMMAND_SYNTAX_ERROR = "command_syntax_error";
@@ -61,10 +59,12 @@ public final class Defs {
         public static final String COMMAND_RELOADING_FAIL = "command_reloading_fail";
         public static final String COMMAND_MODULE_NOT_LOADED = "command_module_not_loaded";
         public static final String COMMAND_MISSING_PERMISSIONS = "command_missing_permissions";
-        public static final String COMMAND_USAGE_EE = "usage_ee";
+        public static final String COMMAND_USAGE_EE = "command_ee_usage";
         public static final String COMMAND_USAGE_EELOAD = "command_eeload_usage";
         public static final String COMMAND_USAGE_EEUNLOAD = "command_eeunload_usage";
         public static final String COMMAND_USAGE_EERELOAD = "command_eereload_usage";
+        public static final String COMMAND_USAGE_EECONFIG = "command_eeconfig_usage";
+        public static final String COMMAND_CONFIG_SUCCESS = "command_eeconfig_success";
     }
 
     // Command Constants
@@ -73,5 +73,6 @@ public final class Defs {
         public static final String EE_LOAD = "eeload";
         public static final String EE_UNLOAD = "eeunload";
         public static final String EE_RELOAD = "eereload";
+        public static final String EE_CONFIG = "eeconfig";
     }
 }

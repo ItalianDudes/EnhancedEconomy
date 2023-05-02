@@ -27,7 +27,7 @@ public final class EELoadCommand extends CommandBase {
         return Defs.Commands.EE_LOAD;
     }
     @Override @NotNull
-    public String getUsage(@NotNull final ICommandSender sender) {
+    public String getUsage(@NotNull ICommandSender sender) {
         try {
             String usage = LocalizationModule.translate(Defs.LangKeys.COMMAND_USAGE_EELOAD);
             if (usage != null) return usage;
@@ -41,12 +41,12 @@ public final class EELoadCommand extends CommandBase {
         return super.getRequiredPermissionLevel(); // MAX OP LEVEL
     }
     @Override
-    public boolean checkPermission(@NotNull final MinecraftServer server, @NotNull final ICommandSender sender) {
+    public boolean checkPermission(@NotNull MinecraftServer server, @NotNull ICommandSender sender) {
         return super.checkPermission(server, sender);
     }
 
     // Command Body
-    public void execute(@NotNull final MinecraftServer server, @NotNull final ICommandSender sender, final String @NotNull [] args) {
+    public void execute(@NotNull MinecraftServer server, @NotNull ICommandSender sender, String @NotNull [] args) {
         if (!CommandsModule.isModuleLoaded() && !RUN_WITH_MODULE_NOT_LOADED) {
             CommandsModule.sendModuleNotLoadedError(sender);
             return;

@@ -1,5 +1,6 @@
 package it.italiandudes.enhancedeconomy.modules;
 
+import it.italiandudes.enhancedeconomy.commands.EnhancedEconomyCommand;
 import it.italiandudes.enhancedeconomy.commands.modules.EELoadCommand;
 import it.italiandudes.enhancedeconomy.commands.modules.EEReloadCommand;
 import it.italiandudes.enhancedeconomy.commands.modules.EEUnloadCommand;
@@ -38,8 +39,7 @@ public final class CommandsModule {
     }
     public static void load(@NotNull final FMLServerStartingEvent event) {
         if (!firstLoadingDone) {
-            ServerLogger.getLogger().info("REGISTERING COMMANDS!");
-            // event.registerServerCommand(new EnhancedEconomyCommand());
+            event.registerServerCommand(new EnhancedEconomyCommand());
             event.registerServerCommand(new EELoadCommand());
             event.registerServerCommand(new EEUnloadCommand());
             event.registerServerCommand(new EEReloadCommand());
