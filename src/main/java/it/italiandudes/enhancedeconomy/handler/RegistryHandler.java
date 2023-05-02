@@ -7,10 +7,7 @@ import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;
 import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
 import it.italiandudes.enhancedeconomy.util.ServerLogger;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.*;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber
@@ -38,17 +35,30 @@ public final class RegistryHandler {
 
     }
 
-    public static void serverRegistries(FMLServerStartingEvent event){
+    public static void initServerRegistries(FMLServerStartingEvent event){
         try {
-            LocalizationModule.load(ConfigModule.LOCALIZATION);
+            if (!LocalizationModule.isModuleLoaded()) LocalizationModule.load(ConfigModule.LOCALIZATION);
         } catch (ModuleException e) {
+            LocalizationModule.handleLoadFail(e);
+        }
+        if (!CommandsModule.isModuleLoaded()) CommandsModule.load(event);
+        try {
+            if (!DBConnectionModule.isModuleLoaded()) DBConnectionModule.load(ConfigModule.JDBC_CONNECTION_STRING);
+        }catch (ModuleException e) {
+            DBConnectionModule.handleLoadFail(e);
+        }
+    }
+    public static void stoppingServerRegistries(FMLServerStoppingEvent event){
+        if (CommandsModule.isModuleLoaded()) CommandsModule.unload();
+        try {
+            if (DBConnectionModule.isModuleLoaded()) DBConnectionModule.unload();
+        }catch (ModuleException e) {
             throw new RuntimeException(e);
         }
-        CommandsModule.load(event);
         try {
-            DBConnectionModule.load(ConfigModule.JDBC_CONNECTION_STRING);
+            if (LocalizationModule.isModuleLoaded()) LocalizationModule.unload();
         }catch (ModuleException e) {
-            ServerLogger.getLogger().error(e);
+            throw new RuntimeException(e);
         }
     }
 }

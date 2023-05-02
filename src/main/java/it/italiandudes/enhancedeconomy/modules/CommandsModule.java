@@ -28,6 +28,11 @@ public final class CommandsModule {
         return isModuleLoaded;
     }
 
+    // Load Fail Handler
+    public static void handleLoadFail(@Nullable final Throwable e) {
+        throw new RuntimeException(e);
+    }
+
     // Default Constructor
     public CommandsModule() {
         throw new RuntimeException("Can't instantiate this class!");

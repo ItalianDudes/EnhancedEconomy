@@ -35,6 +35,11 @@ public final class LocalizationModule {
         return langFile != null;
     }
 
+    // Load Fail Handler
+    public static void handleLoadFail(@Nullable final Throwable e) {
+        throw new RuntimeException(e);
+    }
+
     // Methods
     public synchronized static void load(@NotNull final String LOCALIZATION) throws ModuleException {
         load(LOCALIZATION, false);

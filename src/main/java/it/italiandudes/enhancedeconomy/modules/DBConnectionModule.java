@@ -54,6 +54,13 @@ public final class DBConnectionModule {
         return dbConnection != null;
     }
 
+    // Load Fail Handler
+    public static void handleLoadFail(@Nullable final Throwable e) {
+        if (e != null) {
+            ServerLogger.getLogger().error(e);
+        }
+    }
+
     // Methods
     public synchronized static void load(@NotNull final String jdbcConnectionString) throws ModuleException {
         load(jdbcConnectionString, false);
