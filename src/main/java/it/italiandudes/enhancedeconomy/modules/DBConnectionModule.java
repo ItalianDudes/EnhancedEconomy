@@ -33,7 +33,7 @@ public final class DBConnectionModule {
 
         StringBuilder queryBuilder = new StringBuilder();
 
-        Scanner queryReader = new Scanner(inStream);
+        Scanner queryReader = new Scanner(inStream, "UTF-8");
         while(queryReader.hasNext()) {
             queryBuilder.append(queryReader.nextLine()).append('\n');
         }

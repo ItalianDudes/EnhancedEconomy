@@ -10,7 +10,7 @@ group = 'it.italiandudes'
  * ('T': type of version between "Release"/"Beta"/"Alpha")
  * See https://docs.minecraftforge.net/en/1.12.x/conventions/versioning/
  */
-version = '1.12.2-0.1.2.3A'
+version = '1.12.2-0.1.2.4A'
 
 java {
     archivesBaseName = 'EnhancedEconomy'

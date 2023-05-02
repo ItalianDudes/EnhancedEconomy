@@ -16,6 +16,7 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 @SuppressWarnings("unused")
 public final class LocalizationModule {
@@ -67,7 +68,7 @@ public final class LocalizationModule {
         }
 
         try {
-            streamReader = new InputStreamReader(resourceStream);
+            streamReader = new InputStreamReader(resourceStream, StandardCharsets.UTF_8);
             langFile = (JSONObject) new JSONParser().parse(streamReader);
             streamReader.close();
         } catch (IOException | ParseException e) {
