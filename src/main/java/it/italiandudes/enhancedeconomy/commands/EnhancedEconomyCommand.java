@@ -21,6 +21,7 @@ public final class EnhancedEconomyCommand extends CommandBase {
     // Command Name
     public static final boolean RUN_WITH_MODULE_NOT_LOADED = true;
 
+    // Command Info
     @Override @NotNull
     public String getName() {
         return Defs.Commands.COMMAND_NAME[0];
@@ -43,6 +44,8 @@ public final class EnhancedEconomyCommand extends CommandBase {
     public boolean checkPermission(@NotNull final MinecraftServer server, @NotNull final ICommandSender sender) {
         return true;
     }
+
+    // Command Body
     @Override
     public void execute(@NotNull final MinecraftServer server, @NotNull final ICommandSender sender, final String @NotNull [] args) {
         if (!CommandsModule.isModuleLoaded() && !RUN_WITH_MODULE_NOT_LOADED) {
