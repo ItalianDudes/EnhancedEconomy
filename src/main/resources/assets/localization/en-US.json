@@ -20,5 +20,10 @@
   "command_eereload_usage": "Usage: /eereload <module> <params> [module1, params1 ...]",
   "command_ee_usage": "Usage: /enhancedeconomy",
   "module_not_loaded": "Can't execute the command: the requested module is not loaded.",
-  "module_already_loaded": "Can't execute the command: the requested module is already loaded."
+  "module_already_loaded": "Can't execute the command: the requested module is already loaded.",
+  "command_eecurrency_usage": "/eecurrency (new <currency_name> <iso> <symbol>) | (delete <iso>) | list",
+  "command_all_required_modules_are_not_loaded": "",
+  "command_eecurrency_list_header": "",
+  "command_eecurrency_list_separator": "",
+  "command_eecurrency_list_no_currency": "There aren't any registered currencies."
 }

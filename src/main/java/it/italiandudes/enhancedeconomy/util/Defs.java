@@ -64,6 +64,11 @@ public final class Defs {
         public static final String COMMAND_USAGE_EERELOAD = "command_eereload_usage";
         public static final String MODULE_NOT_LOADED = "module_not_loaded";
         public static final String MODULE_ALREADY_LOADED = "module_already_loaded";
+        public static final String COMMAND_USAGE_EECURRENCY = "command_eecurrency_usage";
+        public static final String ALL_REQUIRED_MODULES_ARE_NOT_LOADED = "command_all_required_modules_are_not_loaded";
+        public static final String COMMAND_EECURRENCY_LIST_HEADER = "command_eecurrency_list_header";
+        public static final String COMMAND_EECURRENCY_LIST_SEPARATOR = "command_eecurrency_list_separator";
+        public static final String COMMAND_EECURRENCY_LIST_NO_CURRENCY = "command_eecurrency_list_no_currency";
     }
 
     // Command Constants
@@ -72,5 +77,11 @@ public final class Defs {
         public static final String EE_LOAD = "eeload";
         public static final String EE_UNLOAD = "eeunload";
         public static final String EE_RELOAD = "eereload";
+        public static final class EECurrency {
+            public static final String EE_CURRENCY = "eecurrency";
+            public static final String EE_CURRENCY_NEW = "new";
+            public static final String EE_CURRENCY_DELETE = "delete";
+            public static final String EE_CURRENCY_LIST = "list";
+        }
     }
 }

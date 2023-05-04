@@ -103,4 +103,14 @@ public final class CommandsModule {
             );
         } catch (ModuleException ignored) {}
     }
+    public static void sendAllRequiredModulesAreNotLoadedError(@NotNull final ICommandSender sender) {
+        try {
+            sender.sendMessage(
+                    new TextComponentString(
+                            TextFormatting.RED +
+                                    LocalizationModule.translate(Defs.LangKeys.ALL_REQUIRED_MODULES_ARE_NOT_LOADED)
+                    )
+            );
+        } catch (ModuleException ignored) {}
+    }
 }
