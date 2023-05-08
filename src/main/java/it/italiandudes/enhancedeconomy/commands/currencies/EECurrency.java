@@ -14,8 +14,8 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 @SuppressWarnings("unused")
@@ -65,10 +65,10 @@ public final class EECurrency extends CommandBase {
         }
 
         try {
-            String name, iso;
+            String name, iso, creationDate;
             String query;
             String output;
-            ArrayList<Currency> resultContent = new ArrayList<>();
+            ArrayList<Currency> resultContent;
             ITextComponent formattedOutput;
             char symbol;
             switch (args[0]) {
@@ -85,6 +85,23 @@ public final class EECurrency extends CommandBase {
                     name = args[1];
                     iso = args[2];
                     symbol = args[3].charAt(0);
+                    try {
+                        query = "INSERT INTO currencies (name, iso, symbol) VALUES (?, ?, ?);";
+                        PreparedStatement preparedStatement = DBConnectionModule.getPreparedStatement(query);
+                        preparedStatement.setString(1, name);
+                        preparedStatement.setString(2, iso);
+                        preparedStatement.setString(3, String.valueOf(symbol));
+                        int newRows = preparedStatement.executeUpdate();
+                        preparedStatement.close();
+                        if (newRows > 0) {
+                            formattedOutput = new TextComponentString(TextFormatting.AQUA + LocalizationModule.translate(Defs.LangKeys.COMMANDS_EECURRENCY_NEW_SUCCESS));
+                        }else {
+                            formattedOutput = new TextComponentString(TextFormatting.RED + LocalizationModule.translate(Defs.LangKeys.COMMANDS_EECURRENCY_NEW_FAIL));
+                        }
+                        sender.sendMessage(formattedOutput);
+                    }catch (Exception e) {
+                        throw new ModuleException("EE Currency New execution error", e);
+                    }
                     break;
 
                 case Defs.Commands.EECurrency.EE_CURRENCY_DELETE:
@@ -97,32 +114,94 @@ public final class EECurrency extends CommandBase {
                         return;
                     }
                     iso = args[1];
+                    try {
+                        query = "DELETE FROM currencies WHERE iso=?;";
+                        PreparedStatement preparedStatement = DBConnectionModule.getPreparedStatement(query);
+                        preparedStatement.setString(1, iso);
+                        int deletedRows = preparedStatement.executeUpdate();
+                        preparedStatement.close();
+                        if (deletedRows > 0) {
+                            formattedOutput = new TextComponentString(TextFormatting.AQUA + LocalizationModule.translate(Defs.LangKeys.COMMANDS_EECURRENCY_DELETE_SUCCESS));
+                        }else {
+                            formattedOutput = new TextComponentString(TextFormatting.RED + LocalizationModule.translate(Defs.LangKeys.COMMANDS_EECURRENCY_DELETE_FAIL));
+                        }
+                        sender.sendMessage(formattedOutput);
+                    }catch (Exception e) {
+                        throw new ModuleException("EE Currency Delete execution error", e);
+                    }
+                    break;
+
+                case Defs.Commands.EECurrency.EE_CURRENCT_GET:
+                    if (args.length < 2) {
+                        sender.sendMessage(
+                                new TextComponentString(
+                                        TextFormatting.RED + getUsage(sender)
+                                )
+                        );
+                        return;
+                    }
+                    iso = args[1];
+                    try {
+                        query = "SELECT name, symbol, creation_date FROM currencies;";
+                        ResultSet results = DBConnectionModule.executePreparedStatementFromQuery(query);
+                        if (results == null) {
+                            throw new ModuleException("The result is null");
+                        }
+                        resultContent = new ArrayList<>();
+                        while (results.next()) {
+                            name = results.getString("name");
+                            symbol = results.getString("symbol").charAt(0);
+                            creationDate = results.getDate("creation_date").toString();
+                            resultContent.add(new Currency(name, iso, symbol, creationDate));
+                        }
+                        results.close();
+                        if (resultContent.size() > 0) {
+                            Currency c = resultContent.get(0);
+                            formattedOutput = new TextComponentString(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_NAME)+TextFormatting.RESET+c.getCurrencyName()+'\n');
+                            formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_ISO)+TextFormatting.RESET+c.getIso()+'\n');
+                            formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_SYMBOL)+TextFormatting.RESET+c.getSymbol()+'\n');
+                            formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_CREATION_DATE)+TextFormatting.RESET+c.getCreationDate()+'\n');
+                        }else {
+                            formattedOutput = new TextComponentString(TextFormatting.AQUA + LocalizationModule.translate(Defs.LangKeys.COMMANDS_EECURRENCY_GET_NO_CURRENCY));
+                        }
+                        sender.sendMessage(formattedOutput);
+                    }catch (Exception e) {
+                        throw new ModuleException("EE Currency Get execution error", e);
+                    }
                     break;
 
                 case Defs.Commands.EECurrency.EE_CURRENCY_LIST:
                     try {
-                        query = "SELECT name, symbol, iso FROM currencies;";
+                        query = "SELECT name, symbol, iso, creation_date FROM currencies;";
                         ResultSet results = DBConnectionModule.executePreparedStatementFromQuery(query);
                         if (results == null) {
                             throw new ModuleException("The result set is null");
                         }
+                        resultContent = new ArrayList<>();
                         while (results.next()) {
                             name = results.getString("name");
                             iso = results.getString("iso");
                             symbol = results.getString("symbol").charAt(0);
-                            resultContent.add(new Currency(name, iso, symbol));
+                            creationDate = results.getDate("creation_date").toString();
+                            resultContent.add(new Currency(name, iso, symbol, creationDate));
                         }
+                        results.close();
                         if (resultContent.size() > 0) {
-                            // TODO: prepare a formatted output
                             formattedOutput = new TextComponentString(TextFormatting.AQUA + LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_LIST_HEADER) + "\n");
-                            formattedOutput = formattedOutput.appendText(TextFormatting.AQUA + LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_LIST_SEPARATOR));
+                            for (int i=0;i<resultContent.size();i++) {
+                                Currency c = resultContent.get(i);
+                                formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_NAME)+TextFormatting.RESET+c.getCurrencyName()+'\n');
+                                formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_ISO)+TextFormatting.RESET+c.getIso()+'\n');
+                                formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_SYMBOL)+TextFormatting.RESET+c.getSymbol()+'\n');
+                                formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_CREATION_DATE)+TextFormatting.RESET+c.getCreationDate()+'\n');
+                                if (i+1 < resultContent.size()) formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_LIST_SEPARATOR)+'\n');
+                            }
                         }else {
                             formattedOutput = new TextComponentString(TextFormatting.AQUA + LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_LIST_NO_CURRENCY));
                         }
-                        results.close();
                         sender.sendMessage(formattedOutput);
                     } catch (Exception e) {
-                        throw new ModuleException("EE Currency List execution error",e);
+                        throw new ModuleException("EE Currency List execution error", e);
                     }
                     break;
 

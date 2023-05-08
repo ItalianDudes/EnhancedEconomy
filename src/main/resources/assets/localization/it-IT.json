@@ -23,7 +23,16 @@
   "module_already_loaded": "Impossibile eseguire il comando: il modulo in questione è stato già caricato.",
   "command_eecurrency_usage": "",
   "command_all_required_modules_are_not_loaded": "",
-  "command_eecurrency_list_header": "",
-  "command_eecurrency_list_separator": "",
-  "command_eecurrency_list_no_currency": "Non è presente alcuna valuta registrata."
+  "command_eecurrency_list_header": "Valute registrate:",
+  "command_eecurrency_list_separator": "-------------------------------------------------",
+  "command_eecurrency_list_no_currency": "Non è presente alcuna valuta registrata.",
+  "command_eecurrency_iso": "ISO: ",
+  "command_eecurrency_name": "Nome: ",
+  "command_eecurrency_symbol": "Simbolo: ",
+  "command_eecurrency_creation_date": "Data di Creazione: ",
+  "commands_eecurrency_get_no_currency": "Questa valuta non esiste.",
+  "commands_eecurrency_delete_success": "Valuta eliminata con successo!",
+  "commands_eecurrency_delete_fail": "Impossibile eliminare la valuta: non esiste.",
+  "commands_eecurrency_new_success": "Valuta registrata con successo!",
+  "commands_eecurrency_new_fail": "Impossibile registrare la valuta: esiste già."
 }

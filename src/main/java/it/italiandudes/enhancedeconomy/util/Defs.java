@@ -69,6 +69,15 @@ public final class Defs {
         public static final String COMMAND_EECURRENCY_LIST_HEADER = "command_eecurrency_list_header";
         public static final String COMMAND_EECURRENCY_LIST_SEPARATOR = "command_eecurrency_list_separator";
         public static final String COMMAND_EECURRENCY_LIST_NO_CURRENCY = "command_eecurrency_list_no_currency";
+        public static final String COMMAND_EECURRENCY_ISO = "command_eecurrency_iso";
+        public static final String COMMAND_EECURRENCY_NAME = "command_eecurrency_name";
+        public static final String COMMAND_EECURRENCY_SYMBOL = "command_eecurrency_symbol";
+        public static final String COMMAND_EECURRENCY_CREATION_DATE = "command_eecurrency_creation_date";
+        public static final String COMMANDS_EECURRENCY_GET_NO_CURRENCY = "commands_eecurrency_get_no_currency";
+        public static final String COMMANDS_EECURRENCY_DELETE_SUCCESS = "commands_eecurrency_delete_success";
+        public static final String COMMANDS_EECURRENCY_DELETE_FAIL = "commands_eecurrency_delete_fail";
+        public static final String COMMANDS_EECURRENCY_NEW_SUCCESS = "commands_eecurrency_new_success";
+        public static final String COMMANDS_EECURRENCY_NEW_FAIL = "commands_eecurrency_new_fail";
     }
 
     // Command Constants
@@ -82,6 +91,7 @@ public final class Defs {
             public static final String EE_CURRENCY_NEW = "new";
             public static final String EE_CURRENCY_DELETE = "delete";
             public static final String EE_CURRENCY_LIST = "list";
+            public static final String EE_CURRENCT_GET = "get";
         }
     }
 }
