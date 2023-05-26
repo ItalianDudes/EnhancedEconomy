@@ -10,7 +10,7 @@ group = 'it.italiandudes'
  * ('T': type of version between "Release"/"Beta"/"Alpha")
  * See https://docs.minecraftforge.net/en/1.12.x/conventions/versioning/
  */
-version = '1.12.2-0.1.2.4A'
+version = '1.12.2-0.1.2.5A'
 
 java {
     archivesBaseName = 'EnhancedEconomy'
@@ -61,13 +61,13 @@ configurations {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
     compileOnly 'org.jetbrains:annotations:23.0.0'
+    bundleLibs 'it.italiandudes:idl:1.0.5'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
-    implementation 'it.italiandudes:idl:1.0.5'
     bundleLibs 'commons-codec:commons-codec:1.15'
     bundleLibs 'commons-io:commons-io:2.11.0'
     //noinspection VulnerableLibrariesLocal
     bundleLibs 'com.googlecode.json-simple:json-simple:1.1.1'
-    bundleLibs 'it.italiandudes:idl:1.0.4'
+    bundleLibs 'it.italiandudes:idl:1.0.5'
 }
 
 jar {
