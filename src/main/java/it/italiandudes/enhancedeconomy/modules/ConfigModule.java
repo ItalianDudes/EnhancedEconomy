@@ -9,7 +9,7 @@ public final class ConfigModule {
 
     // Attributes
     @Config.Name("JDBC Connection String")
-    public static String JDBC_CONNECTION_STRING = "jdbc:sqlite:example";
+    public static String JDBC_CONNECTION_STRING = Defs.DBConnection.JDBC_UNCONFIGURED;
     @Config.Name("Localization")
     public static String LOCALIZATION = "en-US";
 

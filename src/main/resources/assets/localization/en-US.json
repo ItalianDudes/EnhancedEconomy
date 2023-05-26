@@ -1,6 +1,7 @@
 {
   "test_entry": "test_entry",
   "ee_version": "EnhancedEconomy Version: ",
+  "ee_modstats": "Module Status:",
   "ee_info": "Mod Name: EnhancedEconomy\nAuthor: Hacker6329\nDescription: A mod that implements a similar realistic economy system.",
   "command_execution_error": "An error has occurred during the command execution.",
   "command_syntax_error": "The syntax of the command is wrong, check the usage using /help <command>",

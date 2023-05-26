@@ -5,6 +5,7 @@ import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleAlreadyLoadedExc
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleLoadingException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleNotLoadedException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleReloadingException;
+import it.italiandudes.enhancedeconomy.util.Defs;
 import it.italiandudes.enhancedeconomy.util.Resource;
 import it.italiandudes.enhancedeconomy.util.ServerLogger;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 public final class LocalizationModule {
 
     // Attributes
+    public static final String NAME = Defs.ModuleNames.MODULE_LOCALIZATION;
     private static JSONObject langFile = null;
     private static boolean areLangsLoading = false;
 

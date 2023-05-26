@@ -1,6 +1,7 @@
 {
   "test_entry": "valore di test",
   "ee_version": "Versione di EnhancedEconomy: ",
+  "ee_modstats": "Stato Moduli:",
   "ee_info": "Nome Mod: EnhancedEconomy\nAutore: Hacker6329\nDescrizione: Una mod che implementa un sistema economico simile a quello reale.",
   "command_execution_error": "Si è verificato un errore durante l'esecuzione del comando.",
   "command_syntax_error": "La sintassi del comando è errata, consulta per capire come funziona usando il comando /help <comando>",

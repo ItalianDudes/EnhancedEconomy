@@ -61,7 +61,7 @@ configurations {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
     compileOnly 'org.jetbrains:annotations:23.0.0'
-    bundleLibs 'it.italiandudes:idl:1.0.5'
+    implementation 'it.italiandudes:idl:1.0.5'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     bundleLibs 'commons-codec:commons-codec:1.15'
     bundleLibs 'commons-io:commons-io:2.11.0'

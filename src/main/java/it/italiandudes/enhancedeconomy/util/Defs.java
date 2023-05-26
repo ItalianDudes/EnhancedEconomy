@@ -34,6 +34,7 @@ public final class Defs {
 
     // DBConnection Constants
     public static final class DBConnection {
+        public static final String JDBC_UNCONFIGURED = "UNCONFIGURED";
         public static final String JDBC_MYSQL_CONNECTOR_STRING_START = "jdbc:mysql";
         public static final String JDBC_SQLITE_CONNECTOR_STRING_START = "jdbc:sqlite";
         public static final String JDBC_POSTGRESQL_CONNECTOR_STRING_START = "jdbc:postgresql";
@@ -45,6 +46,8 @@ public final class Defs {
     // Lang Keys
     public static final class LangKeys {
         public static final String EE_INFO = "ee_info";
+        public static final String EE_VERSION = "ee_version";
+        public static final String EE_MODSTATS = "ee_modstats";
         public static final String COMMAND_EXECUTION_ERROR = "command_execution_error";
         public static final String COMMAND_SYNTAX_ERROR = "command_syntax_error";
         public static final String COMMAND_LOADING_STARTED = "command_loading_started";

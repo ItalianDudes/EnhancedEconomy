@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 public final class CommandsModule {
 
     // Attributes
+    public static final String NAME = Defs.ModuleNames.MODULE_COMMANDS;
     private static boolean isModuleLoaded = false;
 
     // Module Checker

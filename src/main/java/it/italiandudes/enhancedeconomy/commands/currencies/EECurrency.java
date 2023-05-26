@@ -53,9 +53,9 @@ public final class EECurrency extends CommandBase {
         }
         if (args.length < 1) {
             sender.sendMessage(
-                    new TextComponentString(
-                            TextFormatting.RED + getUsage(sender)
-                    )
+                new TextComponentString(
+                TextFormatting.RED + getUsage(sender)
+                )
             );
             return;
         }
@@ -76,9 +76,9 @@ public final class EECurrency extends CommandBase {
                 case Defs.Commands.EECurrency.EE_CURRENCY_NEW:
                     if (args.length < 4) {
                         sender.sendMessage(
-                                new TextComponentString(
-                                        TextFormatting.RED + getUsage(sender)
-                                )
+                            new TextComponentString(
+                                    TextFormatting.RED + getUsage(sender)
+                            )
                         );
                         return;
                     }
@@ -107,9 +107,9 @@ public final class EECurrency extends CommandBase {
                 case Defs.Commands.EECurrency.EE_CURRENCY_DELETE:
                     if (args.length < 2) {
                         sender.sendMessage(
-                                new TextComponentString(
-                                        TextFormatting.RED + getUsage(sender)
-                                )
+                            new TextComponentString(
+                                TextFormatting.RED + getUsage(sender)
+                            )
                         );
                         return;
                     }

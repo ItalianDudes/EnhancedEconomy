@@ -16,6 +16,7 @@ import java.util.Scanner;
 public final class DBConnectionModule {
 
     // Attributes
+    public static final String NAME = Defs.ModuleNames.MODULE_DBCONNECTION;
     private static Connection dbConnection = null;
     private static boolean isDBConnecting = false;
     @Nullable private static String dbType = null;
@@ -67,6 +68,10 @@ public final class DBConnectionModule {
     }
     public static void load(@NotNull String jdbcConnectionString, final boolean disableLog) throws ModuleException {
 
+        if (jdbcConnectionString.equals(Defs.DBConnection.JDBC_UNCONFIGURED)) {
+            if (!disableLog) ServerLogger.getLogger().warn("DBConnection Module Load: Canceled! (Reason: the jdbc connection string is unconfigured)");
+            throw new ModuleLoadingException("DBConnection Module Load: Canceled! (Reason: the jdbc connection string is unconfigured)");
+        }
         if (isDBConnecting) {
             if (!disableLog) ServerLogger.getLogger().warn("DBConnect Module Load: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
             throw new ModuleLoadingException("DBConnect Module Load: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
@@ -145,6 +150,10 @@ public final class DBConnectionModule {
     }
     public static void reload(@NotNull final String jdbcConnectionString, final boolean disableLog) throws ModuleException {
 
+        if (jdbcConnectionString.equals(Defs.DBConnection.JDBC_UNCONFIGURED)) {
+            if (!disableLog) ServerLogger.getLogger().warn("DBConnection Module Load: Canceled! (Reason: the jdbc connection string is unconfigured)");
+            throw new ModuleLoadingException("DBConnection Module Load: Canceled! (Reason: the jdbc connection string is unconfigured)");
+        }
         if (isDBConnecting) {
             if (!disableLog) ServerLogger.getLogger().warn("DBConnect Module Reload: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
             throw new ModuleLoadingException("DBConnect Module Reload: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
