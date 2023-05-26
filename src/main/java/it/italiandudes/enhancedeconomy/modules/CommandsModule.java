@@ -1,6 +1,7 @@
 package it.italiandudes.enhancedeconomy.modules;
 
 import it.italiandudes.enhancedeconomy.commands.EnhancedEconomyCommand;
+import it.italiandudes.enhancedeconomy.commands.currencies.EECurrency;
 import it.italiandudes.enhancedeconomy.commands.modules.EELoadCommand;
 import it.italiandudes.enhancedeconomy.commands.modules.EEReloadCommand;
 import it.italiandudes.enhancedeconomy.commands.modules.EEUnloadCommand;
@@ -47,6 +48,7 @@ public final class CommandsModule {
         event.registerServerCommand(new EELoadCommand());
         event.registerServerCommand(new EEUnloadCommand());
         event.registerServerCommand(new EEReloadCommand());
+        event.registerServerCommand(new EECurrency());
         isModuleLoaded = true;
     }
     public static void unload(){
