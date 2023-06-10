@@ -64,6 +64,8 @@ public final class EECurrency extends CommandBase {
             return;
         }
 
+        System.out.println("PRE-DONE");
+
         try {
             String name, iso, creationDate;
             String query;
@@ -94,9 +96,11 @@ public final class EECurrency extends CommandBase {
                         int newRows = preparedStatement.executeUpdate();
                         preparedStatement.close();
                         if (newRows > 0) {
-                            formattedOutput = new TextComponentString(TextFormatting.AQUA + LocalizationModule.translate(Defs.LangKeys.COMMANDS_EECURRENCY_NEW_SUCCESS));
+                            formattedOutput = new TextComponentString(LocalizationModule.translate(Defs.LangKeys.COMMANDS_EECURRENCY_NEW_SUCCESS));
+                            formattedOutput.getStyle().setColor(TextFormatting.AQUA);
                         }else {
-                            formattedOutput = new TextComponentString(TextFormatting.RED + LocalizationModule.translate(Defs.LangKeys.COMMANDS_EECURRENCY_NEW_FAIL));
+                            formattedOutput = new TextComponentString(LocalizationModule.translate(Defs.LangKeys.COMMANDS_EECURRENCY_NEW_FAIL));
+                            formattedOutput.getStyle().setColor(TextFormatting.RED);
                         }
                         sender.sendMessage(formattedOutput);
                     }catch (Exception e) {
@@ -157,10 +161,12 @@ public final class EECurrency extends CommandBase {
                         results.close();
                         if (resultContent.size() > 0) {
                             Currency c = resultContent.get(0);
-                            formattedOutput = new TextComponentString(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_NAME)+TextFormatting.RESET+c.getCurrencyName()+'\n');
+                            formattedOutput = new TextComponentString(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_LIST_SEPARATOR)+'\n');
+                            formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_NAME)+TextFormatting.RESET+c.getCurrencyName()+'\n');
                             formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_ISO)+TextFormatting.RESET+c.getIso()+'\n');
                             formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_SYMBOL)+TextFormatting.RESET+c.getSymbol()+'\n');
                             formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_CREATION_DATE)+TextFormatting.RESET+c.getCreationDate()+'\n');
+                            formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_LIST_SEPARATOR));
                         }else {
                             formattedOutput = new TextComponentString(TextFormatting.AQUA + LocalizationModule.translate(Defs.LangKeys.COMMANDS_EECURRENCY_GET_NO_CURRENCY));
                         }
@@ -171,36 +177,58 @@ public final class EECurrency extends CommandBase {
                     break;
 
                 case Defs.Commands.EECurrency.EE_CURRENCY_LIST:
+                    System.out.println("A");
                     try {
+                        System.out.println("B");
                         query = "SELECT name, symbol, iso, creation_date FROM currencies;";
+                        System.out.println("C");
                         ResultSet results = DBConnectionModule.executePreparedStatementFromQuery(query);
+                        System.out.println("D");
                         if (results == null) {
+                            System.out.println("DA");
+                            sender.sendMessage(new TextComponentString("Something is wrong i can feel it"));
                             throw new ModuleException("The result set is null");
                         }
+                        System.out.println("E");
                         resultContent = new ArrayList<>();
+                        System.out.println("F");
                         while (results.next()) {
+                            System.out.println("G");
                             name = results.getString("name");
                             iso = results.getString("iso");
                             symbol = results.getString("symbol").charAt(0);
                             creationDate = results.getDate("creation_date").toString();
                             resultContent.add(new Currency(name, iso, symbol, creationDate));
                         }
+                        System.out.println("H");
                         results.close();
+                        System.out.println("I");
                         if (resultContent.size() > 0) {
-                            formattedOutput = new TextComponentString(TextFormatting.AQUA + LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_LIST_HEADER) + "\n");
+                            System.out.println("J");
+                            formattedOutput = new TextComponentString(TextFormatting.AQUA + LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_LIST_HEADER) + '\n');
+                            formattedOutput = formattedOutput.appendText(TextFormatting.AQUA + LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_LIST_SEPARATOR) + '\n');
+                            System.out.println("K");
                             for (int i=0;i<resultContent.size();i++) {
+                                System.out.println("L");
                                 Currency c = resultContent.get(i);
                                 formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_NAME)+TextFormatting.RESET+c.getCurrencyName()+'\n');
                                 formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_ISO)+TextFormatting.RESET+c.getIso()+'\n');
                                 formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_SYMBOL)+TextFormatting.RESET+c.getSymbol()+'\n');
                                 formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_CREATION_DATE)+TextFormatting.RESET+c.getCreationDate()+'\n');
-                                if (i+1 < resultContent.size()) formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_LIST_SEPARATOR)+'\n');
+                                formattedOutput = formattedOutput.appendText(TextFormatting.AQUA+LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_LIST_SEPARATOR));
+                                if (i+1 < resultContent.size()) formattedOutput = formattedOutput.appendText(TextFormatting.AQUA + "\n");
                             }
+                            System.out.println("M");
                         }else {
+                            System.out.println("N");
                             formattedOutput = new TextComponentString(TextFormatting.AQUA + LocalizationModule.translate(Defs.LangKeys.COMMAND_EECURRENCY_LIST_NO_CURRENCY));
+                            System.out.println("O");
                         }
+                        System.out.println("P");
                         sender.sendMessage(formattedOutput);
+                        System.out.println("Q");
                     } catch (Exception e) {
+                        System.out.println("R");
                         throw new ModuleException("EE Currency List execution error", e);
                     }
                     break;

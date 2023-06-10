@@ -81,9 +81,9 @@ public final class EnhancedEconomyCommand extends CommandBase {
 
                 case Arguments.MODSTATS:
                     localizedMsg = LocalizationModule.translate(LangKeys.EE_MODSTATS) + '\n' +
-                            LocalizationModule.NAME + ": " + (LocalizationModule.isModuleLoaded() ? "ONLINE" : "OFFLINE") +
-                            CommandsModule.NAME + ": " + (LocalizationModule.isModuleLoaded() ? "ONLINE" : "OFFLINE") +
-                            DBConnectionModule.NAME + ": " + (LocalizationModule.isModuleLoaded() ? "ONLINE" : "OFFLINE");
+                            LocalizationModule.NAME + ": " + (LocalizationModule.isModuleLoaded() ? "ONLINE" : "OFFLINE") + '\n' +
+                            CommandsModule.NAME + ": " + (CommandsModule.isModuleLoaded() ? "ONLINE" : "OFFLINE") + '\n' +
+                            DBConnectionModule.NAME + ": " + (DBConnectionModule.isModuleLoaded() ? "ONLINE" : "OFFLINE");
                     msg = new TextComponentString(localizedMsg);
                     msg.getStyle().setColor(TextFormatting.AQUA);
                     sender.sendMessage(msg);

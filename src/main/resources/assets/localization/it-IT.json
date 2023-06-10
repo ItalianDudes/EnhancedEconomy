@@ -22,7 +22,7 @@
   "command_ee_usage": "Sintassi: /enhancedeconomy",
   "module_not_loaded": "Impossibile eseguire il comando: il modulo in questione non è stato caricato.",
   "module_already_loaded": "Impossibile eseguire il comando: il modulo in questione è stato già caricato.",
-  "command_eecurrency_usage": "",
+  "command_eecurrency_usage": "/eecurrency (new <nome_valuta> <iso> <simbolo>) | (delete <iso>) | (get <iso) | list",
   "command_all_required_modules_are_not_loaded": "",
   "command_eecurrency_list_header": "Valute registrate:",
   "command_eecurrency_list_separator": "-------------------------------------------------",
