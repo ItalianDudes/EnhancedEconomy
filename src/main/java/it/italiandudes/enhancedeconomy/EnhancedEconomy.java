@@ -11,6 +11,14 @@ import net.minecraftforge.fml.common.event.*;
 @Mod(modid = Defs.ModInfo.MOD_ID, useMetadata = true)
 public final class EnhancedEconomy {
 
+    /*
+    * TODOLIST:
+    * TODO: EEBank
+    * TODO: EECountry
+    * TODO: EECentralBank
+    * TODO: EEAccount
+    * */
+
     // Mod Instance
     @Mod.Instance(Defs.ModInfo.MOD_ID)
     public static EnhancedEconomy INSTANCE;
