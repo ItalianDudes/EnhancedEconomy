@@ -192,6 +192,14 @@ public final class DBConnectionModule {
             throw new ModuleException("Query execution failed", e);
         }
     }
+    public static void executePreparedStatementFromQueryIgnoreResult(@NotNull final String sql) throws ModuleException {
+        ResultSet result = executePreparedStatementFromQuery(sql);
+        try {
+            result.close();
+        } catch (SQLException e) {
+            throw new ModuleException("ResultSet close failed", e);
+        }
+    }
 
     // Utilities Methods
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")

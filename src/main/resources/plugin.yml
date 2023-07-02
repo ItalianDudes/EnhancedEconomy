@@ -1,5 +1,5 @@
 name: EnhancedEconomy
-version: '0.15.1A'
+version: '0.16.0A'
 author: Hacker6329
 prefix: EnhancedEconomy
 main: it.italiandudes.enhancedeconomy.EnhancedEconomy
@@ -29,3 +29,6 @@ commands:
   eecountry:
     description: Allows the user to handle countries.
     usage: /<command> list | get <name> | new <name> | delete <name>
+  eeuser:
+    description: Allows the user to register on the EnhancedEconomy network.
+    usage: /<command>

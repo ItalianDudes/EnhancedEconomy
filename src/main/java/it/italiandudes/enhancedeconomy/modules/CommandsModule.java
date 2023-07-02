@@ -3,6 +3,7 @@ package it.italiandudes.enhancedeconomy.modules;
 import it.italiandudes.enhancedeconomy.commands.EnhancedEconomyCommand;
 import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.EECountry;
 import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.EECurrency;
+import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.EEUser;
 import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.EELoadCommand;
 import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.EEReloadCommand;
 import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.EEUnloadCommand;
@@ -65,6 +66,7 @@ public final class CommandsModule {
             registerCommand(pluginInstance, EEReloadCommand.COMMAND_NAME, new EEReloadCommand());
             registerCommand(pluginInstance, EECurrency.COMMAND_NAME, new EECurrency());
             registerCommand(pluginInstance, EECountry.COMMAND_NAME, new EECountry());
+            registerCommand(pluginInstance, EEUser.COMMAND_NAME, new EEUser());
         } catch (Exception e) {
             areCommandsLoading = false;
             if (!disableLog) ServerLogger.getLogger().severe("Commands Module Load: Failed! (Reason: an error has occurred on module loading)");

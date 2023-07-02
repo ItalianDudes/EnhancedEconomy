@@ -18,7 +18,7 @@ public final class Defs {
                 throw new RuntimeException(e);
             }
         }
-        public static final String PLUGIN_VERSION = "0.15.1A";
+        public static final String PLUGIN_VERSION = "0.16.0A";
     }
 
     // Module Names
@@ -109,6 +109,9 @@ public final class Defs {
             public static final String COMMAND_EECOUNTRY_NEW_SUCCESS = "command_eecountry_new_success";
             public static final String COMMAND_EECOUNTRY_DELETE_NOT_FOUND = "command_eecountry_delete_not_found";
             public static final String COMMAND_EECOUNTRY_DELETE_SUCCESS = "command_eecountry_delete_success";
+            public static final String COMMAND_EEUSER_CONSOLE = "command_eeuser_console";
+            public static final String COMMAND_EEUSER_ALREADY_EXIST = "command_eeuser_already_exist";
+            public static final String COMMAND_EEUSER_SUCCESS = "command_eeuser_success";
 
 
 

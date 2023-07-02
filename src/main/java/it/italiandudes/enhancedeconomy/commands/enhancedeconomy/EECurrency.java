@@ -121,7 +121,7 @@ public final class EECurrency implements CommandExecutor {
                    ps.executeUpdate();
                    ps.close();
 
-                   sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.COMMAND_EECURRENCY_NEW_SUCCESS));
+                   sender.sendMessage(ChatColor.GREEN + LocalizationModule.translate(Keys.COMMAND_EECURRENCY_NEW_SUCCESS));
                }
 
                case Args.DELETE -> {
@@ -143,7 +143,7 @@ public final class EECurrency implements CommandExecutor {
                    ps.executeUpdate();
                    ps.close();
 
-                   sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.COMMAND_EECURRENCY_DELETE_SUCCESS));
+                   sender.sendMessage(ChatColor.GREEN + LocalizationModule.translate(Keys.COMMAND_EECURRENCY_DELETE_SUCCESS));
                }
 
                default -> CommandsModule.sendSyntaxError(sender);
