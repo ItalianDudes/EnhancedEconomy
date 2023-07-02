@@ -92,13 +92,16 @@ public final class EnhancedEconomy extends JavaPlugin {
     private void loadDB() throws ModuleException {
         DBConnectionModule.load(Objects.requireNonNull(ConfigModule.getConfig(Defs.Config.Identifiers.GENERAL_CONFIG, Defs.Config.Keys.General.KEY_DATABASE_URL)));
         String dbType = DBConnectionModule.getConnectorType();
-        String query = DBConnectionModule.getQueryFromResourcesFileSQL(Resource.Path.DBConnection.SQL_DIR+dbType+Resource.Path.DBConnection.SQL_FILE_EXTENSION);
-        PreparedStatement ps = DBConnectionModule.getPreparedStatement(query);
-        try {
-            ps.executeQuery();
-            ps.close();
-        } catch (SQLException e) {
-            throw new ModuleException("DB Creation failed", e);
+        String fullDBquery = DBConnectionModule.getQueryFromResourcesFileSQL(Resource.Path.DBConnection.SQL_DIR+dbType+Resource.Path.DBConnection.SQL_FILE_EXTENSION);
+        String[] queries = fullDBquery.split(";");
+        for (String query : queries) {
+            PreparedStatement ps = DBConnectionModule.getPreparedStatement(query + ";");
+            try {
+                ps.executeQuery();
+                ps.close();
+            } catch (SQLException e) {
+                throw new ModuleException("DB Creation failed", e);
+            }
         }
     }
 }
