@@ -5,6 +5,7 @@ import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.modules.CommandsModule;
 import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;
 import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
+import it.italiandudes.enhancedeconomy.utils.ArgumentUtilities;
 import it.italiandudes.enhancedeconomy.utils.Defs.Localization.Keys;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -34,11 +35,17 @@ public final class EECurrency implements CommandExecutor {
 
     // Command Body
     @Override
-    public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label, @NotNull final String[] args) {
+    public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label, @NotNull String[] args) {
        if (!CommandsModule.handleCommandsModuleRequired(sender, COMMANDS_MODULE_REQUIRED)) return true;
        if (!CommandsModule.handleOpRequired(sender, OP_REQUIRED)) return true;
        if (!DBConnectionModule.handleDBConnectionModuleRequired(sender)) return true;
        if (args.length < 1) return false;
+
+       args = ArgumentUtilities.reparseArgs(args);
+       if (args == null) {
+           CommandsModule.sendDefaultError(sender, null);
+           return true;
+       }
 
        String query;
 

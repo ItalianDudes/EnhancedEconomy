@@ -5,6 +5,7 @@ import it.italiandudes.enhancedeconomy.modules.CommandsModule;
 import it.italiandudes.enhancedeconomy.modules.ConfigModule;
 import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;
 import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
+import it.italiandudes.enhancedeconomy.utils.ArgumentUtilities;
 import it.italiandudes.enhancedeconomy.utils.Defs;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -22,7 +23,7 @@ public final class EEUnloadCommand implements CommandExecutor {
 
     // Subcommand Body
     @Override
-    public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label, @NotNull final String[] args) {
+    public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label, @NotNull String[] args) {
         if (!CommandsModule.isModuleLoaded() && !RUN_WITH_MODULE_NOT_LOADED) {
             try {
                 sender.sendMessage(
@@ -42,6 +43,12 @@ public final class EEUnloadCommand implements CommandExecutor {
             return true;
         }
         if (args.length < 1) return false;
+
+        args = ArgumentUtilities.reparseArgs(args);
+        if (args == null) {
+            CommandsModule.sendDefaultError(sender, null);
+            return true;
+        }
 
         for (String module : args) {
             try {

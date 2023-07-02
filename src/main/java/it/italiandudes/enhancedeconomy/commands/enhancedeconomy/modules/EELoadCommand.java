@@ -6,6 +6,7 @@ import it.italiandudes.enhancedeconomy.modules.CommandsModule;
 import it.italiandudes.enhancedeconomy.modules.ConfigModule;
 import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;
 import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
+import it.italiandudes.enhancedeconomy.utils.ArgumentUtilities;
 import it.italiandudes.enhancedeconomy.utils.Defs;
 import it.italiandudes.enhancedeconomy.utils.Defs.ModuleNames;
 import it.italiandudes.enhancedeconomy.utils.Defs.Localization.Keys;
@@ -25,7 +26,7 @@ public final class EELoadCommand implements CommandExecutor {
 
     // Command Body
     @Override
-    public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label, @NotNull final String[] args) {
+    public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label, @NotNull String[] args) {
         if (!CommandsModule.isModuleLoaded() && !RUN_WITH_MODULE_NOT_LOADED) {
             try {
                 sender.sendMessage(
@@ -45,6 +46,12 @@ public final class EELoadCommand implements CommandExecutor {
             return true;
         }
         if (args.length < 1) return false;
+
+        args = ArgumentUtilities.reparseArgs(args);
+        if (args == null) {
+            CommandsModule.sendDefaultError(sender, null);
+            return true;
+        }
 
         boolean commandError = false;
         for (int i = 0; i< args.length && !commandError; i++) {
