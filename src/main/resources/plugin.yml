@@ -1,5 +1,5 @@
 name: EnhancedEconomy
-version: '0.14.1A'
+version: '0.15.0A'
 author: Hacker6329
 prefix: EnhancedEconomy
 main: it.italiandudes.enhancedeconomy.EnhancedEconomy
@@ -25,4 +25,7 @@ commands:
     usage: /<command> <module> <parameters> [module1 parameters1 ...]
   eecurrency:
     description: Allows the user to handle currencies.
-    usage: /<command> list|get <iso>|new <name> <symbol> <iso>|delete <iso>
+    usage: /<command> list | get <iso> | new <name> <symbol> <iso> | delete <iso>
+  eecountry:
+    description: Allows the user to handle countries.
+    usage: /<command> list | get <name> | new <name> | delete <name>
