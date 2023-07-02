@@ -83,6 +83,17 @@ public final class DBConnectionModule {
             throw new ModuleLoadingException("DBConnect Module Load: Failed! (Reason: can't recognize connector type)");
         }
 
+        if (jdbcConnectionString.contains("allowMultiQueries=false")) {
+            jdbcConnectionString = jdbcConnectionString.replace("?allowMultiQueries=false", "allowMultiQueries=true");
+        }else if (!jdbcConnectionString.contains("allowMultiQueries=true")) {
+            if (!jdbcConnectionString.contains("?")) {
+                jdbcConnectionString += '?';
+            }else {
+                jdbcConnectionString += '&';
+            }
+            jdbcConnectionString+="allowMultiQueries=true";
+        }
+
         try {
             dbConnection = DriverManager.getConnection(jdbcConnectionString);
             dbConnection.setAutoCommit(true);
