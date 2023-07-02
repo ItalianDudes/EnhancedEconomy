@@ -1,4 +1,4 @@
-package it.italiandudes.enhancedeconomy.commands.enhancedeconomy.objects;
+package it.italiandudes.enhancedeconomy.objects;
 
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;
@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public final class Currency {
 
     // Attributes
-    private int currencyID;
+    private Integer currencyID;
     private String name;
     private String iso;
     private String symbol;
@@ -40,15 +40,14 @@ public final class Currency {
     // Static Methods
     public static boolean exist(@NotNull final String iso) throws ModuleException, SQLException {
         Currency currency = new Currency(iso);
-        return currency.iso != null;
+        return currency.currencyID != null;
     }
 
     // Methods
-
-    public int getCurrencyID() {
+    public Integer getCurrencyID() {
         return currencyID;
     }
-    public void setCurrencyID(int currencyID) {
+    public void setCurrencyID(Integer currencyID) {
         this.currencyID = currencyID;
     }
     public String getName() {
@@ -80,7 +79,8 @@ public final class Currency {
         if (this == o) return true;
         if (!(o instanceof Currency currency)) return false;
 
-        if (getCurrencyID() != currency.getCurrencyID()) return false;
+        if (getCurrencyID() != null ? !getCurrencyID().equals(currency.getCurrencyID()) : currency.getCurrencyID() != null)
+            return false;
         if (getName() != null ? !getName().equals(currency.getName()) : currency.getName() != null) return false;
         if (getIso() != null ? !getIso().equals(currency.getIso()) : currency.getIso() != null) return false;
         if (getSymbol() != null ? !getSymbol().equals(currency.getSymbol()) : currency.getSymbol() != null)
@@ -89,7 +89,7 @@ public final class Currency {
     }
     @Override
     public int hashCode() {
-        int result = getCurrencyID();
+        int result = getCurrencyID() != null ? getCurrencyID().hashCode() : 0;
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         result = 31 * result + (getIso() != null ? getIso().hashCode() : 0);
         result = 31 * result + (getSymbol() != null ? getSymbol().hashCode() : 0);

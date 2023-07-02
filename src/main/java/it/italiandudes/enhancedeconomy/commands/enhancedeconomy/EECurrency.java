@@ -1,6 +1,6 @@
-package it.italiandudes.enhancedeconomy.commands.enhancedeconomy.currencies;
+package it.italiandudes.enhancedeconomy.commands.enhancedeconomy;
 
-import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.objects.Currency;
+import it.italiandudes.enhancedeconomy.objects.Currency;
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.modules.CommandsModule;
 import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;

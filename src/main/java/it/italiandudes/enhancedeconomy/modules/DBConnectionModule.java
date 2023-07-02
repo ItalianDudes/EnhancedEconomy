@@ -194,6 +194,7 @@ public final class DBConnectionModule {
     }
 
     // Utilities Methods
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean handleDBConnectionModuleRequired(@NotNull final CommandSender sender) {
         if (!DBConnectionModule.isModuleLoaded()) {
             try {

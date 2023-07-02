@@ -1,7 +1,8 @@
 package it.italiandudes.enhancedeconomy.modules;
 
 import it.italiandudes.enhancedeconomy.commands.EnhancedEconomyCommand;
-import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.currencies.EECurrency;
+import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.EECountry;
+import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.EECurrency;
 import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.EELoadCommand;
 import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.EEReloadCommand;
 import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.EEUnloadCommand;
@@ -63,6 +64,7 @@ public final class CommandsModule {
             registerCommand(pluginInstance, EEUnloadCommand.COMMAND_NAME, new EEUnloadCommand());
             registerCommand(pluginInstance, EEReloadCommand.COMMAND_NAME, new EEReloadCommand());
             registerCommand(pluginInstance, EECurrency.COMMAND_NAME, new EECurrency());
+            registerCommand(pluginInstance, EECountry.COMMAND_NAME, new EECountry());
         } catch (Exception e) {
             areCommandsLoading = false;
             if (!disableLog) ServerLogger.getLogger().severe("Commands Module Load: Failed! (Reason: an error has occurred on module loading)");
@@ -155,6 +157,7 @@ public final class CommandsModule {
      * @param OP_REQUIRED   If the command requested requires the sender to be OP
      * @return              True if the command execution can proceed, false otherwise
      * */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean handleOpRequired(@NotNull final CommandSender sender, final boolean OP_REQUIRED) {
         if (OP_REQUIRED && !sender.isOp()) {
             try {
@@ -173,6 +176,7 @@ public final class CommandsModule {
      * @param COMMANDS_MODULE_REQUIRED  If the command requested requires the sender to be OP
      * @return                          True if command execution can proceed, false otherwise
      * */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean handleCommandsModuleRequired(@NotNull final CommandSender sender, final boolean COMMANDS_MODULE_REQUIRED) {
         if (COMMANDS_MODULE_REQUIRED && !CommandsModule.isModuleLoaded()) {
             try {

@@ -99,6 +99,17 @@ public final class Defs {
             public static final String COMMAND_EECURRENCY_NEW_SUCCESS = "command_eecurrency_new_success";
             public static final String COMMAND_EECURRENCY_DELETE_NOT_FOUND = "command_eecurrency_delete_not_found";
             public static final String COMMAND_EECURRENCY_DELETE_SUCCESS = "command_eecurrency_delete_success";
+            public static final String COMMAND_EECOUNTRY_LIST_HEADER = "command_eecountry_list_header";
+            public static final String COMMAND_EECOUNTRY_LIST_SEPARATOR = "command_eecountry_list_separator";
+            public static final String COMMAND_EECOUNTRY_GET_NOT_FOUND = "command_eecountry_get_not_found";
+            public static final String COUNTRY_NAME = "country_name";
+            public static final String COUNTRY_CREATION_DATE = "country_creation_date";
+            public static final String COMMAND_EECOUNTRY_LIST_EMPTY = "command_eecountry_list_empty";
+            public static final String COMMAND_EECOUNTRY_NEW_ALREADY_EXIST = "command_eecountry_new_already_exist";
+            public static final String COMMAND_EECOUNTRY_NEW_SUCCESS = "command_eecountry_new_success";
+            public static final String COMMAND_EECOUNTRY_DELETE_NOT_FOUND = "command_eecountry_delete_not_found";
+            public static final String COMMAND_EECOUNTRY_DELETE_SUCCESS = "command_eecountry_delete_success";
+
 
 
         }

@@ -16,7 +16,7 @@
   "command_module_not_loaded": "Impossibile eseguire il comando: il modulo dei comandi non è stato caricato.",
   "command_dbconnection_module_not_loaded": "Can't execute the command: the dbconnection module isn't loaded.",
   "command_missing_permissions": "Impossibile eseguire il comando: permessi non sufficienti.",
-  "command_eecurrency_list_header": "",
+  "command_eecurrency_list_header": "Valute registrate:",
   "command_eecurrency_list_separator": "--------------------------",
   "command_eecurrency_list_empty": "Non sono state registrate valute.",
   "currency_name": "Nome",
@@ -27,6 +27,15 @@
   "command_eecurrency_new_already_exist": "Esiste già una valuta con questo ISO.",
   "command_eecurrency_new_success": "Valuta registrata con successo!",
   "command_eecurrency_delete_not_found": "Non esiste una valuta con questo ISO.",
-  "command_eecurrency_delete_success": "Valuta rimossa con successo!"
-
+  "command_eecurrency_delete_success": "Valuta rimossa con successo!",
+  "command_eecountry_list_header": "Stati registrati:",
+  "command_eecountry_list_separator": "--------------------------",
+  "command_eecountry_get_not_found": "Non esiste uno stato con questo nome.",
+  "country_name": "Nome",
+  "country_creation_date": "Data di Creazione",
+  "command_eecountry_list_empty": "Non ci sono stati registrati.",
+  "command_eecountry_new_already_exist": "Esiste già uno stato con questo nome.",
+  "command_eecountry_new_success": "Stato registrato con successo!",
+  "command_eecountry_delete_not_found": "Non esiste uno stato con questo nome.",
+  "command_eecountry_delete_success": "Stato rimosso con successo!"
 }

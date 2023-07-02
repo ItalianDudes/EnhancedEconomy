@@ -27,5 +27,15 @@
   "command_eecurrency_new_already_exist": "A currency with this ISO already exist.",
   "command_eecurrency_new_success": "Currency registration successful!",
   "command_eecurrency_delete_not_found": "A currency with this ISO doesn't exist.",
-  "command_eecurrency_delete_success": "Currency delete successful!"
+  "command_eecurrency_delete_success": "Currency delete successful!",
+  "command_eecountry_list_header": "Registered countries:",
+  "command_eecountry_list_separator": "--------------------------",
+  "command_eecountry_get_not_found": "A state with this name doesn't exist.",
+  "country_name": "Name",
+  "country_creation_date": "Creation Date",
+  "command_eecountry_list_empty": "There aren't any registered countries.",
+  "command_eecountry_new_already_exist": "A country with this name already exist.",
+  "command_eecountry_new_success": "Country registration successful!",
+  "command_eecountry_delete_not_found": "A country with this name doesn't exist.",
+  "command_eecountry_delete_success": "Country delete successful!"
 }
