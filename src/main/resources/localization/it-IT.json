@@ -37,5 +37,8 @@
   "command_eecountry_new_already_exist": "Esiste già uno stato con questo nome.",
   "command_eecountry_new_success": "Stato registrato con successo!",
   "command_eecountry_delete_not_found": "Non esiste uno stato con questo nome.",
-  "command_eecountry_delete_success": "Stato rimosso con successo!"
+  "command_eecountry_delete_success": "Stato rimosso con successo!",
+  "command_eeuser_console": "Questo comando non può essere eseguito tramite console.",
+  "command_eeuser_already_exist": "Questo utente è già registrato.",
+  "command_eeuser_success": "Registrazione eseguita con successo!"
 }

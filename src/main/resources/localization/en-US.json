@@ -37,5 +37,8 @@
   "command_eecountry_new_already_exist": "A country with this name already exist.",
   "command_eecountry_new_success": "Country registration successful!",
   "command_eecountry_delete_not_found": "A country with this name doesn't exist.",
-  "command_eecountry_delete_success": "Country delete successful!"
+  "command_eecountry_delete_success": "Country delete successful!",
+  "command_eeuser_console": "This command can't be executed from the server console.",
+  "command_eeuser_already_exist": "You're already registered.",
+  "command_eeuser_success": "Registration completed successfully!"
 }
