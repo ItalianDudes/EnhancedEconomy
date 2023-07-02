@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS users (
     creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
+###
+
 -- Create the table "currencies", where are stored the server currencies
 CREATE TABLE IF NOT EXISTS currencies (
     currency_id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -17,12 +19,16 @@ CREATE TABLE IF NOT EXISTS currencies (
     creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
+###
+
 -- Create the table "countries", where are stored the server countries
 CREATE TABLE IF NOT EXISTS countries (
     country_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     name TEXT NOT NULL UNIQUE,
     creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
+
+###
 
 -- Create the table "banks", where are stored the server banks
 CREATE TABLE IF NOT EXISTS banks (
@@ -32,6 +38,8 @@ CREATE TABLE IF NOT EXISTS banks (
     owner_id INTEGER REFERENCES users(user_id),
     creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
+
+###
 
 -- Create the table "bank_currencies", where are stored the server banks
 CREATE TABLE IF NOT EXISTS bank_currencies (
@@ -43,6 +51,8 @@ CREATE TABLE IF NOT EXISTS bank_currencies (
     UNIQUE(bank_id, currency_id)
 );
 
+###
+
 -- Create the table "exchange_rules", where are stored all currency exchange rules (NB: must exists 2 rules for entry, one for source to dest, the other for dest to source)
 CREATE TABLE IF NOT EXISTS exchange_rules (
     exchange_rule_id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -51,6 +61,8 @@ CREATE TABLE IF NOT EXISTS exchange_rules (
     price_ratio DECIMAL(60,10) NOT NULL DEFAULT 1,
     UNIQUE(source_currency, destination_currency)
 );
+
+###
 
 -- Create the table "central_banks", where are stored the server's central banks
 CREATE TABLE IF NOT EXISTS central_banks (
@@ -63,6 +75,8 @@ CREATE TABLE IF NOT EXISTS central_banks (
     CHECK (balance >= 0)
 );
 
+###
+
 -- Create the table "central_banks_countries", where are stored the server's central bank countries
 CREATE TABLE IF NOT EXISTS central_banks_countries (
     central_bank_country_id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -70,6 +84,8 @@ CREATE TABLE IF NOT EXISTS central_banks_countries (
     country_id INTEGER NOT NULL REFERENCES countries(country_id),
     UNIQUE(central_bank_id, country_id)
 );
+
+###
 
 -- Create the table "bank_accounts", where are stored the user's bank accounts
 CREATE TABLE IF NOT EXISTS bank_accounts (
@@ -81,6 +97,8 @@ CREATE TABLE IF NOT EXISTS bank_accounts (
     creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
+###
+
 -- Create the table "accounts_currencies", where are stored the account's currencies
 CREATE TABLE IF NOT EXISTS accounts_currencies (
     account_currency_id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -90,6 +108,8 @@ CREATE TABLE IF NOT EXISTS accounts_currencies (
     CHECK(balance >= 0),
     UNIQUE(account_id, currency_id)
 );
+
+###
 
 -- Create the table "bank_items", where are stored all the account's items
 CREATE TABLE IF NOT EXISTS bank_items (
@@ -101,6 +121,8 @@ CREATE TABLE IF NOT EXISTS bank_items (
     UNIQUE(item_id, account_id),
     FOREIGN KEY(account_id) REFERENCES bank_accounts(account_id)
 );
+
+###
 
 -- Create the table "transactions", where are stored all the account's transactions (NOTE: the field "amount" is intended as the amount of money that were transferred)
 CREATE TABLE IF NOT EXISTS transactions (
@@ -119,6 +141,8 @@ CREATE TABLE IF NOT EXISTS transactions (
     CHECK(destination_amount >= 0)
 );
 
+###
+
 -- Create the table "offers", where are stored all the account's offers
 CREATE TABLE IF NOT EXISTS offers (
     offer_id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -133,6 +157,8 @@ CREATE TABLE IF NOT EXISTS offers (
     CHECK(price >= 0)
 );
 
+###
+
 -- Create the table "trades", where are stored all the trades
 CREATE TABLE IF NOT EXISTS trades (
     trade_id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -143,6 +169,8 @@ CREATE TABLE IF NOT EXISTS trades (
     state TEXT NOT NULL,
     CHECK(quantity > 0)
 );
+
+###
 
 -- Views Declaration
 -- Create view "users_accounts_banks", where are filtered the users, their account's name, and the bank name
@@ -160,6 +188,8 @@ CREATE OR REPLACE VIEW v_users_accounts_banks AS (
     JOIN banks AS b ON j.bank_id = b.bank_id
 );
 
+###
+
 -- Create view "account_currencies", where are filtered the the account's name, the balance and the value iso
 CREATE OR REPLACE VIEW v_accounts_currencies AS
 (
@@ -175,6 +205,8 @@ FROM (
     JOIN currencies AS c ON j.currency_id = c.currency_id
 );
 
+###
+
 -- Create view "account_balances", where are filtered the account's name, the player name, the balance and the iso, all with the ids
 CREATE OR REPLACE VIEW v_accounts_balances AS (
     SELECT
@@ -186,6 +218,8 @@ CREATE OR REPLACE VIEW v_accounts_balances AS (
     FROM v_users_accounts_banks AS ub
     JOIN v_accounts_currencies AS acv ON ub.AccountName = acv.AccountName
 );
+
+###
 
 -- Create view "bank_currencies", where are filtered the bank's name, the balance and the iso, all with the ids
 CREATE OR  REPLACE VIEW v_bank_currencies AS (
@@ -200,6 +234,8 @@ CREATE OR  REPLACE VIEW v_bank_currencies AS (
     ) AS j
     JOIN currencies AS c ON c.currency_id = j.currency_id
 );
+
+###
 
 -- Triggers Declaration
 -- Create trigger "accounts_currencies_checker", that prevents the insert of account currencies if the bank doesn't support the currency
@@ -222,6 +258,8 @@ BEGIN
             SET MESSAGE_TEXT = 'Cannot insert this account currency: the bank does not support the currency';
     END IF;
 END;
+
+###
 
 -- Create trigger "bank_balance_updater", that updates tha bank's balances on user's accounts balance update
 DROP TRIGGER IF EXISTS bank_balance_updater;
