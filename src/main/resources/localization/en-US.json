@@ -14,5 +14,18 @@
   "command_reloading_success": "Reloading Module Success: ",
   "command_reloading_fail": "Reloading Module Failed: ",
   "command_module_not_loaded": "Can't execute the command: the commands module isn't loaded.",
-  "command_missing_permissions": "Can't execute the command: insufficient permissions."
+  "command_dbconnection_module_not_loaded": "Can't execute the command: the dbconnection module isn't loaded.",
+  "command_missing_permissions": "Can't execute the command: insufficient permissions.",
+  "command_eecurrency_list_header": "Registered currencies:",
+  "command_eecurrency_list_separator": "--------------------------",
+  "command_eecurrency_list_empty": "There aren't any registered currencies.",
+  "currency_name": "Name",
+  "currency_symbol": "Symbol",
+  "currency_iso": "ISO",
+  "currency_creation_date": "Creation Date",
+  "command_eecurrency_get_not_found": "A currency with this ISO doesn't exist.",
+  "command_eecurrency_new_already_exist": "A currency with this ISO already exist.",
+  "command_eecurrency_new_success": "Currency registration successful!",
+  "command_eecurrency_delete_not_found": "A currency with this ISO doesn't exist.",
+  "command_eecurrency_delete_success": "Currency delete successful!"
 }

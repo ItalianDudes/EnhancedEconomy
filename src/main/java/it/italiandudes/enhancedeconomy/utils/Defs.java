@@ -85,17 +85,22 @@ public final class Defs {
             public static final String COMMAND_RELOADING_SUCCESS = "command_reloading_success";
             public static final String COMMAND_RELOADING_FAIL = "command_reloading_fail";
             public static final String COMMAND_MODULE_NOT_LOADED = "command_module_not_loaded";
+            public static final String COMMAND_DBCONNECTION_MODULE_NOT_LOADED = "command_dbconnection_module_not_loaded";
             public static final String COMMAND_MISSING_PERMISSIONS = "command_missing_permissions";
-        }
-    }
+            public static final String COMMAND_EECURRENCY_LIST_HEADER = "command_eecurrency_list_header";
+            public static final String COMMAND_EECURRENCY_LIST_SEPARATOR = "command_eecurrency_list_separator";
+            public static final String COMMAND_EECURRENCY_LIST_EMPTY = "command_eecurrency_list_empty";
+            public static final String CURRENCY_NAME = "currency_name";
+            public static final String CURRENCY_SYMBOL = "currency_symbol";
+            public static final String CURRENCY_ISO = "currency_iso";
+            public static final String CURRENCY_CREATION_DATE = "currency_creation_date";
+            public static final String COMMAND_EECURRENCY_GET_NOT_FOUND = "command_eecurrency_get_not_found";
+            public static final String COMMAND_EECURRENCY_NEW_ALREADY_EXIST = "command_eecurrency_new_already_exist";
+            public static final String COMMAND_EECURRENCY_NEW_SUCCESS = "command_eecurrency_new_success";
+            public static final String COMMAND_EECURRENCY_DELETE_NOT_FOUND = "command_eecurrency_delete_not_found";
+            public static final String COMMAND_EECURRENCY_DELETE_SUCCESS = "command_eecurrency_delete_success";
 
-    // Command Constants
-    public static final class Commands {
-        public static final class EnhancedEconomy {
-            public static final String[] COMMAND_NAME = {"enhancedeconomy", "ee"};
-            public static final String EE_LOAD = "load";
-            public static final String EE_UNLOAD = "unload";
-            public static final String EE_RELOAD = "reload";
+
         }
     }
 }

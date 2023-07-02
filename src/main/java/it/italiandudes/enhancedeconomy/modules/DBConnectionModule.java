@@ -5,14 +5,17 @@ import it.italiandudes.enhancedeconomy.exceptions.modules.*;
 import it.italiandudes.enhancedeconomy.utils.Defs;
 import it.italiandudes.enhancedeconomy.utils.Resource;
 import it.italiandudes.enhancedeconomy.utils.ServerLogger;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.Scanner;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "deprecation"})
 public final class DBConnectionModule {
 
     // Attributes
@@ -31,7 +34,7 @@ public final class DBConnectionModule {
 
         StringBuilder queryBuilder = new StringBuilder();
 
-        Scanner queryReader = new Scanner(inStream);
+        Scanner queryReader = new Scanner(inStream, StandardCharsets.UTF_8);
         while(queryReader.hasNext()) {
             queryBuilder.append(queryReader.nextLine()).append('\n');
         }
@@ -78,17 +81,6 @@ public final class DBConnectionModule {
             dbType = Defs.DBConnection.POSTGRESQL_CONNECTOR;
         }else {
             throw new ModuleLoadingException("DBConnect Module Load: Failed! (Reason: can't recognize connector type)");
-        }
-
-        if (jdbcConnectionString.contains("allowMultiQueries=false")) {
-            jdbcConnectionString = jdbcConnectionString.replace("?allowMultiQueries=false", "allowMultiQueries=true");
-        }else if (!jdbcConnectionString.contains("allowMultiQueries=true")) {
-            if (!jdbcConnectionString.contains("?")) {
-                jdbcConnectionString += '?';
-            }else {
-                jdbcConnectionString += '&';
-            }
-            jdbcConnectionString+="allowMultiQueries=true";
         }
 
         try {
@@ -180,107 +172,28 @@ public final class DBConnectionModule {
             throw new ModuleOperationException("GetPreparedStatement Operation: Failed! (Reason: an error has occurred with the sql query)", e);
         }
     }
-    @Nullable @SuppressWarnings("UnusedReturnValue")
-    public static ResultSet executeStatementFromQuery(@NotNull final String query) throws ModuleException {
-
-        if (isDBConnecting) {
-            ServerLogger.getLogger().warning("ExecuteStatementFromQuery Operation: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
-            throw new ModuleLoadingException("ExecuteStatementFromQuery Operation: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
-        }
-        if (!isModuleLoaded()) {
-            ServerLogger.getLogger().severe("ExecuteStatementFromQuery Operation: Failed! (Reason: the module isn't loaded)");
-            throw new ModuleNotLoadedException("ExecuteStatementFromQuery Operation: Failed! (Reason: the module isn't loaded)");
-        }
-
-        Statement statement;
+    @NotNull
+    public static ResultSet executePreparedStatementFromQuery(@NotNull final String sql) throws ModuleException {
+        PreparedStatement ps = getPreparedStatement(sql);
         try {
-            statement = dbConnection.createStatement();
+            return ps.executeQuery();
         } catch (SQLException e) {
-            ServerLogger.getLogger().severe("ExecuteStatementFromQuery Operation: Failed! (Reason: an error has occurred with the sql query)");
-            throw new ModuleOperationException("ExecuteStatementFromQuery Operation: Failed! (Reason: an error has occurred with the sql query)", e);
+            throw new ModuleException("Query execution failed", e);
         }
+    }
 
-        try {
-            statement.execute(query);
-            ResultSet resultSet = statement.getResultSet();
-            statement.close();
-            return resultSet;
-        } catch (SQLException e) {
+    // Utilities Methods
+    public static boolean handleDBConnectionModuleRequired(@NotNull final CommandSender sender) {
+        if (!DBConnectionModule.isModuleLoaded()) {
             try {
-                statement.close();
-            } catch (Exception ignored) {}
-            ServerLogger.getLogger().severe("ExecuteStatementFromQuery Operation: Failed! (Reason: an error has occurred with the sql query)");
-            throw new ModuleOperationException("ExecuteStatementFromQuery Operation: Failed! (Reason: an error has occurred with the sql query)", e);
+                sender.sendMessage(
+                    ChatColor.RED + LocalizationModule.translate(Defs.Localization.Keys.COMMAND_DBCONNECTION_MODULE_NOT_LOADED)
+                );
+            } catch (ModuleException e) {
+                LocalizationModule.sendLocalizationErrorMessage(sender);
+            }
+            return false;
         }
-    }
-    public static void executeStatementFromQueryIgnoreResult(@NotNull final String query) throws ModuleException {
-        ResultSet resultSet = executeStatementFromQuery(query);
-        try {
-            if (resultSet != null) resultSet.close();
-        }catch (SQLException ignored) {}
-    }
-    @Nullable @SuppressWarnings("UnusedReturnValue")
-    public static ResultSet executePreparedStatement(@NotNull final PreparedStatement preparedStatement, boolean closeStatementAfterExecute) throws ModuleException {
-
-        if (isDBConnecting) {
-            ServerLogger.getLogger().warning("ExecutePreparedStatement Operation: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
-            throw new ModuleLoadingException("ExecutePreparedStatement Operation: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
-        }
-        if (!isModuleLoaded()) {
-            ServerLogger.getLogger().severe("ExecutePreparedStatement Operation: Failed! (Reason: the module isn't loaded)");
-            throw new ModuleNotLoadedException("ExecutePreparedStatement Operation: Failed! (Reason: the module isn't loaded)");
-        }
-
-        try {
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
-            if (closeStatementAfterExecute) preparedStatement.close();
-            return resultSet;
-        } catch (SQLException e) {
-            try {
-                preparedStatement.close();
-            } catch (Exception ignored) {}
-            ServerLogger.getLogger().severe("ExecutePreparedStatement Operation: Failed! (Reason: an error has occurred with the sql query)");
-            throw new ModuleOperationException("ExecutePreparedStatement Operation: Failed! (Reason: an error has occurred with the sql query)", e);
-        }
-    }
-    @Nullable @SuppressWarnings("UnusedReturnValue")
-    public static ResultSet executePreparedStatementFromQuery(@NotNull final String query) throws ModuleException {
-
-        if (isDBConnecting) {
-            ServerLogger.getLogger().warning("ExecuteStatementFromQuery Operation: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
-            throw new ModuleLoadingException("ExecuteStatementFromQuery Operation: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
-        }
-        if (!isModuleLoaded()) {
-            ServerLogger.getLogger().severe("ExecuteStatementFromQuery Operation: Failed! (Reason: the module isn't loaded)");
-            throw new ModuleNotLoadedException("ExecuteStatementFromQuery Operation: Failed! (Reason: the module isn't loaded)");
-        }
-
-        PreparedStatement preparedStatement;
-        try {
-            preparedStatement = dbConnection.prepareStatement(query);
-        } catch (SQLException e) {
-            ServerLogger.getLogger().severe("ExecuteStatementFromQuery Operation: Failed! (Reason: an error has occurred with the sql query)");
-            throw new ModuleOperationException("ExecuteStatementFromQuery Operation: Failed! (Reason: an error has occurred with the sql query)", e);
-        }
-
-        try {
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
-            preparedStatement.close();
-            return resultSet;
-        } catch (SQLException e) {
-            try {
-                preparedStatement.close();
-            } catch (Exception ignored) {}
-            ServerLogger.getLogger().severe("ExecuteStatementFromQuery Operation: Failed! (Reason: an error has occurred with the sql query)");
-            throw new ModuleOperationException("ExecuteStatementFromQuery Operation: Failed! (Reason: an error has occurred with the sql query)", e);
-        }
-    }
-    public static void executePreparedStatementFromQueryIgnoreResult(@NotNull final String query) throws ModuleException {
-        ResultSet resultSet = executePreparedStatementFromQuery(query);
-        try {
-            if (resultSet != null) resultSet.close();
-        }catch (SQLException ignored){}
+        return true;
     }
 }

@@ -1,6 +1,7 @@
 package it.italiandudes.enhancedeconomy.modules;
 
 import it.italiandudes.enhancedeconomy.commands.EnhancedEconomyCommand;
+import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.currencies.EECurrency;
 import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.EELoadCommand;
 import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.EEReloadCommand;
 import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.modules.EEUnloadCommand;
@@ -61,6 +62,7 @@ public final class CommandsModule {
             registerCommand(pluginInstance, EELoadCommand.COMMAND_NAME, new EELoadCommand());
             registerCommand(pluginInstance, EEUnloadCommand.COMMAND_NAME, new EEUnloadCommand());
             registerCommand(pluginInstance, EEReloadCommand.COMMAND_NAME, new EEReloadCommand());
+            registerCommand(pluginInstance, EECurrency.COMMAND_NAME, new EECurrency());
         } catch (Exception e) {
             areCommandsLoading = false;
             if (!disableLog) ServerLogger.getLogger().severe("Commands Module Load: Failed! (Reason: an error has occurred on module loading)");
@@ -122,6 +124,22 @@ public final class CommandsModule {
 
         if (!disableLog) ServerLogger.getLogger().info("Commands Module Reload: Successful!");
     }
+
+    // Utilities Methods
+    public static void sendSyntaxError(@NotNull final CommandSender sender) {
+        try {
+            sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Defs.Localization.Keys.COMMAND_SYNTAX_ERROR));
+        } catch (ModuleException e) {
+            LocalizationModule.sendLocalizationErrorMessage(sender);
+        }
+    }
+
+    /**
+     * Send to the command sender a generic error message about the command execution failed.
+     *
+     * @param sender    The command sender
+     * @param e         The exception thrown during the command execution
+     */
     public static void sendDefaultError(@NotNull final CommandSender sender, @Nullable final Throwable e) {
         try {
             String err = LocalizationModule.translate(Defs.Localization.Keys.COMMAND_EXECUTION_ERROR);
@@ -129,5 +147,44 @@ public final class CommandsModule {
             ServerLogger.getLogger().severe(err);
             if (e != null) ServerLogger.getLogger().severe(StringHandler.getStackTrace(e));
         } catch (Exception ignored) {}
+    }
+    /**
+     * Check if the sender has to be OP to use the command.
+     *
+     * @param sender        The command sender
+     * @param OP_REQUIRED   If the command requested requires the sender to be OP
+     * @return              True if the command execution can proceed, false otherwise
+     * */
+    public static boolean handleOpRequired(@NotNull final CommandSender sender, final boolean OP_REQUIRED) {
+        if (OP_REQUIRED && !sender.isOp()) {
+            try {
+                sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Defs.Localization.Keys.COMMAND_MISSING_PERMISSIONS));
+            } catch (ModuleException e) {
+                LocalizationModule.sendLocalizationErrorMessage(sender);
+            }
+            return false;
+        }
+        return true;
+    }
+    /**
+     * Check if the command requires the Commands Module to be enabled to work.
+     *
+     * @param sender                    The command sender
+     * @param COMMANDS_MODULE_REQUIRED  If the command requested requires the sender to be OP
+     * @return                          True if command execution can proceed, false otherwise
+     * */
+    public static boolean handleCommandsModuleRequired(@NotNull final CommandSender sender, final boolean COMMANDS_MODULE_REQUIRED) {
+        if (COMMANDS_MODULE_REQUIRED && !CommandsModule.isModuleLoaded()) {
+            try {
+                sender.sendMessage(
+                        ChatColor.RED +
+                                LocalizationModule.translate(Defs.Localization.Keys.COMMAND_MODULE_NOT_LOADED)
+                );
+            } catch (ModuleException e) {
+                LocalizationModule.sendLocalizationErrorMessage(sender);
+            }
+            return false;
+        }
+        return true;
     }
 }

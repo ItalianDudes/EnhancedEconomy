@@ -23,3 +23,6 @@ commands:
   eereload:
     description: Reload one or more plugin's modules.
     usage: /<command> <module> <parameters> [module1 parameters1 ...]
+  eecurrency:
+    description: Allows the user to handle currencies.
+    usage: /<command> list|get <iso>|new <name> <symbol> <iso>|delete <iso>

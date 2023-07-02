@@ -9,6 +9,8 @@ import it.italiandudes.enhancedeconomy.utils.Defs;
 import it.italiandudes.enhancedeconomy.utils.Resource;
 import it.italiandudes.enhancedeconomy.utils.ServerLogger;
 import it.italiandudes.idl.common.JarHandler;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -159,5 +161,11 @@ public final class LocalizationModule {
         }
 
         return (String) langFile.get(KEY);
+    }
+
+    // Utilities Commands
+    @SuppressWarnings("deprecation")
+    public static void sendLocalizationErrorMessage(@NotNull final CommandSender sender) {
+        sender.sendMessage(ChatColor.RED + "Localization failed! Contact an administrator.");
     }
 }
