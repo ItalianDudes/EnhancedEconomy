@@ -1,4 +1,6 @@
 {
+  "yes": "Si",
+  "no": "No",
   "ee_version": "Versione di EnhancedEconomy: ",
   "ee_info": "Nome Plugin: EnhancedEconomy\nAutore: Hacker6329\nDescrizione: Un plugin che implementa un sistema economico simil-realistico.",
   "command_execution_error": "Si è verificato un errore durante l'esecuzione del comando.",

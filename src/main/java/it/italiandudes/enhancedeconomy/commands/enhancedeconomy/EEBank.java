@@ -78,7 +78,7 @@ public final class EEBank implements CommandExecutor {
 
                         sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.COMMAND_EEBANK_LIST_SEPARATOR));
                         sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.BANK_NAME) + ": " + ChatColor.WHITE + result.getString("name"));
-                        sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.BANK_IS_PRIVATE) + ": " + ChatColor.WHITE + (result.getInt("is_private")!=0?Keys.CHECK_MARK:"X"));
+                        sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.BANK_IS_PRIVATE) + ": " + ChatColor.WHITE + LocalizationModule.translate(result.getInt(("is_private"))!=0?Keys.YES:Keys.NO));
                         sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.BANK_HEADQUARTER_COUNTRY) + ": " + ChatColor.WHITE + country.getName());
                         if (user.getUserID()!=null) {
                             sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.BANK_OWNER) + ": " + ChatColor.WHITE + user.getName());
@@ -109,7 +109,7 @@ public final class EEBank implements CommandExecutor {
 
                         sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.COMMAND_EEBANK_LIST_SEPARATOR));
                         sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.BANK_NAME) + ": " + ChatColor.WHITE + result.getString("name"));
-                        sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.BANK_IS_PRIVATE) + ": " + ChatColor.WHITE + (result.getInt("is_private")!=0?Keys.CHECK_MARK:"X"));
+                        sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.BANK_IS_PRIVATE) + ": " + ChatColor.WHITE + LocalizationModule.translate(result.getInt(("is_private"))!=0?Keys.YES:Keys.NO));
                         sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.BANK_HEADQUARTER_COUNTRY) + ": " + ChatColor.WHITE + country.getName());
                         if (user.getUserID()!=null) {
                             sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.BANK_OWNER) + ": " + ChatColor.WHITE + user.getName());
