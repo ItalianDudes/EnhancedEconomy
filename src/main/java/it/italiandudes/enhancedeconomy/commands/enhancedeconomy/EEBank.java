@@ -15,9 +15,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 @SuppressWarnings("deprecation")
 public final class EEBank implements CommandExecutor {
@@ -139,18 +137,25 @@ public final class EEBank implements CommandExecutor {
                         return true;
                     }
 
-                    String ownerName = (giveOwnershipToUser?sender.getName():null);
-                    User user = new User(ownerName);
-                    if (user.getUserID()==null) {
-                        sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_EEBANK_NEW_USER_IS_NOT_REGISTERED));
-                        return true;
+                    Integer userID = null;
+                    if (giveOwnershipToUser) {
+                        User user = new User(sender.getName());
+                        if (user.getUserID() == null) {
+                            sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_EEBANK_NEW_USER_IS_NOT_REGISTERED));
+                            return true;
+                        }
+                        userID = user.getUserID();
                     }
 
                     query = "INSERT INTO banks (name, headquarter_country, owner_id) VALUES (?, ?, ?);";
                     PreparedStatement ps = DBConnectionModule.getPreparedStatement(query);
                     ps.setString(1, name);
                     ps.setInt(2, country.getCountryID());
-                    ps.setInt(3, user.getUserID());
+                    if (giveOwnershipToUser) {
+                        ps.setInt(3, userID);
+                    } else {
+                        ps.setNull(3, Types.INTEGER);
+                    }
                     ps.executeUpdate();
                     ps.close();
 
