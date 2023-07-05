@@ -40,5 +40,19 @@
   "command_eecountry_delete_success": "Stato rimosso con successo!",
   "command_eeuser_console": "Questo comando non può essere eseguito tramite console.",
   "command_eeuser_already_exist": "Questo utente è già registrato.",
-  "command_eeuser_success": "Registrazione eseguita con successo!"
+  "command_eeuser_success": "Registrazione eseguita con successo!",
+  "command_eebank_list_header": "Banche registrate:",
+  "command_eebank_list_separator": "--------------------------",
+  "bank_name": "Nome",
+  "bank_headquarter_country": "Sede",
+  "bank_owner": "Intestatario",
+  "bank_creation_date": "Data di Creazione",
+  "command_eebank_list_empty": "Non ci sono banche registrate.",
+  "command_eebank_get_not_found": "Non esiste una banca con questo nome.",
+  "command_eebank_new_already_exist": "Esiste già una banca con questo nome.",
+  "command_eebank_new_user_is_not_registered": "Non puoi registrare una banca a tuo nome perché non fai parte del network EnhancedEconomy.",
+  "command_eebank_new_country_does_not_exist": "Non esiste uno stato registrato con quel nome.",
+  "command_eebank_new_success": "Banca registrata con successo!",
+  "command_eebank_delete_not_found": "Non esiste una banca con questo nome.",
+  "command_eebank_delete_success": "Banca rimossa con successo!"
 }

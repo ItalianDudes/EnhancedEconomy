@@ -1,6 +1,7 @@
 package it.italiandudes.enhancedeconomy.modules;
 
 import it.italiandudes.enhancedeconomy.commands.EnhancedEconomyCommand;
+import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.EEBank;
 import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.EECountry;
 import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.EECurrency;
 import it.italiandudes.enhancedeconomy.commands.enhancedeconomy.EEUser;
@@ -67,6 +68,7 @@ public final class CommandsModule {
             registerCommand(pluginInstance, EECurrency.COMMAND_NAME, new EECurrency());
             registerCommand(pluginInstance, EECountry.COMMAND_NAME, new EECountry());
             registerCommand(pluginInstance, EEUser.COMMAND_NAME, new EEUser());
+            registerCommand(pluginInstance, EEBank.COMMAND_NAME, new EEBank());
         } catch (Exception e) {
             areCommandsLoading = false;
             if (!disableLog) ServerLogger.getLogger().severe("Commands Module Load: Failed! (Reason: an error has occurred on module loading)");
