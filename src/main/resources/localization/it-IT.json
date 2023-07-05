@@ -60,5 +60,9 @@
   "command_eebank_new_public_not_country_owner": "Non puoi creare una nuova banca pubblica perché non governi quello stato.",
   "command_eebank_delete_not_found": "Non esiste una banca con questo nome.",
   "command_eebank_delete_success": "Banca rimossa con successo!",
-  "command_eebank_delete_not_owner": "Devi possedere questa banca per poterla eliminare."
+  "command_eebank_delete_not_owner": "Devi possedere questa banca per poterla eliminare.",
+  "command_eebank_currency_list_header": "Valute registrate nelle banche:",
+  "command_eebank_currency_list_separator": "--------------------------",
+  "bank_balance": "Ammontare",
+  "command_eebank_currency_get_header": "Valute registrate da "
 }

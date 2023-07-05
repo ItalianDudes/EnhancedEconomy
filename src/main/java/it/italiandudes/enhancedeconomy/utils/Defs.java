@@ -1,6 +1,8 @@
 package it.italiandudes.enhancedeconomy.utils;
 
 import it.italiandudes.enhancedeconomy.EnhancedEconomy;
+import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
+import org.bukkit.ChatColor;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -140,6 +142,12 @@ public final class Defs {
             public static final String COMMAND_EEBANK_DELETE_NOT_FOUND = "command_eebank_delete_not_found";
             public static final String COMMAND_EEBANK_DELETE_SUCCESS = "command_eebank_delete_success";
             public static final String COMMAND_EEBANK_DELETE_NOT_OWNER = "command_eebank_delete_not_owner";
+
+            // Bank Currency
+            public static final String COMMAND_EEBANK_CURRENCY_LIST_HEADER = "command_eebank_currency_list_header";
+            public static final String COMMAND_EEBANK_CURRENCY_LIST_SEPARATOR = "command_eebank_currency_list_separator";
+            public static final String BANK_BALANCE = "bank_balance";
+            public static final String COMMAND_EEBANK_CURRENCY_GET_HEADER = "command_eebank_currency_get_header";
 
         }
     }

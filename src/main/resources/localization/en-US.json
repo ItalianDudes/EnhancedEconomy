@@ -60,5 +60,9 @@
   "command_eebank_new_public_not_country_owner": "You can't create a new public bank because you're not the owner of that country.",
   "command_eebank_delete_not_found": "A bank with this name doesn't exist.",
   "command_eebank_delete_success": "Bank delete successful!",
-  "command_eebank_delete_not_owner": "You need to be the owner of this bank to delete it."
+  "command_eebank_delete_not_owner": "You need to be the owner of this bank to delete it.",
+  "command_eebank_currency_list_header": "Registered bank's currencies:",
+  "command_eebank_currency_list_separator": "--------------------------",
+  "bank_balance": "Balance",
+  "command_eebank_currency_get_header": "Registered currencies from "
 }
