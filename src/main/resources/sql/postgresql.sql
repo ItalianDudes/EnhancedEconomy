@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS currencies (
 CREATE TABLE IF NOT EXISTS countries (
     country_id SERIAL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
+    owner_id INTEGER NOT NULL REFERENCES users(user_id),
     creation_date TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
@@ -29,7 +30,7 @@ CREATE TABLE IF NOT EXISTS banks (
     bank_id SERIAL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
     headquarter_country INTEGER NOT NULL REFERENCES countries(country_id),
-    owner_id INTEGER REFERENCES users(user_id),
+    owner_id INTEGER NOT NULL REFERENCES users(user_id),
     creation_date TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
