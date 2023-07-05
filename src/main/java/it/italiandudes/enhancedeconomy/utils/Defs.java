@@ -18,7 +18,7 @@ public final class Defs {
                 throw new RuntimeException(e);
             }
         }
-        public static final String PLUGIN_VERSION = "0.18.1A";
+        public static final String PLUGIN_VERSION = "0.18.2A";
     }
 
     // Module Names
@@ -70,6 +70,7 @@ public final class Defs {
 
         // Lang Keys
         public static final class Keys {
+            public static final String CHECK_MARK = "✔";
             public static final String EE_VERSION = "ee_version";
             public static final String EE_INFO = "ee_info";
             public static final String COMMAND_EXECUTION_ERROR = "command_execution_error";
@@ -127,6 +128,7 @@ public final class Defs {
             public static final String BANK_NAME = "bank_name";
             public static final String BANK_HEADQUARTER_COUNTRY = "bank_headquarter_country";
             public static final String BANK_OWNER = "bank_owner";
+            public static final String BANK_IS_PRIVATE = "is_private";
             public static final String BANK_CREATION_DATE = "bank_creation_date";
             public static final String COMMAND_EEBANK_LIST_EMPTY = "command_eebank_list_empty";
             public static final String COMMAND_EEBANK_GET_NOT_FOUND = "command_eebank_get_not_found";

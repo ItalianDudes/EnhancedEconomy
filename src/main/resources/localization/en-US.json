@@ -46,6 +46,7 @@
   "command_eebank_list_header": "Registered banks:",
   "command_eebank_list_separator": "--------------------------",
   "bank_name": "Bank",
+  "is_private": "Private",
   "bank_headquarter_country": "Headquarter Country",
   "bank_owner": "Owner",
   "bank_creation_date": "Creation Date",

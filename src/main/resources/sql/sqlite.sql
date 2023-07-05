@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS banks (
     bank_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE,
     headquarter_country INTEGER NOT NULL REFERENCES countries(country_id),
+    is_private INTEGER NOT NULL DEFAULT 1,
     owner_id INTEGER NOT NULL REFERENCES users(user_id),
     creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
