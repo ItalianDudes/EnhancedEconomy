@@ -18,7 +18,7 @@ public final class Defs {
                 throw new RuntimeException(e);
             }
         }
-        public static final String PLUGIN_VERSION = "0.17.3A";
+        public static final String PLUGIN_VERSION = "0.18.0A";
     }
 
     // Module Names
@@ -86,6 +86,7 @@ public final class Defs {
             public static final String COMMAND_MODULE_NOT_LOADED = "command_module_not_loaded";
             public static final String COMMAND_DBCONNECTION_MODULE_NOT_LOADED = "command_dbconnection_module_not_loaded";
             public static final String COMMAND_MISSING_PERMISSIONS = "command_missing_permissions";
+            public static final String COMMAND_USER_NOT_REGISTERED = "command_user_not_registered";
 
             // Currency
             public static final String COMMAND_EECURRENCY_LIST_HEADER = "command_eecurrency_list_header";
@@ -106,12 +107,14 @@ public final class Defs {
             public static final String COMMAND_EECOUNTRY_LIST_SEPARATOR = "command_eecountry_list_separator";
             public static final String COMMAND_EECOUNTRY_GET_NOT_FOUND = "command_eecountry_get_not_found";
             public static final String COUNTRY_NAME = "country_name";
+            public static final String COUNTRY_OWNER = "country_owner";
             public static final String COUNTRY_CREATION_DATE = "country_creation_date";
             public static final String COMMAND_EECOUNTRY_LIST_EMPTY = "command_eecountry_list_empty";
             public static final String COMMAND_EECOUNTRY_NEW_ALREADY_EXIST = "command_eecountry_new_already_exist";
             public static final String COMMAND_EECOUNTRY_NEW_SUCCESS = "command_eecountry_new_success";
             public static final String COMMAND_EECOUNTRY_DELETE_NOT_FOUND = "command_eecountry_delete_not_found";
             public static final String COMMAND_EECOUNTRY_DELETE_SUCCESS = "command_eecountry_delete_success";
+            public static final String COMMAND_EECOUNTRY_DELETE_NOT_OWNER = "command_eecountry_delete_not_owner";
 
             // User
             public static final String COMMAND_EEUSER_CONSOLE = "command_eeuser_console";
@@ -128,11 +131,12 @@ public final class Defs {
             public static final String COMMAND_EEBANK_LIST_EMPTY = "command_eebank_list_empty";
             public static final String COMMAND_EEBANK_GET_NOT_FOUND = "command_eebank_get_not_found";
             public static final String COMMAND_EEBANK_NEW_ALREADY_EXIST = "command_eebank_new_already_exist";
-            public static final String COMMAND_EEBANK_NEW_USER_IS_NOT_REGISTERED = "command_eebank_new_user_is_not_registered";
             public static final String COMMAND_EEBANK_NEW_COUNTRY_DOES_NOT_EXIST = "command_eebank_new_country_does_not_exist";
             public static final String COMMAND_EEBANK_NEW_SUCCESS = "command_eebank_new_success";
+            public static final String COMMAND_EEBANK_NEW_PUBLIC_NOT_COUNTRY_OWNER = "command_eebank_new_public_not_country_owner";
             public static final String COMMAND_EEBANK_DELETE_NOT_FOUND = "command_eebank_delete_not_found";
             public static final String COMMAND_EEBANK_DELETE_SUCCESS = "command_eebank_delete_success";
+            public static final String COMMAND_EEBANK_DELETE_NOT_OWNER = "command_eebank_delete_not_owner";
 
         }
     }
