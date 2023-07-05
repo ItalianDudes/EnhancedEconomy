@@ -5,7 +5,7 @@ import it.italiandudes.enhancedeconomy.EnhancedEconomy;
 import java.io.File;
 import java.net.URISyntaxException;
 
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 public final class Defs {
 
     // Plugin Info
@@ -18,7 +18,7 @@ public final class Defs {
                 throw new RuntimeException(e);
             }
         }
-        public static final String PLUGIN_VERSION = "0.17.0A";
+        public static final String PLUGIN_VERSION = "0.17.1A";
     }
 
     // Module Names
@@ -70,7 +70,6 @@ public final class Defs {
 
         // Lang Keys
         public static final class Keys {
-            public static final String TEST_ENTRY = "test_entry";
             public static final String EE_VERSION = "ee_version";
             public static final String EE_INFO = "ee_info";
             public static final String COMMAND_EXECUTION_ERROR = "command_execution_error";
@@ -126,7 +125,6 @@ public final class Defs {
             public static final String BANK_HEADQUARTER_COUNTRY = "bank_headquarter_country";
             public static final String BANK_OWNER = "bank_owner";
             public static final String BANK_CREATION_DATE = "bank_creation_date";
-            public static final String BANK_OWNER_NONE = "bank_owner_none";
             public static final String COMMAND_EEBANK_LIST_EMPTY = "command_eebank_list_empty";
             public static final String COMMAND_EEBANK_GET_NOT_FOUND = "command_eebank_get_not_found";
             public static final String COMMAND_EEBANK_NEW_ALREADY_EXIST = "command_eebank_new_already_exist";

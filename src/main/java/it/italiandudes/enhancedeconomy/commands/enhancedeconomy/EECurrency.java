@@ -1,10 +1,10 @@
 package it.italiandudes.enhancedeconomy.commands.enhancedeconomy;
 
-import it.italiandudes.enhancedeconomy.objects.Currency;
 import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.modules.CommandsModule;
 import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;
 import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
+import it.italiandudes.enhancedeconomy.objects.Currency;
 import it.italiandudes.enhancedeconomy.utils.ArgumentUtilities;
 import it.italiandudes.enhancedeconomy.utils.Defs.Localization.Keys;
 import org.bukkit.ChatColor;

@@ -1,5 +1,4 @@
 {
-  "test_entry": "test_entry",
   "ee_version": "EnhancedEconomy Version: ",
   "ee_info": "Plugin Name: EnhancedEconomy\nAuthor: Hacker6329\nDescription: A plugin that implements a similar realistic economy system.",
   "command_execution_error": "An error has occurred during the command execution.",

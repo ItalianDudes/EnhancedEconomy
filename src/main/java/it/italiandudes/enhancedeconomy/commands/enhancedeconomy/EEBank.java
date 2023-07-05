@@ -176,7 +176,7 @@ public final class EEBank implements CommandExecutor {
                     ps.executeUpdate();
                     ps.close();
 
-                    sender.sendMessage(ChatColor.GREEN + LocalizationModule.translate(Keys.COMMAND_EECOUNTRY_DELETE_SUCCESS));
+                    sender.sendMessage(ChatColor.GREEN + LocalizationModule.translate(Keys.COMMAND_EEBANK_DELETE_SUCCESS));
                 }
 
             }
