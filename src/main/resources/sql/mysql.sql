@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS currencies (
     creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
--- Create the table "countries", where are stored the server countries
+-- Create the table "countries", where are stored all the entities that owns territories, such as states, corps ecc.
 CREATE TABLE IF NOT EXISTS countries (
     country_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     name TEXT NOT NULL UNIQUE,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS countries (
 -- Create the table "banks", where are stored the server banks
 CREATE TABLE IF NOT EXISTS banks (
     bank_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    name TEXT NOT NULL,
+    name TEXT NOT NULL UNIQUE,
     headquarter_country INTEGER NOT NULL REFERENCES countries(country_id),
     owner_id INTEGER REFERENCES users(user_id),
     creation_date DATETIME NOT NULL DEFAULT(CURRENT_TIMESTAMP)

@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS countries (
 -- Create the table "banks", where are stored the server banks
 CREATE TABLE IF NOT EXISTS banks (
     bank_id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
+    name TEXT NOT NULL UNIQUE,
     headquarter_country INTEGER NOT NULL REFERENCES countries(country_id),
     owner_id INTEGER REFERENCES users(user_id),
     creation_date TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP)
