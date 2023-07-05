@@ -5,6 +5,7 @@ import it.italiandudes.enhancedeconomy.modules.CommandsModule;
 import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;
 import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
 import it.italiandudes.enhancedeconomy.objects.Country;
+import it.italiandudes.enhancedeconomy.objects.User;
 import it.italiandudes.enhancedeconomy.utils.ArgumentUtilities;
 import it.italiandudes.enhancedeconomy.utils.Defs.Localization.Keys;
 import org.bukkit.ChatColor;
@@ -50,6 +51,12 @@ public final class EECountry implements CommandExecutor {
         String query;
 
         try {
+
+            if (!CommandsModule.isUserRegistered(sender)) {
+                sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_USER_NOT_REGISTERED));
+                return true;
+            }
+
             switch (args[0]) {
 
                 case Args.LIST -> {
@@ -64,8 +71,11 @@ public final class EECountry implements CommandExecutor {
                             sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.COMMAND_EECOUNTRY_LIST_HEADER));
                         }
 
+                        User user = new User(result.getInt("owner_id"));
+
                         sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.COMMAND_EECOUNTRY_LIST_SEPARATOR));
                         sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.COUNTRY_NAME) + ": " + ChatColor.WHITE + result.getString("name"));
+                        sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.COUNTRY_OWNER) + ": " + ChatColor.WHITE + user.getName());
                         sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.COUNTRY_CREATION_DATE) + ": " + ChatColor.WHITE + result.getDate("creation_date"));
                     }
 
@@ -87,7 +97,11 @@ public final class EECountry implements CommandExecutor {
                     ResultSet result = ps.executeQuery();
 
                     if (result.next()) {
+
+                        User user = new User(result.getInt("owner_id"));
+
                         sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.COUNTRY_NAME) + ": " + ChatColor.WHITE + result.getString("name"));
+                        sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.COUNTRY_OWNER) + ": " + ChatColor.WHITE + user.getName());
                         sender.sendMessage(ChatColor.AQUA + LocalizationModule.translate(Keys.COUNTRY_CREATION_DATE) + ": " + ChatColor.WHITE + result.getDate("creation_date"));
                     } else {
                         sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_EECOUNTRY_GET_NOT_FOUND));
@@ -107,9 +121,12 @@ public final class EECountry implements CommandExecutor {
                         return true;
                     }
 
-                    query = "INSERT INTO countries (name) VALUES (?);";
+                    User commandSender = new User(sender.getName());
+
+                    query = "INSERT INTO countries (name, owner_id) VALUES (?, ?);";
                     PreparedStatement ps = DBConnectionModule.getPreparedStatement(query);
                     ps.setString(1, name);
+                    ps.setInt(2, commandSender.getUserID());
                     ps.executeUpdate();
                     ps.close();
 
@@ -124,8 +141,16 @@ public final class EECountry implements CommandExecutor {
 
                     String name = args[1];
 
-                    if (!Country.exist(name)) {
+                    Country country = new Country(name);
+
+                    if (country.getCountryID()==null) {
                         sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_EECOUNTRY_DELETE_NOT_FOUND));
+                        return true;
+                    }
+
+                    User commandSender = new User(sender.getName());
+                    if (!commandSender.equals(country.getOwner())) {
+                        sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_EECOUNTRY_DELETE_NOT_OWNER));
                         return true;
                     }
 

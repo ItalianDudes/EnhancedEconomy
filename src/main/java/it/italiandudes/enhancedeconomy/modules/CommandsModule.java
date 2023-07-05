@@ -13,6 +13,7 @@ import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleAlreadyLoadedExc
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleLoadingException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleNotLoadedException;
 import it.italiandudes.enhancedeconomy.exceptions.modules.ModuleReloadingException;
+import it.italiandudes.enhancedeconomy.objects.User;
 import it.italiandudes.enhancedeconomy.utils.Defs;
 import it.italiandudes.enhancedeconomy.utils.ServerLogger;
 import it.italiandudes.idl.common.StringHandler;
@@ -23,6 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.sql.SQLException;
 import java.util.Objects;
 
 @SuppressWarnings({"unused", "deprecation"})
@@ -194,5 +196,14 @@ public final class CommandsModule {
             return false;
         }
         return true;
+    }
+    /**
+     * Check if the user that is sending a command is registered on the EnhancedEconomy network
+     *
+     * @param sender The command sender
+     * @return       True if the user is registered on the network, false otherwise
+     */
+    public static boolean isUserRegistered(@NotNull final CommandSender sender) throws ModuleException, SQLException {
+        return User.exist(sender.getName());
     }
 }

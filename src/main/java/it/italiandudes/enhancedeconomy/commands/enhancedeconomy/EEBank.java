@@ -51,6 +51,12 @@ public final class EEBank implements CommandExecutor {
         String query;
 
         try {
+
+            if (!CommandsModule.isUserRegistered(sender)) {
+                sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_USER_NOT_REGISTERED));
+                return true;
+            }
+
             switch (args[0]) {
 
                 case Args.LIST -> {
@@ -120,10 +126,10 @@ public final class EEBank implements CommandExecutor {
 
                     String name = args[1];
                     String countryName = args[2];
-                    boolean giveOwnershipToUser = false;
+                    boolean isBankPrivate = true;
 
                     if (args.length > 3) {
-                        giveOwnershipToUser = Boolean.parseBoolean(args[3]);
+                        isBankPrivate = Boolean.parseBoolean(args[3]);
                     }
 
                     if (Bank.exist(name)) {
@@ -137,25 +143,22 @@ public final class EEBank implements CommandExecutor {
                         return true;
                     }
 
-                    Integer userID = null;
-                    if (giveOwnershipToUser) {
-                        User user = new User(sender.getName());
-                        if (user.getUserID() == null) {
-                            sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_EEBANK_NEW_USER_IS_NOT_REGISTERED));
-                            return true;
-                        }
+                    Integer userID;
+                    User user = new User(sender.getName());
+                    if (isBankPrivate) { // The bank is private
                         userID = user.getUserID();
+                    } else if (!user.equals(country.getOwner())) { // The user is not the country owner
+                        sender.sendMessage(ChatColor.RED + Keys.COMMAND_EEBANK_NEW_PUBLIC_NOT_COUNTRY_OWNER);
+                        return true;
+                    } else { // The bank is public
+                        userID = country.getOwner().getUserID();
                     }
 
                     query = "INSERT INTO banks (name, headquarter_country, owner_id) VALUES (?, ?, ?);";
                     PreparedStatement ps = DBConnectionModule.getPreparedStatement(query);
                     ps.setString(1, name);
                     ps.setInt(2, country.getCountryID());
-                    if (giveOwnershipToUser) {
-                        ps.setInt(3, userID);
-                    } else {
-                        ps.setNull(3, Types.INTEGER);
-                    }
+                    ps.setInt(3, userID);
                     ps.executeUpdate();
                     ps.close();
 
@@ -170,8 +173,16 @@ public final class EEBank implements CommandExecutor {
 
                     String name = args[1];
 
-                    if (!Bank.exist(name)) {
+                    Bank bank = new Bank(name);
+
+                    if (bank.getBankID()==null) {
                         sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_EEBANK_DELETE_NOT_FOUND));
+                        return true;
+                    }
+
+                    User commandSender = new User(sender.getName());
+                    if (!commandSender.equals(bank.getOwner())) {
+                        sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_EEBANK_DELETE_NOT_OWNER));
                         return true;
                     }
 

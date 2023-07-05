@@ -1,5 +1,5 @@
 name: EnhancedEconomy
-version: '0.17.3A'
+version: '0.18.1A'
 author: Hacker6329
 prefix: EnhancedEconomy
 main: it.italiandudes.enhancedeconomy.EnhancedEconomy
@@ -34,4 +34,4 @@ commands:
     usage: /<command>
   eebank:
     description: Allows the user to handle banks.
-    usage: /<command> list | get <name> | new <name> <headquarter_country_name> [owner_id] | delete <name>
+    usage: /<command> list | get <name> | new <name> <headquarter_country_name> [isBankPrivate ::= "true" | "false"] | delete <name>

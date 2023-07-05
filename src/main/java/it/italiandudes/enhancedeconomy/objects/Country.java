@@ -15,6 +15,7 @@ public final class Country {
     // Attributes
     private final Integer countryID;
     private String name;
+    private User owner;
     private Date creationDate;
 
     // Constructors
@@ -28,6 +29,7 @@ public final class Country {
             countryID = result.getInt("country_id");
             this.name = name;
             creationDate = result.getDate("creation_date");
+            owner = new User(result.getInt("owner_id"));
         } else {
             this.countryID = null;
         }
@@ -44,6 +46,7 @@ public final class Country {
             this.countryID = countryID;
             name = result.getString("name");
             creationDate = result.getDate("creation_date");
+            owner = new User(result.getInt("owner_id"));
         } else {
             this.countryID = null;
         }
@@ -77,6 +80,12 @@ public final class Country {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+    public User getOwner() {
+        return owner;
+    }
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -85,12 +94,14 @@ public final class Country {
         if (getCountryID() != null ? !getCountryID().equals(country.getCountryID()) : country.getCountryID() != null)
             return false;
         if (getName() != null ? !getName().equals(country.getName()) : country.getName() != null) return false;
+        if (getOwner() != null ? !getOwner().equals(country.getOwner()) : country.getOwner() != null) return false;
         return getCreationDate() != null ? getCreationDate().equals(country.getCreationDate()) : country.getCreationDate() == null;
     }
     @Override
     public int hashCode() {
         int result = getCountryID() != null ? getCountryID().hashCode() : 0;
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getOwner() != null ? getOwner().hashCode() : 0);
         result = 31 * result + (getCreationDate() != null ? getCreationDate().hashCode() : 0);
         return result;
     }
@@ -99,6 +110,7 @@ public final class Country {
         return "Country{" +
                 "countryID=" + countryID +
                 ", name='" + name + '\'' +
+                ", owner=" + owner +
                 ", creationDate=" + creationDate +
                 '}';
     }

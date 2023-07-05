@@ -50,6 +50,12 @@ public final class EECurrency implements CommandExecutor {
        String query;
 
        try {
+
+           if (!CommandsModule.isUserRegistered(sender)) {
+               sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_USER_NOT_REGISTERED));
+               return true;
+           }
+
            switch (args[0]) {
 
                case Args.LIST -> {
