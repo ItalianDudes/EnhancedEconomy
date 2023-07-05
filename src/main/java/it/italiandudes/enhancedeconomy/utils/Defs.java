@@ -18,7 +18,7 @@ public final class Defs {
                 throw new RuntimeException(e);
             }
         }
-        public static final String PLUGIN_VERSION = "0.17.1A";
+        public static final String PLUGIN_VERSION = "0.17.2A";
     }
 
     // Module Names

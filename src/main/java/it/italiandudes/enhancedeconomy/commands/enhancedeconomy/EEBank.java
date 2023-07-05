@@ -179,6 +179,8 @@ public final class EEBank implements CommandExecutor {
                     sender.sendMessage(ChatColor.GREEN + LocalizationModule.translate(Keys.COMMAND_EEBANK_DELETE_SUCCESS));
                 }
 
+                default -> CommandsModule.sendSyntaxError(sender);
+
             }
         } catch (ModuleException | SQLException e) {
             CommandsModule.sendDefaultError(sender, e);
