@@ -13,21 +13,43 @@ import java.sql.SQLException;
 public final class User {
 
     // Attributes
-    private Integer userID;
+    private final Integer userID;
     private String name;
     private Date creationDate;
 
     // Constructors
-    public User(@NotNull final String name) throws ModuleException, SQLException {
-        String query = "SELECT * FROM users WHERE name=?;";
+    public User(final String name) throws ModuleException, SQLException {
+        if (name == null) {
+            this.userID = null;
+        } else {
+            String query = "SELECT * FROM users WHERE name=?;";
+            PreparedStatement ps = DBConnectionModule.getPreparedStatement(query);
+            ps.setString(1, name);
+            ResultSet result = ps.executeQuery();
+
+            if (result.next()) {
+                userID = result.getInt("user_id");
+                this.name = name;
+                creationDate = result.getDate("creation_date");
+            } else {
+                this.userID = null;
+            }
+
+            result.close();
+        }
+    }
+    public User(final int userID) throws ModuleException, SQLException {
+        String query = "SELECT * FROM users WHERE user_id=?;";
         PreparedStatement ps = DBConnectionModule.getPreparedStatement(query);
-        ps.setString(1, name);
+        ps.setInt(1, userID);
         ResultSet result = ps.executeQuery();
 
         if (result.next()) {
-            userID = result.getInt("user_id");
-            this.name = name;
+            this.userID = userID;
+            name = result.getString("name");
             creationDate = result.getDate("creation_date");
+        } else {
+            this.userID = null;
         }
 
         result.close();
@@ -38,13 +60,14 @@ public final class User {
         User user = new User(name);
         return user.userID != null;
     }
+    public static boolean exist(final int userID) throws ModuleException, SQLException {
+        User user = new User(userID);
+        return user.userID != null;
+    }
 
     // Methods
     public Integer getUserID() {
         return userID;
-    }
-    public void setUserID(Integer userID) {
-        this.userID = userID;
     }
     public String getName() {
         return name;

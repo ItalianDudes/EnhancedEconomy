@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public final class Country {
 
     // Attributes
-    private Integer countryID;
+    private final Integer countryID;
     private String name;
     private Date creationDate;
 
@@ -28,7 +28,27 @@ public final class Country {
             countryID = result.getInt("country_id");
             this.name = name;
             creationDate = result.getDate("creation_date");
+        } else {
+            this.countryID = null;
         }
+
+        result.close();
+    }
+    public Country(final int countryID) throws ModuleException, SQLException {
+        String query = "SELECT * FROM countries WHERE country_id=?;";
+        PreparedStatement ps = DBConnectionModule.getPreparedStatement(query);
+        ps.setInt(1, countryID);
+        ResultSet result = ps.executeQuery();
+
+        if (result.next()) {
+            this.countryID = countryID;
+            name = result.getString("name");
+            creationDate = result.getDate("creation_date");
+        } else {
+            this.countryID = null;
+        }
+
+        result.close();
     }
 
     // Static Methods
@@ -36,13 +56,14 @@ public final class Country {
         Country country = new Country(name);
         return country.countryID != null;
     }
+    public static boolean exist(final int countryID) throws ModuleException, SQLException {
+        Country country = new Country(countryID);
+        return country.countryID != null;
+    }
 
     // Methods
     public Integer getCountryID() {
         return countryID;
-    }
-    public void setCountryID(Integer countryID) {
-        this.countryID = countryID;
     }
     public String getName() {
         return name;

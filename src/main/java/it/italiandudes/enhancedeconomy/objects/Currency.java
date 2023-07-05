@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public final class Currency {
 
     // Attributes
-    private Integer currencyID;
+    private final Integer currencyID;
     private String name;
     private String iso;
     private String symbol;
@@ -32,6 +32,26 @@ public final class Currency {
             this.iso = iso;
             symbol = result.getString("symbol");
             creationDate = result.getDate("creation_date");
+        } else {
+            currencyID = null;
+        }
+
+        result.close();
+    }
+    public Currency(final int currencyID) throws ModuleException, SQLException {
+        String query = "SELECT * FROM currencies WHERE currency_id=?;";
+        PreparedStatement ps = DBConnectionModule.getPreparedStatement(query);
+        ps.setInt(1, currencyID);
+        ResultSet result = ps.executeQuery();
+
+        if (result.next()) {
+            this.currencyID = currencyID;
+            name = result.getString("name");
+            iso = result.getString("iso");
+            symbol = result.getString("symbol");
+            creationDate = result.getDate("creation_date");
+        } else {
+            this.currencyID = null;
         }
 
         result.close();
@@ -42,13 +62,14 @@ public final class Currency {
         Currency currency = new Currency(iso);
         return currency.currencyID != null;
     }
+    public static boolean exist(final int currencyID) throws ModuleException, SQLException {
+        Currency currency = new Currency(currencyID);
+        return currency.currencyID != null;
+    }
 
     // Methods
     public Integer getCurrencyID() {
         return currencyID;
-    }
-    public void setCurrencyID(Integer currencyID) {
-        this.currencyID = currencyID;
     }
     public String getName() {
         return name;
