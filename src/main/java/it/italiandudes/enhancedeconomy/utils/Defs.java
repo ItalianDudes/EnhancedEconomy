@@ -1,13 +1,11 @@
 package it.italiandudes.enhancedeconomy.utils;
 
 import it.italiandudes.enhancedeconomy.EnhancedEconomy;
-import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
-import org.bukkit.ChatColor;
 
 import java.io.File;
 import java.net.URISyntaxException;
 
-//@SuppressWarnings("unused")
+@SuppressWarnings("unused")
 public final class Defs {
 
     // Plugin Info
@@ -20,7 +18,7 @@ public final class Defs {
                 throw new RuntimeException(e);
             }
         }
-        public static final String PLUGIN_VERSION = "0.18.3A";
+        public static final String PLUGIN_VERSION = "0.18.4A";
     }
 
     // Module Names

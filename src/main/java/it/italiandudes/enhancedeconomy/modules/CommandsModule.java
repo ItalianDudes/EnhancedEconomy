@@ -203,6 +203,7 @@ public final class CommandsModule {
      * @param sender The command sender
      * @return       True if the user is registered on the network, false otherwise
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isUserRegistered(@NotNull final CommandSender sender) throws ModuleException, SQLException {
         return User.exist(sender.getName());
     }

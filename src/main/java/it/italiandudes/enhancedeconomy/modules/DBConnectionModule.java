@@ -80,6 +80,7 @@ public final class DBConnectionModule {
         }else if (jdbcConnectionString.startsWith(Defs.DBConnection.JDBC_POSTGRESQL_CONNECTOR_STRING_START)) {
             dbType = Defs.DBConnection.POSTGRESQL_CONNECTOR;
         }else {
+            isDBConnecting = false;
             throw new ModuleLoadingException("DBConnect Module Load: Failed! (Reason: can't recognize connector type)");
         }
 
@@ -143,9 +144,9 @@ public final class DBConnectionModule {
             if (!disableLog) ServerLogger.getLogger().warning("DBConnect Module Reload: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
             throw new ModuleLoadingException("DBConnect Module Reload: Canceled! (Reason: Another thread is executing a dbconnection loading command)");
         }
-        if (isModuleLoaded()) {
-            if (!disableLog) ServerLogger.getLogger().severe("DBConnect Module Reload: Failed! (Reason: the module has already been loaded)");
-            throw new ModuleAlreadyLoadedException("DBConnect Module Reload: Failed! (Reason: the module has already been loaded)");
+        if (!isModuleLoaded()) {
+            if (!disableLog) ServerLogger.getLogger().severe("DBConnect Module Reload: Failed! (Reason: the module isn't loaded)");
+            throw new ModuleAlreadyLoadedException("DBConnect Module Reload: Failed! (Reason: the module isn't loaded)");
         }
 
         try {
