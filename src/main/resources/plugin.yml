@@ -3,7 +3,7 @@ version: '0.18.4A'
 author: Hacker6329
 prefix: EnhancedEconomy
 main: it.italiandudes.enhancedeconomy.EnhancedEconomy
-description: ee
+description: A plugin that implements a semi-realistic economy in minecraft.
 load: POSTWORLD
 api-version: 1.19
 libraries:
@@ -35,3 +35,6 @@ commands:
   eebank:
     description: Allows the user to handle banks.
     usage: /<command> list | get <name> | new <name> <headquarter_country_name> [isBankPrivate ::= "true" | "false"] | delete <name>
+  eebankcurrency:
+    description: Allows the bank owners to handle currencies for their banks.
+    usage: /<command> list | get <bank_name> | new <bank_name> <iso> | delete <bank_name> <iso>

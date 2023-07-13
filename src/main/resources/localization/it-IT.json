@@ -64,5 +64,15 @@
   "command_eebank_currency_list_header": "Valute registrate nelle banche:",
   "command_eebank_currency_list_separator": "--------------------------",
   "bank_balance": "Ammontare",
-  "command_eebank_currency_get_header": "Valute registrate da "
+  "command_eebank_currency_get_header": "Valute registrate da ",
+  "command_eebank_currency_new_iso_does_not_exist": "Non esiste una valuta con questa ISO.",
+  "command_eebank_currency_new_bank_does_not_exist": "Non esiste una banca con questo nome.",
+  "command_eebank_currency_new_not_bank_owner": "Devi possedere questa banca per registrare una nuova valuta in essa.",
+  "command_eebank_currency_new_success": "Registrazione di una nuova valuta nella banca avvenuta con successo!",
+  "command_eebank_currency_new_currency_already_registered": "Questa valuta è già stata registrata in questa banca.",
+  "command_eebank_currency_delete_bank_does_not_exist": "Non esiste una banca con questo nome.",
+  "command_eebank_currency_delete_iso_does_not_exist": "Non esiste una valuta con questa ISO.",
+  "command_eebank_currency_delete_not_bank_owner": "Devi possedere questa banca per rimuovere una valuta registrata.",
+  "command_eebank_currency_delete_currency_not_registered": "Questa valuta non è registrata in questa banca.",
+  "command_eebank_currency_delete_success": "Rimozione della valuta da dalla banca avvenuta con successo!"
 }

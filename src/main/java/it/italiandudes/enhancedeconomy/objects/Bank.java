@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 
 @SuppressWarnings("unused")
 public final class Bank {
@@ -65,6 +66,18 @@ public final class Bank {
     public static boolean exist(final int bankID) throws ModuleException, SQLException {
         Bank bank = new Bank(bankID);
         return bank.bankID!=null;
+    }
+    public static HashSet<Currency> getCurrencies(final int bankID) throws ModuleException, SQLException {
+        String query = "SELECT currency_id FROM bank_currencies WHERE bank_id=?;";
+        PreparedStatement ps = DBConnectionModule.getPreparedStatement(query);
+        ps.setInt(1, bankID);
+        ResultSet result = ps.executeQuery();
+        HashSet<Currency> currencies = new HashSet<>();
+        while (result.next()) {
+            currencies.add(new Currency(result.getInt("currency_id")));
+        }
+        result.close();
+        return currencies;
     }
 
     // Methods

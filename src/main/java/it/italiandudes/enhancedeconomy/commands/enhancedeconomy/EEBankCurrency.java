@@ -4,6 +4,8 @@ import it.italiandudes.enhancedeconomy.exceptions.ModuleException;
 import it.italiandudes.enhancedeconomy.modules.CommandsModule;
 import it.italiandudes.enhancedeconomy.modules.DBConnectionModule;
 import it.italiandudes.enhancedeconomy.modules.LocalizationModule;
+import it.italiandudes.enhancedeconomy.objects.Bank;
+import it.italiandudes.enhancedeconomy.objects.Currency;
 import it.italiandudes.enhancedeconomy.utils.ArgumentUtilities;
 import it.italiandudes.enhancedeconomy.utils.Defs.Localization.Keys;
 import org.bukkit.ChatColor;
@@ -105,11 +107,85 @@ public final class EEBankCurrency implements CommandExecutor {
                 }
 
                 case Args.NEW -> {
-                    // TODO: New
+                    if (args.length < 3) {
+                        CommandsModule.sendSyntaxError(sender);
+                        return true;
+                    }
+
+                    String bankName = args[1];
+                    String iso = args[2];
+
+                    Bank bank = new Bank(bankName);
+                    if (bank.getBankID() == null) {
+                        sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_EEBANK_CURRENCY_NEW_BANK_DOES_NOT_EXIST));
+                        return true;
+                    }
+
+                    Currency currency = new Currency(iso);
+                    if (currency.getCurrencyID() == null) {
+                        sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_EEBANK_CURRENCY_NEW_ISO_DOES_NOT_EXIST));
+                        return true;
+                    }
+
+                    if (!bank.getOwner().getName().equals(sender.getName())) {
+                        sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_EEBANK_CURRENCY_NEW_NOT_BANK_OWNER));
+                        return true;
+                    }
+
+                    if (Bank.getCurrencies(bank.getBankID()).contains(currency)) {
+                        sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_EEBANK_CURRENCY_NEW_CURRENCY_ALREADY_REGISTERED));
+                        return true;
+                    }
+
+                    query = "INSERT INTO bank_currencies (bank_id, currency_id) VALUES (?, ?);";
+                    PreparedStatement ps = DBConnectionModule.getPreparedStatement(query);
+                    ps.setInt(1, bank.getBankID());
+                    ps.setInt(2, currency.getCurrencyID());
+                    ps.executeUpdate();
+                    ps.close();
+
+                    sender.sendMessage(ChatColor.GREEN + LocalizationModule.translate(Keys.COMMAND_EEBANK_CURRENCY_NEW_SUCCESS));
                 }
 
                 case Args.DELETE -> {
-                    // TODO: Delete
+                    if (args.length < 3) {
+                        CommandsModule.sendSyntaxError(sender);
+                        return true;
+                    }
+
+                    String bankName = args[1];
+                    String iso = args[2];
+
+                    Bank bank = new Bank(bankName);
+                    if (bank.getBankID() == null) {
+                        sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_EEBANK_CURRENCY_DELETE_BANK_DOES_NOT_EXIST));
+                        return true;
+                    }
+
+                    Currency currency = new Currency(iso);
+                    if (currency.getCurrencyID() == null) {
+                        sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_EEBANK_CURRENCY_DELETE_ISO_DOES_NOT_EXIST));
+                        return true;
+                    }
+
+                    if (!bank.getOwner().getName().equals(sender.getName())) {
+                        sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_EEBANK_CURRENCY_DELETE_NOT_BANK_OWNER));
+                        return true;
+                    }
+
+                    if (!Bank.getCurrencies(bank.getBankID()).contains(currency)) {
+                        sender.sendMessage(ChatColor.RED + LocalizationModule.translate(Keys.COMMAND_EEBANK_CURRENCY_DELETE_CURRENCY_NOT_REGISTERED));
+                        return true;
+                    }
+
+                    query = "DELETE FROM bank_currencies WHERE bank_id=? AND currency_id=?;";
+                    PreparedStatement ps = DBConnectionModule.getPreparedStatement(query);
+                    ps.setInt(1, bank.getBankID());
+                    ps.setInt(2, currency.getCurrencyID());
+                    ps.executeUpdate();
+                    ps.close();
+
+                    sender.sendMessage(ChatColor.GREEN + LocalizationModule.translate(Keys.COMMAND_EEBANK_CURRENCY_DELETE_SUCCESS));
                 }
 
                 default -> CommandsModule.sendSyntaxError(sender);

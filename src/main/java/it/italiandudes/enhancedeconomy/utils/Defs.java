@@ -146,7 +146,16 @@ public final class Defs {
             public static final String COMMAND_EEBANK_CURRENCY_LIST_SEPARATOR = "command_eebank_currency_list_separator";
             public static final String BANK_BALANCE = "bank_balance";
             public static final String COMMAND_EEBANK_CURRENCY_GET_HEADER = "command_eebank_currency_get_header";
-
+            public static final String COMMAND_EEBANK_CURRENCY_NEW_ISO_DOES_NOT_EXIST = "command_eebank_currency_new_iso_does_not_exist";
+            public static final String COMMAND_EEBANK_CURRENCY_NEW_BANK_DOES_NOT_EXIST = "command_eebank_currency_new_bank_does_not_exist";
+            public static final String COMMAND_EEBANK_CURRENCY_NEW_NOT_BANK_OWNER = "command_eebank_currency_new_not_bank_owner";
+            public static final String COMMAND_EEBANK_CURRENCY_NEW_SUCCESS = "command_eebank_currency_new_success";
+            public static final String COMMAND_EEBANK_CURRENCY_NEW_CURRENCY_ALREADY_REGISTERED = "command_eebank_currency_new_currency_already_registered";
+            public static final String COMMAND_EEBANK_CURRENCY_DELETE_BANK_DOES_NOT_EXIST = "command_eebank_currency_delete_bank_does_not_exist";
+            public static final String COMMAND_EEBANK_CURRENCY_DELETE_ISO_DOES_NOT_EXIST = "command_eebank_currency_delete_iso_does_not_exist";
+            public static final String COMMAND_EEBANK_CURRENCY_DELETE_NOT_BANK_OWNER = "command_eebank_currency_delete_not_bank_owner";
+            public static final String COMMAND_EEBANK_CURRENCY_DELETE_CURRENCY_NOT_REGISTERED = "command_eebank_currency_delete_currency_not_registered";
+            public static final String COMMAND_EEBANK_CURRENCY_DELETE_SUCCESS = "command_eebank_currency_delete_success";
         }
     }
 }

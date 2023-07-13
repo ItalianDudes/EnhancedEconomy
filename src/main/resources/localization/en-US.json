@@ -64,5 +64,15 @@
   "command_eebank_currency_list_header": "Registered bank's currencies:",
   "command_eebank_currency_list_separator": "--------------------------",
   "bank_balance": "Balance",
-  "command_eebank_currency_get_header": "Registered currencies from "
+  "command_eebank_currency_get_header": "Registered currencies from ",
+  "command_eebank_currency_new_iso_does_not_exist": "A currency with this ISO doesn't exist.",
+  "command_eebank_currency_new_bank_does_not_exist": "A bank with this name doesn't exist.",
+  "command_eebank_currency_new_not_bank_owner": "You need to be owner of this bank to register a new currency.",
+  "command_eebank_currency_new_success": "Currency registered successfully for this bank!",
+  "command_eebank_currency_new_currency_already_registered": "This currency is already registered in this bank.",
+  "command_eebank_currency_delete_bank_does_not_exist": "A bank with this name doesn't exist.",
+  "command_eebank_currency_delete_iso_does_not_exist": "A currency with this ISO doesn't exist.",
+  "command_eebank_currency_delete_not_bank_owner": "You need to be the owner of this bank to delete a registered currency.",
+  "command_eebank_currency_delete_currency_not_registered": "A currency with this ISO is not registered in this bank.",
+  "command_eebank_currency_delete_success": "Currency deleted from this bank successfully!"
 }
